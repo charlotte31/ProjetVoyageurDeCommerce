@@ -69,9 +69,15 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
             @Override
             public void onVilleSurvolee(EventVilleSurvolee evt) {
-                labelVille.setText("Nom: " + evt.getNomVille());
-                labelX.setText("X : " + evt.getX() + "");
-                labelY.setText("Y : " + evt.getY() + "");
+                if (evt == null) {
+                    labelVille.setText("Nom: ");
+                    labelX.setText("X : ");
+                    labelY.setText("Y : ");              
+                } else {
+                    labelVille.setText("Nom: " + evt.getNomVille());
+                    labelX.setText("X : " + evt.getX() + "");
+                    labelY.setText("Y : " + evt.getY() + "");
+                }               
             }
         });
         pack();
