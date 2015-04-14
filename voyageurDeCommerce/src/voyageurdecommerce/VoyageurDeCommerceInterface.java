@@ -48,7 +48,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
     private JTable tableau;
 
-    VoyageurDeCommerceInterface() {
+   public VoyageurDeCommerceInterface() {
         super("Voyageur de commerce");
         this.setPreferredSize(new Dimension(800, 600));
         this.setResizable(false);
