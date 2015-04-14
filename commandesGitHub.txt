@@ -1,0 +1,19 @@
+Ouvrir GitShell
+
+faire cd ProjetVoyageurDeCommerce
+
+
+Pour commit (valider votre travailobligatoire avant un pull ou un push)
+
+git add nomdufichier
+
+git commit -m "Description du commit"
+
+Pour pull (récupérer le serveur)
+
+git pull origin master
+
+Pour push (envoyer vers le serveur)
+
+git push origin master
+
