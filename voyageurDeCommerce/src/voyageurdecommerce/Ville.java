@@ -16,9 +16,12 @@ public class Ville extends Noeud{
         super(posX,posY);
         this.nom=nom;
     }
-    
-    
-    
-    
-    
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }  
 }

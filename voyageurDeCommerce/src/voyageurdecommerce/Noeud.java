@@ -5,11 +5,13 @@
  */
 package voyageurdecommerce;
 
+import javax.swing.JComponent;
+
 /**
  *
  * @author Melany
  */
-public class Noeud {
+public class Noeud extends JComponent{
     private int position_x;
     private int position_y;
     

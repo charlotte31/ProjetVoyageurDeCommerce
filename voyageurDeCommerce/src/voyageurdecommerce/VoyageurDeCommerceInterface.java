@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.BevelBorder;
+import voyageurdecommerce.events.EventVilleSurvolee;
+import voyageurdecommerce.events.VilleSurvoleeListener;
 
 /**
  *
@@ -44,7 +46,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
     private JLabel labelX;
     private JLabel labelY;
-    private JLabel labelDist;
+    private JLabel labelVille;
 
     private JTable tableau;
 
@@ -62,6 +64,16 @@ public class VoyageurDeCommerceInterface extends JFrame {
         addJpanel(content);
         addJLabel(content);
         addJTable(content);
+        
+        map.addVilleSurvoleeListener(new VilleSurvoleeListener() {
+
+            @Override
+            public void onVilleSurvolee(EventVilleSurvolee evt) {
+                labelVille.setText("Nom: " + evt.getNomVille());
+                labelX.setText("X : " + evt.getX() + "");
+                labelY.setText("Y : " + evt.getY() + "");
+            }
+        });
         pack();
 
     }
@@ -114,9 +126,9 @@ public class VoyageurDeCommerceInterface extends JFrame {
         JPanel panelInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         labelX = new JLabel("X");
         labelY = new JLabel("Y");
-        labelDist = new JLabel("Ville");
+        labelVille = new JLabel("Ville");
 
-        panelInfo.add(labelDist);
+        panelInfo.add(labelVille);
         panelInfo.add(labelX);
         panelInfo.add(labelY);
 
@@ -132,6 +144,111 @@ public class VoyageurDeCommerceInterface extends JFrame {
         model.addData("Coucou");
         model.addData("Charlotte");
     }
+
+    public Carte getCarteVoyageurDeCommerce() {
+        return carteVoyageurDeCommerce;
+    }
+
+    public void setCarteVoyageurDeCommerce(Carte carteVoyageurDeCommerce) {
+        this.carteVoyageurDeCommerce = carteVoyageurDeCommerce;
+    }
+
+    public JMenuItem getItemNouveau() {
+        return itemNouveau;
+    }
+
+    public void setItemNouveau(JMenuItem itemNouveau) {
+        this.itemNouveau = itemNouveau;
+    }
+
+    public JMenuItem getItemOuvrir() {
+        return itemOuvrir;
+    }
+
+    public void setItemOuvrir(JMenuItem itemOuvrir) {
+        this.itemOuvrir = itemOuvrir;
+    }
+
+    public JMenuItem getItemSauvegarder() {
+        return itemSauvegarder;
+    }
+
+    public void setItemSauvegarder(JMenuItem itemSauvegarder) {
+        this.itemSauvegarder = itemSauvegarder;
+    }
+
+    public JMenuItem getItemQuitter() {
+        return itemQuitter;
+    }
+
+    public void setItemQuitter(JMenuItem itemQuitter) {
+        this.itemQuitter = itemQuitter;
+    }
+
+    public JMenuItem getItemAlgorithme() {
+        return itemAlgorithme;
+    }
+
+    public void setItemAlgorithme(JMenuItem itemAlgorithme) {
+        this.itemAlgorithme = itemAlgorithme;
+    }
+
+    public JMenuItem getItemComparaison() {
+        return itemComparaison;
+    }
+
+    public void setItemComparaison(JMenuItem itemComparaison) {
+        this.itemComparaison = itemComparaison;
+    }
+
+    public JMenuItem getItemGeneration() {
+        return itemGeneration;
+    }
+
+    public void setItemGeneration(JMenuItem itemGeneration) {
+        this.itemGeneration = itemGeneration;
+    }
+
+    public MapPanel getMap() {
+        return map;
+    }
+
+    public void setMap(MapPanel map) {
+        this.map = map;
+    }
+
+    public JLabel getLabelX() {
+        return labelX;
+    }
+
+    public void setLabelX(JLabel labelX) {
+        this.labelX = labelX;
+    }
+
+    public JLabel getLabelY() {
+        return labelY;
+    }
+
+    public void setLabelY(JLabel labelY) {
+        this.labelY = labelY;
+    }
+
+    public JLabel getLabelDist() {
+        return labelVille;
+    }
+
+    public void setLabelDist(JLabel labelDist) {
+        this.labelVille = labelDist;
+    }
+
+    public JTable getTableau() {
+        return tableau;
+    }
+
+    public void setTableau(JTable tableau) {
+        this.tableau = tableau;
+    }
+    
 
     public static void main(String[] args) {
         VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface();
