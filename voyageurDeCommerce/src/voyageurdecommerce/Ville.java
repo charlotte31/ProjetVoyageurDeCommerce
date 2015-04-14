@@ -10,11 +10,14 @@ package voyageurdecommerce;
  * @author Melany
  */
 public class Ville extends Noeud{
-    String nom;
+    private String nom;
     
-    public Ville(String nom){
+    public Ville(String nom,int posX, int posY){
+        super(posX,posY);
         this.nom=nom;
     }
+    
+    
     
     
     

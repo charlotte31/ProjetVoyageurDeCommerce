@@ -29,7 +29,7 @@ import javax.swing.border.BevelBorder;
  * @author Charlotte
  */
 public class VoyageurDeCommerceInterface extends JFrame {
-
+    private Carte carteVoyageurDeCommerce;
     private JMenuItem itemNouveau;
     private JMenuItem itemOuvrir;
     private JMenuItem itemSauvegarder;
