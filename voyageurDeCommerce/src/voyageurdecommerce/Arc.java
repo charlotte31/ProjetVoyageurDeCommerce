@@ -12,10 +12,25 @@ package voyageurdecommerce;
 public class Arc {
     private Ville v1;
     private Ville v2;
+    private float distance;
     
+    // Getters and Setters
     public Ville getV1() {
         return v1;
     }
+    
+    // Constructor
+    public Arc(Ville v1, Ville v2){
+        this.v1=v1;
+        this.v2=v2;
+        int posX_source=v1.getPosition_x();
+        int posX_destination=v2.getPosition_x();
+        int posY_source=v1.getPosition_y();
+        int posY_destination=v2.getPosition_y();
+
+        distance=Math.abs((float)(Math.sqrt(Math.pow(posX_source-posX_destination,2)+Math.pow(posY_source-posY_destination,2))));
+    }
+
 
     public void setV1(Ville v1) {
         this.v1 = v1;
@@ -28,17 +43,34 @@ public class Arc {
     public void setV2(Ville v2) {
         this.v2 = v2;
     }
-  
-    float distance;
+     
+    public String getNomV1() {
+        return v1.getNom();
+    }
+    public void setNomV1(String nom) {
+        v1.setNom(nom);
+    }  
     
-    public Arc(Ville v1, Ville v2){
-        int posX_source=v1.getPosition_x();
-        int posX_destination=v2.getPosition_x();
-        int posY_source=v1.getPosition_y();
-        int posY_destination=v2.getPosition_y();
-//        a verifier (float)
-        
-        distance=Math.abs((float)Math.sqrt(Math.pow(posX_source-posY_source,2)+Math.pow(posX_destination-posY_destination,2)));
+    public String getNomV2() {
+        return v2.getNom();
+    }
+
+    public void setNomV2(String nom) {
+        v2.setNom(nom);
+    }  
+    
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
     
+    
+
+// Pour tester si besoin
+    public static void main(String[] args) {
+
+}
 }

@@ -12,16 +12,29 @@ package voyageurdecommerce;
 public class Ville extends Noeud{
     private String nom;
     
-    public Ville(String nom,int posX, int posY){
-        super(posX,posY);
-        this.nom=nom;
-    }
-
-    public String getNom() {
+ // Getters and Setters
+        public String getNom() {
         return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
     }  
+
+// Constructor
+    public Ville(String nom,int posX, int posY){
+        super(posX,posY);
+        this.nom=nom;
+    }
+
+
+
+    
+    
+// Pour tester si besoin
+    public static void main(String[] args) {
+
+}
+
+
 }

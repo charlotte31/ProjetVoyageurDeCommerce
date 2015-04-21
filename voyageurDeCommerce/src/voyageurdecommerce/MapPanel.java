@@ -7,10 +7,12 @@
 package voyageurdecommerce;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,10 +31,10 @@ import voyageurdecommerce.events.VilleSurvoleeListener;
  * @author Charlotte
  */
 public class MapPanel extends JPanel {
-
+    
     private BufferedImage background;
-
-    private List<Ville> liste_villes;
+    private Carte carte;
+    //private List<Ville> liste_villes;
     private List<VilleSurvoleeListener> ville_survolee_listeners;
 
     public MapPanel() {
@@ -41,7 +43,8 @@ public class MapPanel extends JPanel {
         } catch (IOException ex) {
             Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
-        liste_villes = new ArrayList<>();
+        //liste_villes = new ArrayList<>();
+        carte = new Carte();
         ville_survolee_listeners = new ArrayList<>();
         addMouseListener(new MouseListener() {
 
@@ -51,9 +54,13 @@ public class MapPanel extends JPanel {
                 String nom = JOptionPane.showInputDialog("Nom de la ville à ajouter", "votre recherche");
                 if (nom != null) {
                     Ville ville = new Ville(nom, e.getX(), e.getY());
-                    liste_villes.add(ville);
+                    //liste_villes.add(ville);
+                    getCarte().ajouterNoeud(ville);
+                    getCarte().creerClique();
+                    System.out.println("(Map Panel Class)Test: nb ville = "+carte.getListe_villes().size());
+                    
                 }
-                repaint();
+                repaint(); 
             }
 
             @Override
@@ -87,7 +94,7 @@ public class MapPanel extends JPanel {
             @Override
             public void mouseMoved(MouseEvent e) {
                 boolean verifSurvol = false;
-                for (Ville v : liste_villes) {
+                for (Ville v : getCarte().getListe_villes()) {
 
                     if (e.getX() > v.getPosition_x() - 4 && e.getX() < v.getPosition_x() + 15
                             && e.getY() > v.getPosition_y() - 4 && e.getY() < v.getPosition_y() + 15) {
@@ -109,11 +116,19 @@ public class MapPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, this);
-        g.setColor(Color.red);
+        g.setColor(new Color(0,150,55));
+        g.setFont(new Font(Font.DIALOG,Font.BOLD,14));
 
-        for (Ville ville : liste_villes) {
+
+        for (Ville ville : getCarte().getListe_villes()) {
             g.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
-            g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 8, 8);
+            g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
+        }
+        for (Arc a : getCarte().getListe_arcs()) {
+            
+            int[] xs = {a.getV1().getPosition_x(),a.getV2().getPosition_x()};
+            int[] ys ={a.getV1().getPosition_y(),a.getV2().getPosition_y()};
+            g.drawPolyline(xs,ys,ys.length);
         }
     }
 
@@ -125,6 +140,13 @@ public class MapPanel extends JPanel {
         for (VilleSurvoleeListener listener : ville_survolee_listeners) {
             listener.onVilleSurvolee(evt);
         }
+    }
+
+    /**
+     * @return the carte
+     */
+    public Carte getCarte() {
+        return carte;
     }
 
 }

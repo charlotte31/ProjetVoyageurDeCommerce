@@ -11,7 +11,7 @@ import java.util.EventObject;
  *
  * @author Charlotte
  */
-public class EventVilleSurvolee extends EventObject{
+public class EventVilleSurvolee extends EventObject {
     
     private String nomVille;
     private int x;
