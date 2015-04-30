@@ -125,10 +125,11 @@ public class MapPanel extends JPanel {
             g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
         }
         for (Arc a : getCarte().getListe_arcs()) {
-            
+            g.setColor(Color.red);
             int[] xs = {a.getV1().getPosition_x(),a.getV2().getPosition_x()};
             int[] ys ={a.getV1().getPosition_y(),a.getV2().getPosition_y()};
             g.drawPolyline(xs,ys,ys.length);
+            
         }
     }
 

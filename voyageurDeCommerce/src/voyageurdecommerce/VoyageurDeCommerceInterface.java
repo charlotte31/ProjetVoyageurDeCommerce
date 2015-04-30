@@ -56,11 +56,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private JMenuItem itemSauvegarder;
     private JMenuItem itemQuitter;
     
-    private JMenuItem plusProcheVoisin;
-    private JMenuItem plusEloignes;
-    private JMenuItem moindreCout;
-    private JMenuItem kruskal;
-    private JMenuItem prim;
+    private AlgorithmeApplication plusProcheVoisin;
+    private AlgorithmeApplication plusEloignes;
+    private AlgorithmeApplication moindreCout;
+    private AlgorithmeApplication kruskal;
+    private AlgorithmeApplication prim;
     
     private JMenuItem itemComparaison;
     private JMenuItem itemGeneration;
@@ -124,8 +124,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
         });
              
         boutonValider.addActionListener(this.boutonValider);
-               
-              
+        plusProcheVoisin.addActionListener(plusProcheVoisin);
+        plusEloignes.addActionListener(plusEloignes);
+        moindreCout.addActionListener(moindreCout);
+        kruskal.addActionListener(kruskal);
+        prim.addActionListener(prim);
             
         
         
@@ -141,6 +144,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
 		    VoyageurDeCommerceInterface vdci = new VoyageurDeCommerceInterface(false);                         
                 }});
          
+        // Non encore fonctionnel 
         itemNouveau.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {        
@@ -149,6 +153,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
                 addJpanel(content);
                 
                 }});
+        
 
         pack();
 
@@ -171,17 +176,16 @@ public class VoyageurDeCommerceInterface extends JFrame {
         menu.add(menuFichier);
 
         JMenu menuCalculer = new JMenu("Calculer");
-        plusProcheVoisin = new JMenuItem("Plus proche voisin");
-        plusEloignes = new JMenuItem("Insertion plus éloignés");
-        moindreCout = new JMenuItem("Insertion moindre coût");
-        kruskal = new JMenuItem("Kruskal");
-        prim = new JMenuItem("Prim");
-        
-        menuCalculer.add(getPlusProcheVoisin());
-        menuCalculer.add(getPlusEloignes());
-        menuCalculer.add(getMoindreCout());
-        menuCalculer.add(getKruskal());
-        menuCalculer.add(getPrim());
+        plusProcheVoisin = new AlgorithmeApplication("plusProcheVoisin", this);
+        plusEloignes = new AlgorithmeApplication("plusEloignes", this);
+        moindreCout = new AlgorithmeApplication("moindreCout", this);
+        kruskal = new AlgorithmeApplication("Kruskal", this);
+        prim = new AlgorithmeApplication("Prim", this);
+        menuCalculer.add(plusProcheVoisin);
+        menuCalculer.add(plusEloignes);
+        menuCalculer.add(moindreCout);
+        menuCalculer.add(kruskal);
+        menuCalculer.add(prim);
         menu.add(menuCalculer);
 
         JMenu menuOutil = new JMenu("Outil");

@@ -224,6 +224,8 @@ public class Carte {
     }
     
     public ArrayList<Object> plusProcheVoisins(Ville v){
+        //(pour tester dans l'interface)
+        System.out.println("PlusProcheVoisin");
         // Initialisation des résultats
         ArrayList<Object> result = new ArrayList<Object>();
         ArrayList<String> chemin = new ArrayList<String>();
@@ -260,7 +262,10 @@ public class Carte {
         distance=distance+(float)resultMin.get(1); 
         v=vTemp;
     }  
-    chemin.add(villes.get(villes.size()-1).getNom());
+        
+        chemin.add(villes.get(villes.size()-1).getNom());
+
+    
     for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
@@ -270,18 +275,21 @@ public class Carte {
     result.add(chemin);
     result.add(distance);
     result.add(duree);
-    System.out.println("Le chemin le plus court est :"); 
-    for (int i=0;i<chemin.size();i++)
-        {System.out.println(chemin.get(i));}
-    System.out.println("Distance de ce chemin: "+distance); 
-    System.out.println("Performance algorithmique (ms): "+duree);
+    //System.out.println("Le chemin le plus court est :"); 
+    //for (int i=0;i<chemin.size();i++)
+   //     {System.out.println(chemin.get(i));}
+    //System.out.println("Distance de ce chemin: "+distance); 
+    //System.out.println("Performance algorithmique (ms): "+duree);
     return(result);
     }
     
     public ArrayList<Object> moindreCout(Ville v){
+        //(pour tester dans l'interface)
+        System.out.println("MoindreCout");
         // Initialisation des variables résultantes
         ArrayList<Object> result = new ArrayList<Object>();
         ArrayList<Ville> chemin = new ArrayList<Ville>();
+        ArrayList<String> cheminNom = new ArrayList<String>();
         float distance =0;
         long debut =System.currentTimeMillis();
         long duree;
@@ -290,10 +298,12 @@ public class Carte {
         ArrayList<Ville> villes = this.villesCopie();
         ArrayList<Arc> arcs = this.arcsCopie();
         chemin.add(v);
+        cheminNom.add(v.getNom());
         ArrayList<Object> resultMin =this.rechercherMinDistance(v, arcs);      
         float dMin=(float)resultMin.get(1); 
         Ville vMin=(Ville)resultMin.get(0);
         chemin.add(vMin);
+        cheminNom.add(vMin.getNom());
         this.supprimerVille(v , villes);       
         this.supprimerVille(vMin, villes); 
         this.supprimerArcV(v, vMin, arcs);       
@@ -301,15 +311,19 @@ public class Carte {
         //Algorithme
         for (int i = 0; i < villes.size(); i++) {
             chemin.add(villes.get(i));
+            cheminNom.add(villes.get(i).getNom());
             for (int j = 0; j < villes.size(); j++) {
                 if (villes.get(i).getNom() != villes.get(j).getNom()) {
                     if ((this.rechercherDistance(v, villes.get(j)) + this.rechercherDistance(vMin, villes.get(j)) - dMin)
                             < (this.rechercherDistance(v, villes.get(i)) + this.rechercherDistance(vMin, villes.get(i)) - dMin)) {
                         chemin.remove(villes.get(i));
+                        cheminNom.remove(villes.get(i).getNom());
                         if (chemin.contains(villes.get(j)) != true) {
                             chemin.add(villes.get(j));
+                            cheminNom.add(villes.get(j).getNom());
                         }
                         chemin.add(villes.get(i));
+                        cheminNom.add(villes.get(i).getNom());
                     }
                 }
             }
@@ -324,14 +338,16 @@ public class Carte {
         }
     duree=System.currentTimeMillis()-debut;    
     // Résultats
-    result.add(chemin);
+    result.add(cheminNom);
     result.add(distance);
     result.add(duree);
-    System.out.println("Le chemin le plus court est :"); 
-    for (int i=0;i<chemin.size();i++)
-        {System.out.println(chemin.get(i).getNom());}
-    System.out.println("Distance de ce chemin: "+distance); 
-    System.out.println("Performance algorithmique (ms): "+duree);
+    
+    // Pour tester
+    //System.out.println("Le chemin le plus court est :"); 
+    //for (int i=0;i<chemin.size();i++)
+    //    {System.out.println(cheminNom.get(i));}
+    //System.out.println("Distance de ce chemin: "+distance); 
+    //System.out.println("Performance algorithmique (ms): "+duree);
     return(result);
     }
     
@@ -339,6 +355,8 @@ public class Carte {
     
     
     public ArrayList<Object> insertionPlusEloignes(Ville v){
+        //(pour tester dans l'interface)
+        System.out.println("insertionPlusEloignes");
         // Initialisation des résultats
        ArrayList<Object> result = new ArrayList<Object>();
  
