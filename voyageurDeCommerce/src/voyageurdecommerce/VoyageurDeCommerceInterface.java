@@ -52,8 +52,8 @@ import voyageurdecommerce.graphisme.RenduTableau;
 public class VoyageurDeCommerceInterface extends JFrame {
     private Carte carteVoyageurDeCommerce;
     private JMenuItem itemNouveau;
-    private JMenuItem itemOuvrir;
-    private JMenuItem itemSauvegarder;
+    private ItemOuvrir itemOuvrir;
+    private ItemSauvegarder itemSauvegarder;
     private JMenuItem itemQuitter;
     
     private AlgorithmeApplication plusProcheVoisin;
@@ -96,7 +96,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
               
         this.setPreferredSize(new Dimension(1000, 600));
         this.setResizable(false);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
 
         Container content = this.getContentPane();
@@ -124,6 +124,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
             }
         });
              
+        // 2eme onglet
         boutonValider.addActionListener(this.boutonValider);
         plusProcheVoisin.addActionListener(plusProcheVoisin);
         plusEloignes.addActionListener(plusEloignes);
@@ -133,11 +134,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
             
         
         
-        
+        // 1er onglet
         itemQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-		System.exit(0);}});
+		System.exit(EXIT_ON_CLOSE);}});
         
          itemNouvellefenetre.addActionListener(new ActionListener() {
             @Override
@@ -145,15 +146,16 @@ public class VoyageurDeCommerceInterface extends JFrame {
 		    VoyageurDeCommerceInterface vdci = new VoyageurDeCommerceInterface(false);                         
                 }});
          
-        // Non encore fonctionnel 
         itemNouveau.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {        
+            public void actionPerformed(ActionEvent e) { 
+                int nrowIni = modelTableau.getRowCount();
+                 for (int i=0; i<nrowIni;i++){
+                modelTableau.removeData(modelTableau.getRowCount()-1);}
                 getCarteVoyageurDeCommerce().getListe_villes().removeAll(getCarteVoyageurDeCommerce().getListe_villes());
                 getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
-                addJpanel(content);
-                
-                }});
+                map.bool=true;}});
+        itemSauvegarder.addActionListener(this.itemSauvegarder);
         
 
         pack();
@@ -165,8 +167,8 @@ public class VoyageurDeCommerceInterface extends JFrame {
         JMenu menuFichier = new JMenu("Fichier");
         itemNouveau = new JMenuItem("Nouveau");
         itemNouvellefenetre = new JMenuItem("Nouvelle fenêtre");
-        itemOuvrir = new JMenuItem("Ouvrir");
-        itemSauvegarder = new JMenuItem("Sauvegarder");
+        itemOuvrir = new ItemOuvrir("Ouvrir");
+        itemSauvegarder = new ItemSauvegarder("Sauvegarder",this);
         itemQuitter = new JMenuItem("Quitter");
 
         menuFichier.add(itemNouveau);
@@ -288,7 +290,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         return itemOuvrir;
     }
 
-    public void setItemOuvrir(JMenuItem itemOuvrir) {
+    public void setItemOuvrir(ItemOuvrir itemOuvrir) {
         this.itemOuvrir = itemOuvrir;
     }
 
@@ -296,7 +298,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         return itemSauvegarder;
     }
 
-    public void setItemSauvegarder(JMenuItem itemSauvegarder) {
+    public void setItemSauvegarder(ItemSauvegarder itemSauvegarder) {
         this.itemSauvegarder = itemSauvegarder;
     }
 

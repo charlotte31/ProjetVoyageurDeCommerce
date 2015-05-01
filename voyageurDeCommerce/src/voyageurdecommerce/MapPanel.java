@@ -20,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,9 +43,13 @@ public class MapPanel extends JPanel {
     private Carte carte;
     //private List<Ville> liste_villes;
     private List<VilleSurvoleeListener> ville_survolee_listeners;
+    private HashMap<Algorithme,ArrayList<String>> hashChemin;
     private ArrayList<Ville> chemin;
+    boolean bool;
     public MapPanel() {
+        hashChemin = new  HashMap(new Hashtable<Algorithme,ArrayList<String>>());
         chemin = new ArrayList<Ville>();
+        bool=false;
         try {
             background = ImageIO.read(new File("./resources/france.gif"));
         } catch (IOException ex) {
@@ -120,13 +126,14 @@ public class MapPanel extends JPanel {
 
 
     public void paintComponent(Graphics g) {
-    
+        
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D)g;
         g.drawImage(background, 0, 0, this);
         g.setColor(new Color(0,150,55));
         g.setFont(new Font(Font.DIALOG,Font.BOLD,14));
 
-
+        if (bool==false){
         for (Ville ville : getCarte().getListe_villes()) {
             g.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
             g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
@@ -139,7 +146,7 @@ public class MapPanel extends JPanel {
            
         }
         if (chemin.size()!=0){
-            Graphics2D g2d = (Graphics2D)g;
+            
             float[] style = {10,5};
             g2d.setStroke( new BasicStroke(3,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER));
             g2d.setColor(Color.BLUE);
@@ -149,6 +156,12 @@ public class MapPanel extends JPanel {
                     g2d.drawLine(chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y(), chemin.get(i+1).getPosition_x(), chemin.get(i+1).getPosition_y());
                 
             }    
+        }}
+        else{
+            //super.paintComponent(g);
+            g.drawImage(background, 0, 0, this);
+            repaint();
+            bool=false;
         }
     }
 
@@ -182,6 +195,20 @@ public class MapPanel extends JPanel {
      */
     public void setChemin(ArrayList<Ville> chemin) {
         this.chemin = chemin;
+    }
+
+    /**
+     * @return the hashChemin
+     */
+    public HashMap<Algorithme,ArrayList<String>> getHashChemin() {
+        return hashChemin;
+    }
+
+    /**
+     * @param hashChemin the hashChemin to set
+     */
+    public void setHashChemin(Algorithme algo,ArrayList<String> chemin) {
+        this.hashChemin.put(algo,chemin);;
     }
 
 }

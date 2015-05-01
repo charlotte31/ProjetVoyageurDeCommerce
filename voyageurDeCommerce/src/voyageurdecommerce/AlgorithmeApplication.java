@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class AlgorithmeApplication extends JMenuItem implements ActionListener {
 
-    VoyageurDeCommerceInterface vdci;
+    private VoyageurDeCommerceInterface vdci;
     public AlgorithmeApplication(String m, VoyageurDeCommerceInterface vdci){
         super(m);
         this.vdci=vdci;        
@@ -55,6 +56,7 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
                 JOptionPane.showMessageDialog(this, "[[Chemin] - Distance - Performance (ms)]\n"
                         +resString+" - "+res.get(1)+" - "+res.get(2));    
                 //repaint();
+                vdci.getMap().setHashChemin(Algorithme.plusProcheVoisin,resString);
                 vdci.getMap().setChemin((ArrayList<Ville>)res.get(0));
                 vdci.getMap().repaint();
             }
@@ -63,6 +65,7 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
                 ArrayList<String> resString=vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>)res.get(0));
                 JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
                     +resString+" - "+res.get(1)+" - "+res.get(2));  
+                vdci.getMap().setHashChemin(Algorithme.moindreCout,resString);
                 vdci.getMap().setChemin((ArrayList<Ville>)res.get(0));
             }
             if (super.getText().equals("plusEloignes")){
