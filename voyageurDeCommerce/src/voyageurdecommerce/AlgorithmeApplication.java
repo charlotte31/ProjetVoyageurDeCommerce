@@ -6,6 +6,8 @@
 package voyageurdecommerce;
 
 import com.sun.javafx.scene.traversal.Algorithm;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -21,10 +23,7 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
     VoyageurDeCommerceInterface vdci;
     public AlgorithmeApplication(String m, VoyageurDeCommerceInterface vdci){
         super(m);
-        this.vdci=vdci;
-        System.out.println(super.getText());
-
-        
+        this.vdci=vdci;        
     }
 
     
@@ -51,16 +50,24 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
         
         else {
             if (super.getText().equals("plusProcheVoisin")){
-                JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                        +vdci.getCarteVoyageurDeCommerce().plusProcheVoisins(v));
+                ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().plusProcheVoisins(v);
+                ArrayList<String> resString=vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>)res.get(0));
+                JOptionPane.showMessageDialog(this, "[[Chemin] - Distance - Performance (ms)]\n"
+                        +resString+" - "+res.get(1)+" - "+res.get(2));    
+                //repaint();
+                vdci.getMap().setChemin((ArrayList<Ville>)res.get(0));
+                vdci.getMap().repaint();
             }
             if (super.getText().equals("moindreCout")){
-            JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                    +vdci.getCarteVoyageurDeCommerce().moindreCout(v));
+                ArrayList<Object> res =vdci.getCarteVoyageurDeCommerce().moindreCout(v);
+                ArrayList<String> resString=vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>)res.get(0));
+                JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
+                    +resString+" - "+res.get(1)+" - "+res.get(2));  
+                vdci.getMap().setChemin((ArrayList<Ville>)res.get(0));
             }
             if (super.getText().equals("plusEloignes")){
             JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                    +vdci.getCarteVoyageurDeCommerce().insertionPlusEloignes(v));
+                    +"Pas encore implémenté");
             }
             if (super.getText().equals("Kruskal")){
             JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
@@ -73,8 +80,16 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
                 
            // ArrayList<Object> ipe = vdci.getCarteVoyageurDeCommerce().moindreCout(v);
             //System.out.println(ipe.get(0));
+        
+
         }
     }
 
     }
-}
+    
+    
+
+
+    }
+ 
+

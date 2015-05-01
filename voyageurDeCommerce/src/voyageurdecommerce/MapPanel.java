@@ -6,9 +6,12 @@
  */
 package voyageurdecommerce;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -23,6 +26,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import static javax.swing.SwingConstants.CENTER;
+import static javax.swing.SwingConstants.TOP;
 import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
 
@@ -36,8 +41,9 @@ public class MapPanel extends JPanel {
     private Carte carte;
     //private List<Ville> liste_villes;
     private List<VilleSurvoleeListener> ville_survolee_listeners;
-
+    private ArrayList<Ville> chemin;
     public MapPanel() {
+        chemin = new ArrayList<Ville>();
         try {
             background = ImageIO.read(new File("./resources/france.gif"));
         } catch (IOException ex) {
@@ -112,8 +118,9 @@ public class MapPanel extends JPanel {
         });
     }
 
-    @Override
+
     public void paintComponent(Graphics g) {
+    
         super.paintComponent(g);
         g.drawImage(background, 0, 0, this);
         g.setColor(new Color(0,150,55));
@@ -129,10 +136,23 @@ public class MapPanel extends JPanel {
             int[] xs = {a.getV1().getPosition_x(),a.getV2().getPosition_x()};
             int[] ys ={a.getV1().getPosition_y(),a.getV2().getPosition_y()};
             g.drawPolyline(xs,ys,ys.length);
-            
+           
+        }
+        if (chemin.size()!=0){
+            Graphics2D g2d = (Graphics2D)g;
+            float[] style = {10,5};
+            g2d.setStroke( new BasicStroke(3,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER));
+            g2d.setColor(Color.BLUE);
+            g2d.setFont(new Font(Font.DIALOG,Font.BOLD,30));
+            for (int i=0;i<chemin.size()-1;i++){
+                    g2d.drawString(chemin.get(0).getNom(), chemin.get(0).getPosition_x(), chemin.get(0).getPosition_y());
+                    g2d.drawLine(chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y(), chemin.get(i+1).getPosition_x(), chemin.get(i+1).getPosition_y());
+                
+            }    
         }
     }
 
+    
     public void addVilleSurvoleeListener(VilleSurvoleeListener listener) {
         ville_survolee_listeners.add(listener);
     }
@@ -148,6 +168,20 @@ public class MapPanel extends JPanel {
      */
     public Carte getCarte() {
         return carte;
+    }
+
+    /**
+     * @return the chemin
+     */
+    public ArrayList<Ville> getChemin() {
+        return chemin;
+    }
+
+    /**
+     * @param chemin the chemin to set
+     */
+    public void setChemin(ArrayList<Ville> chemin) {
+        this.chemin = chemin;
     }
 
 }

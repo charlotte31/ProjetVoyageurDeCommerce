@@ -76,6 +76,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private boolean b;
     private JTable tableau;
     private ModelTable modelTableau;
+
     
    public VoyageurDeCommerceInterface(boolean b) {      
         super("Voyageur de commerce");
