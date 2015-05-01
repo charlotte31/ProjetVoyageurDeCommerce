@@ -32,8 +32,15 @@ public class ItemSauvegarder extends JMenuItem implements ActionListener {
         this.vdci=vdci;
     }
     public void actionPerformed(ActionEvent e) {
-       myFile = new File("data.vdc");
-        try {
+        JFileChooser dialog=new JFileChooser();
+
+        
+     int rep =dialog.showSaveDialog(this);
+
+       myFile = new File(dialog.getSelectedFile().getPath()+".vdc");
+       if (rep == JFileChooser.APPROVE_OPTION) {
+           try {
+               
             FileWriter savedFile = new FileWriter(myFile);
             savedFile.write("[LISTE DES NOEUDS]\n");
             for (int i=0;i<vdci.getCarteVoyageurDeCommerce().getListe_villes().size();i++){
@@ -57,6 +64,7 @@ public class ItemSauvegarder extends JMenuItem implements ActionListener {
         } catch (IOException ex) {
             Logger.getLogger(ItemSauvegarder.class.getName()).log(Level.SEVERE, null, ex);
         }
+       }
 
  
     }

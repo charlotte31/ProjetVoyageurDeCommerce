@@ -156,7 +156,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
                 getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
                 map.bool=true;}});
         itemSauvegarder.addActionListener(this.itemSauvegarder);
-        
+        itemOuvrir.addActionListener(this.itemOuvrir);
 
         pack();
 
@@ -167,8 +167,8 @@ public class VoyageurDeCommerceInterface extends JFrame {
         JMenu menuFichier = new JMenu("Fichier");
         itemNouveau = new JMenuItem("Nouveau");
         itemNouvellefenetre = new JMenuItem("Nouvelle fenêtre");
-        itemOuvrir = new ItemOuvrir("Ouvrir");
-        itemSauvegarder = new ItemSauvegarder("Sauvegarder",this);
+        itemOuvrir = new ItemOuvrir("Ouvrir",this);
+        itemSauvegarder = new ItemSauvegarder("Enregistrer sous",this);
         itemQuitter = new JMenuItem("Quitter");
 
         menuFichier.add(itemNouveau);
