@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package voyageurdecommerce;
-
 /**
  *
  * @author Melany
+ * Création d'une énumération pour la vérification de l'algorithme à appliquer 
+ * lorsque l'utilisateur clique sur un item donné
  */
 public enum Algorithme {
     None, plusProcheVoisin,plusEloignes, moindreCout, Kruskal, Prim
-    
 }

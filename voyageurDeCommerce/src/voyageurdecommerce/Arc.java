@@ -71,6 +71,6 @@ public class Arc {
 
 // Pour tester si besoin
     public static void main(String[] args) {
+    }
 
-}
 }

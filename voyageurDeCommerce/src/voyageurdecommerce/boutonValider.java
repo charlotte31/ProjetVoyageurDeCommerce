@@ -15,16 +15,18 @@ import javax.swing.JPanel;
 /**
  *
  * @author Melany
+ * Classe créée à part entière pour éviter de trop charger le constructeur de VoyageurDeCommerceInterface
+ * Permet de définir la méthode rendant le bouton valider fonctionnel. Quand l'utilisateur cliquera dessus, les 
+ * informations concernant les arcs du graphe qu'il a créé seront ajoutées dans le tableau
  */
 public class boutonValider extends JButton implements ActionListener{
     
     private VoyageurDeCommerceInterface vdci;
     private Object g;
+    
     public boutonValider(String nom_bouton, VoyageurDeCommerceInterface vdci){
         super(nom_bouton);
-        this.vdci=vdci;
-
-        
+        this.vdci=vdci;     
     }
     
     public void painComponent(Graphics g){
@@ -35,19 +37,28 @@ public class boutonValider extends JButton implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size()!=0){
-                  for (int i=0; i<getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size();i++){
-                      getVdci().getModelTableau().addData(getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i));
-                      int v1_x=getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_x();
-                      int v2_x=getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_x();
-                      int v1_y=getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_y();
-                      int v2_y=getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_y();
-                      
-    }
-        
+        if (getVdci().getModelTableau().getRowCount() != getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size()) {
+            // On vide le tableau s'il avait déjà été remplie
+            for (int i = 0; i < getVdci().getModelTableau().getRowCount(); i++) {
+                getVdci().getModelTableau().removeData(i);
+            }
 
-}
+            if (getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size() != 0) {
+                for (int i = 0; i < getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size(); i++) {
+                    // Puis le réinitialise
+                    getVdci().getModelTableau().addData(getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i));
+                    // Et on ajoute les nouveaux arcs à la liste de la carte
+                    int v1_x = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_x();
+                    int v2_x = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_x();
+                    int v1_y = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_y();
+                    int v2_y = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_y();
+
+                }
+
+            }
+        }
     }
+
 
     /**
      * @return the vdci

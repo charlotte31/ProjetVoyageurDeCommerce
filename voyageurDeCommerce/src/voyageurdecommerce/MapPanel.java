@@ -12,8 +12,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -34,76 +36,58 @@ import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
 
 /**
- *
  * @author Charlotte
+ * Méthode masquée pour le MouseListener (via utilisation de MouseAdapter):
+ *  - public void mousePressed(MouseEvent e) {}
+ *  - public void mouseReleased(MouseEvent e) {}
+ *  - public void mouseEntered(MouseEvent e) {}
+ *  - public void mouseExited(MouseEvent e) {}
+ * 
+ * 
+ * Méthode masquée pour le MouseMotionListener (via utilisation de MouseMotionAdapter):
+ * - public void mouseDragged(MouseEvent e) {}
+ * 
  */
+
 public class MapPanel extends JPanel {
-    
+
     private BufferedImage background;
     private Carte carte;
     //private List<Ville> liste_villes;
     private List<VilleSurvoleeListener> ville_survolee_listeners;
-    private HashMap<Algorithme,ArrayList<String>> hashChemin;
+    private HashMap<Algorithme, ArrayList<String>> hashChemin;
     private ArrayList<Ville> chemin;
     boolean bool;
+
     public MapPanel() {
-        hashChemin = new  HashMap(new Hashtable<Algorithme,ArrayList<String>>());
+        hashChemin = new HashMap(new Hashtable<Algorithme, ArrayList<String>>());
         chemin = new ArrayList<Ville>();
-        bool=false;
+        bool = false;
         try {
             background = ImageIO.read(new File("./resources/france.gif"));
-        } catch (IOException ex) {
+        } 
+        catch (IOException ex) {
             Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
         //liste_villes = new ArrayList<>();
         carte = new Carte();
         ville_survolee_listeners = new ArrayList<>();
-        addMouseListener(new MouseListener() {
-
-            @Override
+        
+        addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-
                 String nom = JOptionPane.showInputDialog("Nom de la ville à ajouter", "votre recherche");
                 if (nom != null) {
                     Ville ville = new Ville(nom, e.getX(), e.getY());
                     //liste_villes.add(ville);
                     getCarte().ajouterNoeud(ville);
                     getCarte().creerClique();
-                    System.out.println("(Map Panel Class)Test: nb ville = "+carte.getListe_villes().size());
-                    
+                    System.out.println("(Map Panel Class)Test: nb ville = " + carte.getListe_villes().size());
                 }
-                repaint(); 
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                repaint();
             }
         });
 
-        addMouseMotionListener(new MouseMotionListener() {
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-
-            }
-
-            @Override
+        addMouseMotionListener(new MouseMotionAdapter() {
             public void mouseMoved(MouseEvent e) {
                 boolean verifSurvol = false;
                 for (Ville v : getCarte().getListe_villes()) {
@@ -124,48 +108,47 @@ public class MapPanel extends JPanel {
         });
     }
 
-
+    
     public void paintComponent(Graphics g) {
-        
         super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D)g;
+        Graphics2D g2d = (Graphics2D) g;
         g.drawImage(background, 0, 0, this);
-        g.setColor(new Color(0,150,55));
-        g.setFont(new Font(Font.DIALOG,Font.BOLD,14));
+        g.setColor(new Color(0, 150, 55));
+        g.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
 
-        if (bool==false){
-        for (Ville ville : getCarte().getListe_villes()) {
-            g.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
-            g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
-        }
-        for (Arc a : getCarte().getListe_arcs()) {
-            g.setColor(Color.red);
-            int[] xs = {a.getV1().getPosition_x(),a.getV2().getPosition_x()};
-            int[] ys ={a.getV1().getPosition_y(),a.getV2().getPosition_y()};
-            g.drawPolyline(xs,ys,ys.length);
-           
-        }
-        if (chemin.size()!=0){
-            
-            float[] style = {10,5};
-            g2d.setStroke( new BasicStroke(3,BasicStroke.CAP_BUTT,BasicStroke.JOIN_MITER));
-            g2d.setColor(Color.BLUE);
-            g2d.setFont(new Font(Font.DIALOG,Font.BOLD,30));
-            for (int i=0;i<chemin.size()-1;i++){
+        if (bool == false) { // Pour rendre fonctionel l'item "Nouvelle Fenetre" : permet de la remettre à blanc
+            for (Ville ville : getCarte().getListe_villes()) {
+                g.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
+                g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
+            }
+            for (Arc a : getCarte().getListe_arcs()) {
+                g.setColor(Color.red);
+                int[] xs = {a.getV1().getPosition_x(), a.getV2().getPosition_x()};
+                int[] ys = {a.getV1().getPosition_y(), a.getV2().getPosition_y()};
+                g.drawPolyline(xs, ys, ys.length);
+
+            }
+            if (chemin.size() != 0) {
+
+                float[] style = {10, 5};
+                g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+                g2d.setColor(Color.BLUE);
+                g2d.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
+                for (int i = 0; i < chemin.size() - 1; i++) {
                     g2d.drawString(chemin.get(0).getNom(), chemin.get(0).getPosition_x(), chemin.get(0).getPosition_y());
-                    g2d.drawLine(chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y(), chemin.get(i+1).getPosition_x(), chemin.get(i+1).getPosition_y());
-                
-            }    
-        }}
-        else{
+                    g2d.drawLine(chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y(), chemin.get(i + 1).getPosition_x(), chemin.get(i + 1).getPosition_y());
+
+                }
+            }
+        } 
+        else {
             //super.paintComponent(g);
             g.drawImage(background, 0, 0, this);
             repaint();
-            bool=false;
+            bool = false;
         }
     }
 
-    
     public void addVilleSurvoleeListener(VilleSurvoleeListener listener) {
         ville_survolee_listeners.add(listener);
     }
@@ -200,15 +183,15 @@ public class MapPanel extends JPanel {
     /**
      * @return the hashChemin
      */
-    public HashMap<Algorithme,ArrayList<String>> getHashChemin() {
+    public HashMap<Algorithme, ArrayList<String>> getHashChemin() {
         return hashChemin;
     }
 
     /**
      * @param hashChemin the hashChemin to set
      */
-    public void setHashChemin(Algorithme algo,ArrayList<String> chemin) {
-        this.hashChemin.put(algo,chemin);;
+    public void setHashChemin(Algorithme algo, ArrayList<String> chemin) {
+        this.hashChemin.put(algo, chemin);;
     }
 
 }

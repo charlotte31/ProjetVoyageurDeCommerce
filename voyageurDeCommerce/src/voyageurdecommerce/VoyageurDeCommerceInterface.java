@@ -38,8 +38,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
-
-
 import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
 import voyageurdecommerce.graphisme.RenduHeaderTableau;
@@ -50,50 +48,54 @@ import voyageurdecommerce.graphisme.RenduTableau;
  * @author Charlotte
  */
 public class VoyageurDeCommerceInterface extends JFrame {
+
+    // Déclaration
     private Carte carteVoyageurDeCommerce;
     private JMenuItem itemNouveau;
     private ItemOuvrir itemOuvrir;
-    private ItemSauvegarder itemSauvegarder;
+    private ItemSauvegarder itemEnregistrerSous;
+    private ItemSauvegarder itemEnregistrer;
     private JMenuItem itemQuitter;
-    
+
     private AlgorithmeApplication plusProcheVoisin;
     private AlgorithmeApplication plusEloignes;
     private AlgorithmeApplication moindreCout;
     private AlgorithmeApplication kruskal;
     private AlgorithmeApplication prim;
-    
+
     private JMenuItem itemComparaison;
     private JMenuItem itemGeneration;
-    private JMenuItem itemNouvellefenetre;
+    private ItemNouvelleFenetre itemNouvellefenetre;
     private MapPanel map;
 
     private JLabel labelX;
     private JLabel labelY;
     private JLabel labelVille;
-    
+
     private boutonValider boutonValider;
-    
+
     private boolean b;
     private JTable tableau;
     private ModelTable modelTableau;
-
+    // Fin Déclaration
     
-   public VoyageurDeCommerceInterface(boolean b) {      
+    //Constructeur
+    public VoyageurDeCommerceInterface(boolean b) {
+        // Contenu principal
         super("Voyageur de commerce");
-        this.b =b;
-        if(b==true){
-        String s= "                             PROJET JAVA 2015\n   "
-                + "                                          ~*~\n"
-                + " \n                                      Bienvenue!  \n \n  "
-                + "Ceci est une application JAVA destinée à résoudre\n     les problèmes des voyageurs de commerce.\n"
-                + "  Commencez par sélectionner vos villes en cliquant\n sur la carte afin de les enregistrer"
-                + "puis valider\n                         lorsque vous avez terminé. \n"
-                + "      Profitez ensuite des algorithmes à disposition !";
+        this.b = b;
+        if (b == true) {
+            String s = "                             PROJET JAVA 2015\n   "
+                    + "                                          ~*~\n"
+                    + " \n                                      Bienvenue!  \n \n  "
+                    + "Ceci est une application JAVA destinée à résoudre\n     les problèmes des voyageurs de commerce.\n"
+                    + "  Commencez par sélectionner vos villes en cliquant\n sur la carte afin de les enregistrer"
+                    + "puis valider\n                         lorsque vous avez terminé. \n"
+                    + "      Profitez ensuite des algorithmes à disposition !";
 
-
-        JOptionPane.showMessageDialog(map,s ,"Charlotte Ramé, Mélany Tanchon",2, new ImageIcon("./resources/Img_accueil.png" ));
+            JOptionPane.showMessageDialog(map, s, "Charlotte Ramé, Mélany Tanchon", 2, new ImageIcon("./resources/Img_accueil.png"));
         }
-              
+
         this.setPreferredSize(new Dimension(1000, 600));
         this.setResizable(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -108,22 +110,47 @@ public class VoyageurDeCommerceInterface extends JFrame {
         carteVoyageurDeCommerce = map.getCarte();
         addJLabel(content);
         addJTable(content);
-        
+
         map.addVilleSurvoleeListener(new VilleSurvoleeListener() {
             @Override
             public void onVilleSurvolee(EventVilleSurvolee evt) {
                 if (evt == null) {
                     labelVille.setText("Nom: ");
                     labelX.setText("X : ");
-                    labelY.setText("Y : ");              
+                    labelY.setText("Y : ");
                 } else {
                     labelVille.setText("Nom: " + evt.getNomVille());
                     labelX.setText("X : " + evt.getX() + "");
                     labelY.setText("Y : " + evt.getY() + "");
-                }               
+                }
             }
         });
-             
+
+        // 1er onglet
+        itemNouvellefenetre.addActionListener(itemNouvellefenetre);
+        itemEnregistrerSous.addActionListener(this.itemEnregistrerSous);
+        itemOuvrir.addActionListener(this.itemOuvrir);
+        itemEnregistrer.addActionListener(this.itemEnregistrerSous);
+        itemNouveau.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int nrowIni = modelTableau.getRowCount();
+                for (int i = 0; i < nrowIni; i++) {
+                    modelTableau.removeData(modelTableau.getRowCount() - 1);
+                }
+                getCarteVoyageurDeCommerce().getListe_villes().removeAll(getCarteVoyageurDeCommerce().getListe_villes());
+                getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
+                map.bool = true;
+            }
+        });       
+        itemQuitter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(EXIT_ON_CLOSE);
+            }
+        });        
+        
+        
         // 2eme onglet
         boutonValider.addActionListener(this.boutonValider);
         plusProcheVoisin.addActionListener(plusProcheVoisin);
@@ -131,50 +158,31 @@ public class VoyageurDeCommerceInterface extends JFrame {
         moindreCout.addActionListener(moindreCout);
         kruskal.addActionListener(kruskal);
         prim.addActionListener(prim);
-            
         
-        
-        // 1er onglet
-        itemQuitter.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-		System.exit(EXIT_ON_CLOSE);}});
-        
-         itemNouvellefenetre.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-		    VoyageurDeCommerceInterface vdci = new VoyageurDeCommerceInterface(false);                         
-                }});
-         
-        itemNouveau.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { 
-                int nrowIni = modelTableau.getRowCount();
-                 for (int i=0; i<nrowIni;i++){
-                modelTableau.removeData(modelTableau.getRowCount()-1);}
-                getCarteVoyageurDeCommerce().getListe_villes().removeAll(getCarteVoyageurDeCommerce().getListe_villes());
-                getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
-                map.bool=true;}});
-        itemSauvegarder.addActionListener(this.itemSauvegarder);
-        itemOuvrir.addActionListener(this.itemOuvrir);
+        // 3eme onglet
+
 
         pack();
-
     }
-
+    // Fin Constructeur
+    
+    // Méthodes
     private void addJMenuBar() {
         JMenuBar menu = new JMenuBar();
         JMenu menuFichier = new JMenu("Fichier");
         itemNouveau = new JMenuItem("Nouveau");
-        itemNouvellefenetre = new JMenuItem("Nouvelle fenêtre");
-        itemOuvrir = new ItemOuvrir("Ouvrir",this);
-        itemSauvegarder = new ItemSauvegarder("Enregistrer sous",this);
+        setItemNouvellefenetre(new ItemNouvelleFenetre("Nouvelle fenêtre"));
+        itemOuvrir = new ItemOuvrir("Ouvrir", this);
+        itemEnregistrer = new ItemSauvegarder("Enregistrer", this);
+        itemEnregistrerSous = new ItemSauvegarder("Enregistrer Sous", this);
+
         itemQuitter = new JMenuItem("Quitter");
 
         menuFichier.add(itemNouveau);
-        menuFichier.add(itemNouvellefenetre);
+        menuFichier.add(getItemNouvellefenetre());
         menuFichier.add(itemOuvrir);
-        menuFichier.add(itemSauvegarder);
+        menuFichier.add(itemEnregistrer);
+        menuFichier.add(itemEnregistrerSous);
         menuFichier.add(itemQuitter);
         menu.add(menuFichier);
 
@@ -214,7 +222,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
         //map.add(city);
         map.repaint();
-        
+
         content.add(map, BorderLayout.CENTER);
     }
 
@@ -232,34 +240,34 @@ public class VoyageurDeCommerceInterface extends JFrame {
     }
 
     private void addJTable(Container content) {
-    // Le tableau des distances        
+        // Le tableau des distances        
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new FlowLayout());
         this.modelTableau = new ModelTable();
         tableau = new JTable(this.getModelTableau());
-        miseEnForme(tableau);        
-        JScrollPane js=new JScrollPane(tableau);
-        js.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));        
-        panelTable.add(js,BorderLayout.EAST);
+        miseEnForme(tableau);
+        JScrollPane js = new JScrollPane(tableau);
+        js.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        panelTable.add(js, BorderLayout.EAST);
         panelTable.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-    // Le bouton valider    
+        // Le bouton valider    
         JPanel panelBouton = new JPanel();
         panelBouton.setLayout(new FlowLayout());
-        boutonValider = new boutonValider("Valider",this);
-        panelBouton.add(boutonValider,BorderLayout.WEST);
+        boutonValider = new boutonValider("Valider", this);
+        panelBouton.add(boutonValider, BorderLayout.WEST);
         panelBouton.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelTable, panelBouton);
         sp.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-    // Les deux    
+        // Les deux    
         JPanel panelDouble = new JPanel();
         panelDouble.setLayout(new FlowLayout());
-        panelDouble.add(sp,BorderLayout.EAST);
+        panelDouble.add(sp, BorderLayout.EAST);
         panelDouble.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        content.add(panelDouble,BorderLayout.EAST);
-        
+        content.add(panelDouble, BorderLayout.EAST);
+
     }
 
-    private void miseEnForme(JTable jt){
+    private void miseEnForme(JTable jt) {
         // Mettre à jour le rendu des lignes et du hearder (style modifiable dans RenduHeaderTableau et RenduTableau)
         jt.getColumnModel().getColumn(0).setCellRenderer(new RenduTableau());
         jt.getColumnModel().getColumn(1).setCellRenderer(new RenduTableau());
@@ -268,8 +276,9 @@ public class VoyageurDeCommerceInterface extends JFrame {
         jt.getColumnModel().getColumn(1).setHeaderRenderer(new RenduHeaderTableau());
         jt.getColumnModel().getColumn(2).setHeaderRenderer(new RenduHeaderTableau());
     }
+
     
-    
+    //Getters and Setters
     public Carte getCarteVoyageurDeCommerce() {
         return carteVoyageurDeCommerce;
     }
@@ -294,12 +303,12 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.itemOuvrir = itemOuvrir;
     }
 
-    public JMenuItem getItemSauvegarder() {
-        return itemSauvegarder;
+    public JMenuItem getItemEnregistrerSous() {
+        return itemEnregistrerSous;
     }
 
-    public void setItemSauvegarder(ItemSauvegarder itemSauvegarder) {
-        this.itemSauvegarder = itemSauvegarder;
+    public void setItemEnregistrerSous(ItemSauvegarder itemSauvegarder) {
+        this.itemEnregistrerSous = itemSauvegarder;
     }
 
     public JMenuItem getItemQuitter() {
@@ -309,7 +318,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     public void setItemQuitter(JMenuItem itemQuitter) {
         this.itemQuitter = itemQuitter;
     }
-    
+
     public JMenuItem getItemComparaison() {
         return itemComparaison;
     }
@@ -365,52 +374,41 @@ public class VoyageurDeCommerceInterface extends JFrame {
     public void setTableau(JTable tableau) {
         this.tableau = tableau;
     }
-    
 
-    public static void main(String[] args) {
-        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);
-        
-    }
-
-    /**
-     * @return the plusProcheVoisin
-     */
     public JMenuItem getPlusProcheVoisin() {
         return plusProcheVoisin;
     }
 
-    /**
-     * @return the plusEloignes
-     */
     public JMenuItem getPlusEloignes() {
         return plusEloignes;
     }
 
-    /**
-     * @return the moindreCout
-     */
     public JMenuItem getMoindreCout() {
         return moindreCout;
     }
 
-    /**
-     * @return the kruskal
-     */
     public JMenuItem getKruskal() {
         return kruskal;
     }
 
-    /**
-     * @return the prim
-     */
     public JMenuItem getPrim() {
         return prim;
     }
 
-    /**
-     * @return the modelTableau
-     */
     public ModelTable getModelTableau() {
         return modelTableau;
+    }
+
+    public ItemNouvelleFenetre getItemNouvellefenetre() {
+        return itemNouvellefenetre;
+    }
+
+    public void setItemNouvellefenetre(ItemNouvelleFenetre itemNouvellefenetre) {
+        this.itemNouvellefenetre = itemNouvellefenetre;
+    }
+    
+    
+    public static void main(String[] args) {
+        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);
     }
 }

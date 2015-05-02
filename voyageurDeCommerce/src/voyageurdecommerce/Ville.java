@@ -5,6 +5,8 @@
  */
 package voyageurdecommerce;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Melany
@@ -12,29 +14,21 @@ package voyageurdecommerce;
 public class Ville extends Noeud{
     private String nom;
     
- // Getters and Setters
+    public Ville(String nom,int posX, int posY){
+        super(posX,posY);
+        this.nom=nom;
+    }
+  
+// Getters and Setters
         public String getNom() {
         return nom;
     }
 
     public void setNom(String nom) {
         this.nom = nom;
-    }  
-
-// Constructor
-    public Ville(String nom,int posX, int posY){
-        super(posX,posY);
-        this.nom=nom;
-    }
-
-
-
-    
+    }      
     
 // Pour tester si besoin
     public static void main(String[] args) {
-
-}
-
-
+    }
 }
