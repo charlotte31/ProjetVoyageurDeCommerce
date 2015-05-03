@@ -131,7 +131,7 @@ public class MapPanel extends JPanel {
                 g1.drawPolyline(xs, ys, ys.length);
 
             }
-            if (chemin.size() != 0) {
+            if (chemin.size() != 0 ) {
 
                 float[] style = {10, 5};
                 g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
@@ -145,11 +145,14 @@ public class MapPanel extends JPanel {
             }
         } 
         else {
-            //super.paintComponent(g);
+            //super.paintComponent(g1);
+            //g2d.drawImage(background, 0,0, this);
             g1.drawImage(background, 0, 0, this);
             repaint();
+            chemin.removeAll(chemin);
             bool = false;
         }
+        
     }
 
     public void addVilleSurvoleeListener(VilleSurvoleeListener listener) {

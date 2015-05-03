@@ -121,7 +121,7 @@ public class ItemComparaison extends JMenuItem implements ActionListener{
         JPanel jp = new JPanel(new GridLayout(1,2));
         jp.setBackground(new Color(9,2,46));
         cgb = new CurrentGraphButton("Graphe courant");
-        rgb = new RandonGraphButton("Graphe aléatoire");
+        rgb = new RandonGraphButton("Graphe aléatoire", vdci);
         jp.add(cgb);
         jp.add(rgb);
         c.add(jl);
