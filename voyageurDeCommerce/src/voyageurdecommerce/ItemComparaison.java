@@ -48,6 +48,7 @@ public class ItemComparaison extends JMenuItem implements ActionListener{
     private JCheckBox cb4;
     private JCheckBox cb5;
     private BufferedImage background;
+    private RandomHisto randomHisto;
     
     public ItemComparaison(String nom, VoyageurDeCommerceInterface vdci){
         super(nom);
@@ -68,7 +69,10 @@ public class ItemComparaison extends JMenuItem implements ActionListener{
         c.setBackground(new Color(9,2,46));
         addAlgorithmChoice(c);
         addRunChoice(c);
-        rgb.addActionListener(rgb);
+        vdci.getItemGeneration().actionPerformed(e);
+        vdci.getPlusProcheVoisin().actionPerformed(e);
+        vdci.getMoindreCout().actionPerformed(e);
+        RandomHisto rh = new RandomHisto("test","t",vdci);
 
     
     }

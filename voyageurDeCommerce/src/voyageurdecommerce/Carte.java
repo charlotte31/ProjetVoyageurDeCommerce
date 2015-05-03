@@ -351,9 +351,9 @@ public class Carte {
 
         // Pour tester
         System.out.println("Le chemin le plus court est :");
-        for (int i = 0; i < chemin.size(); i++) {
-            System.out.println(chemin.get(i).getNom());
-        }
+ //       for (int i = 0; i < chemin.size(); i++) {
+ //           System.out.println(chemin.get(i).getNom());
+ //       }
     //System.out.println("Distance de ce chemin: "+distance); 
         //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);

@@ -54,11 +54,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private ItemSauvegarder itemEnregistrer;
     private JMenuItem itemQuitter;
 
-    private AlgorithmeApplication plusProcheVoisin;
-    private AlgorithmeApplication plusEloignes;
-    private AlgorithmeApplication moindreCout;
-    private AlgorithmeApplication kruskal;
-    private AlgorithmeApplication prim;
+    private ItemAlgorithme plusProcheVoisin;
+    private ItemAlgorithme plusEloignes;
+    private ItemAlgorithme moindreCout;
+    private ItemAlgorithme kruskal;
+    private ItemAlgorithme prim;
 
     private ItemComparaison itemComparaison;
     private ItemGeneration itemGeneration;
@@ -69,7 +69,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private JLabel labelY;
     private JLabel labelVille;
 
-    private boutonValider boutonValider;
+    private BoutonValider boutonValider;
 
     private boolean b;
     private JTable tableau;
@@ -195,11 +195,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
         menu.add(menuFichier);
 
         JMenu menuCalculer = new JMenu("Calculer");
-        plusProcheVoisin = new AlgorithmeApplication("plusProcheVoisin", this);
-        plusEloignes = new AlgorithmeApplication("plusEloignes", this);
-        moindreCout = new AlgorithmeApplication("moindreCout", this);
-        kruskal = new AlgorithmeApplication("Kruskal", this);
-        prim = new AlgorithmeApplication("Prim", this);
+        plusProcheVoisin = new ItemAlgorithme("plusProcheVoisin", this);
+        plusEloignes = new ItemAlgorithme("plusEloignes", this);
+        moindreCout = new ItemAlgorithme("moindreCout", this);
+        kruskal = new ItemAlgorithme("Kruskal", this);
+        prim = new ItemAlgorithme("Prim", this);
         menuCalculer.add(plusProcheVoisin);
         menuCalculer.add(plusEloignes);
         menuCalculer.add(moindreCout);
@@ -272,7 +272,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         // Le bouton valider    
         JPanel panelBouton = new JPanel();
         panelBouton.setLayout(new FlowLayout());
-        boutonValider = new boutonValider("Valider", this);
+        boutonValider = new BoutonValider("Valider", this);
 
 
         panelBouton.add(boutonValider, BorderLayout.SOUTH);
@@ -407,23 +407,23 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.tableau = tableau;
     }
 
-    public JMenuItem getPlusProcheVoisin() {
+    public ItemAlgorithme getPlusProcheVoisin() {
         return plusProcheVoisin;
     }
 
-    public JMenuItem getPlusEloignes() {
+    public ItemAlgorithme getPlusEloignes() {
         return plusEloignes;
     }
 
-    public JMenuItem getMoindreCout() {
+    public ItemAlgorithme getMoindreCout() {
         return moindreCout;
     }
 
-    public JMenuItem getKruskal() {
+    public ItemAlgorithme getKruskal() {
         return kruskal;
     }
 
-    public JMenuItem getPrim() {
+    public ItemAlgorithme getPrim() {
         return prim;
     }
 

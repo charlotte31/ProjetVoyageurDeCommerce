@@ -57,11 +57,15 @@ public class MapPanel extends JPanel {
     private List<VilleSurvoleeListener> ville_survolee_listeners;
     private HashMap<Algorithme, ArrayList<String>> hashChemin;
     private ArrayList<Ville> chemin;
+    private float distance;
+    private long temps;
     private boolean bool;
 
     public MapPanel() {
         hashChemin = new HashMap(new Hashtable<Algorithme, ArrayList<String>>());
         chemin = new ArrayList<Ville>();
+        distance = -1;
+        temps=-1;
         bool = false;
         try {
             background = ImageIO.read(new File("./ressources/france2.png"));
@@ -81,7 +85,7 @@ public class MapPanel extends JPanel {
                     //liste_villes.add(ville);
                     getCarte().ajouterNoeud(ville);
                     getCarte().creerClique();
-                    System.out.println("(Map Panel Class)Test: nb ville = " + carte.getListe_villes().size());
+                    System.out.println("(Map Panel Class)Test: nb ville = " + getCarte().getListe_villes().size());
                 }
                 repaint();
             }
@@ -212,6 +216,41 @@ public class MapPanel extends JPanel {
      */
     public void setBool(boolean bool) {
         this.bool = bool;
+    }
+
+    /**
+     * @param carte the carte to set
+     */
+    public void setCarte(Carte carte) {
+        this.carte = carte;
+    }
+
+    /**
+     * @return the distance
+     */
+    public float getDistance() {
+        return distance;
+    }
+
+    /**
+     * @param distance the distance to set
+     */
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
+    /**
+     * @return the temps
+     */
+    public long getTemps() {
+        return temps;
+    }
+
+    /**
+     * @param temps the temps to set
+     */
+    public void setTemps(long temps) {
+        this.temps = temps;
     }
 
 }

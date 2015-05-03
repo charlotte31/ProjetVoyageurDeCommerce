@@ -5,6 +5,8 @@
  */
 package voyageurdecommerce;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -19,20 +21,23 @@ import org.jfree.ui.RefineryUtilities;
  * @author Melany
  */
 public class RandomHisto extends ApplicationFrame{
-    
-   public RandomHisto( String applicationTitle , String chartTitle )
+   private VoyageurDeCommerceInterface vdci;
+   public RandomHisto( String applicationTitle , String chartTitle,VoyageurDeCommerceInterface vdci)
    {
-      super( applicationTitle );        
-       JFreeChart barChart = ChartFactory.createBarChart(
+      super( applicationTitle );
+      this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+      this.vdci=vdci;
+       JFreeChart barChart = ChartFactory.createBarChart3D(
          chartTitle,           
-         "Category",            
+         "Paramètres",            
          "Score",            
          createDataset(),          
                PlotOrientation.VERTICAL,           
          true, true, false);
          
        ChartPanel chartPanel = new ChartPanel( barChart );        
-      chartPanel.setPreferredSize(new java.awt.Dimension( 560 , 367 ) );        
+      chartPanel.setPreferredSize(new java.awt.Dimension( 600 , 400 ) );        
+      setBackground(new Color(10,59,89));
       setContentPane( chartPanel ); 
        pack( );        
        RefineryUtilities.centerFrameOnScreen( this );        
@@ -40,36 +45,69 @@ public class RandomHisto extends ApplicationFrame{
    }
    private CategoryDataset createDataset( )
    {
-      final String fiat = "FIAT";        
-      final String audi = "AUDI";        
-      final String ford = "FORD";        
-      final String speed = "Speed";        
-      final String millage = "Millage";        
-      final String userrating = "User Rating";        
-      final String safety = "safety";        
+      final String ppv = Algorithme.plusProcheVoisin.toString();        
+      final String pe = Algorithme.plusEloignes.toString();        
+      final String mc = Algorithme.moindreCout.toString();
+      final String prim = Algorithme.Prim.toString();
+      final String kruskal = Algorithme.Kruskal.toString();
+      
+      final String temps = "Speed";        
+      final String distance = "Distance";                
       final DefaultCategoryDataset dataset = 
       new DefaultCategoryDataset();  
 
-      dataset.addValue( 1.0 , fiat , speed );        
-      dataset.addValue( 3.0 , fiat , userrating );        
-      dataset.addValue( 5.0 , fiat , millage ); 
-      dataset.addValue( 5.0 , fiat , safety );           
+      
+     Iterator<Algorithme> keySetIterator = vdci.getMap().getHashChemin().keySet().iterator();
+     while (keySetIterator.hasNext()) {
+     Algorithme key = keySetIterator.next();
+        float d = vdci.getMap().getDistance();
+        long t = vdci.getMap().getTemps();
+        dataset.addValue(d, key.toString(), distance);
+        dataset.addValue(t, key.toString(), temps);
+                            
+                        }      
+      //dataset.addValue( 100 , fiat , speed );        
+      //dataset.addValue( 300 , fiat , userrating );        
+      //dataset.addValue( 50 , fiat , millage ); 
+      //dataset.addValue( 50 , fiat , safety );           
 
-      dataset.addValue( 5.0 , audi , speed );        
-      dataset.addValue( 6.0 , audi , userrating );       
-      dataset.addValue( 10.0 , audi , millage );        
-      dataset.addValue( 4.0 , audi , safety );
+      //dataset.addValue( 5.0 , audi , speed );        
+      //dataset.addValue( 6.0 , audi , userrating );       
+     // dataset.addValue( 10.0 , audi , millage );        
+      //dataset.addValue( 4.0 , audi , safety );
 
-      dataset.addValue( 4.0 , ford , speed );        
-      dataset.addValue( 2.0 , ford , userrating );        
-      dataset.addValue( 3.0 , ford , millage );        
-      dataset.addValue( 6.0 , ford , safety );               
+      //dataset.addValue( 4.0 , ford , speed );        
+      //dataset.addValue( 2.0 , ford , userrating );        
+      //dataset.addValue( 3.0 , ford , millage );        
+      //dataset.addValue( 6.0 , ford , safety );               
 
       return dataset; 
    }
    public static void main( String[ ] args )
    {
-      RandomHisto chart = new RandomHisto("Car Usage Statistics", "Which car do you like?");
+               Ville v1 = new Ville("Toulouse", 0, 100);
+        Ville v2 = new Ville("Paris", 100, 500);
+        Ville v3 = new Ville("Nord", 700, 300);
+        Ville v4 = new Ville("Marseille", 200, 20);
+        Ville v5 = new Ville("Bordeaux", 500, 200);
+        
+        VoyageurDeCommerceInterface vdci = new VoyageurDeCommerceInterface(false);
+                
+        vdci.setCarteVoyageurDeCommerce(new Carte());
+        vdci.getCarteVoyageurDeCommerce().ajouterNoeud(v1);
+        vdci.getCarteVoyageurDeCommerce().ajouterNoeud(v2);
+        vdci.getCarteVoyageurDeCommerce().ajouterNoeud(v3);
+        vdci.getCarteVoyageurDeCommerce().ajouterNoeud(v4);
+        vdci.getCarteVoyageurDeCommerce().ajouterNoeud(v5);
+       vdci.getCarteVoyageurDeCommerce().creerClique();
+vdci.getMap().setCarte(vdci.getCarteVoyageurDeCommerce());
+        
+        ArrayList<Object> list1 = vdci.getCarteVoyageurDeCommerce().insertionPlusEloignes(v5);
+        ArrayList<Object> list2 = vdci.getCarteVoyageurDeCommerce().moindreCout(v5);
+        vdci.getMap().setHashChemin(Algorithme.plusEloignes, (ArrayList<String>)list1.get(0));
+        vdci.getMap().setHashChemin(Algorithme.moindreCout, (ArrayList<String>)list2.get(0));
+
+      RandomHisto chart = new RandomHisto("Car Usage Statistics", "Which car do you like?",vdci);
 
    }
 }

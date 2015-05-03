@@ -23,11 +23,11 @@ import javax.swing.JOptionPane;
  * le constructure de la classe VoyageurDeCommerceInterface qui est déjà bien remplie. Histoire de s'y retrouver
  */
 
-public class AlgorithmeApplication extends JMenuItem implements ActionListener {
+public class ItemAlgorithme extends JMenuItem implements ActionListener {
 
     private VoyageurDeCommerceInterface vdci;
     
-    public AlgorithmeApplication(String m, VoyageurDeCommerceInterface vdci){
+    public ItemAlgorithme(String m, VoyageurDeCommerceInterface vdci){
         super(m);
         this.vdci=vdci;        
     }
@@ -56,6 +56,8 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
                     //repaint();
                     vdci.getMap().setHashChemin(Algorithme.plusProcheVoisin, resString);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
+                    vdci.getMap().setDistance((float)res.get(1));
+                    vdci.getMap().setTemps((long)res.get(2));
                     vdci.getMap().repaint();
                 }
                 if (super.getText().equals("moindreCout")) {
@@ -65,6 +67,8 @@ public class AlgorithmeApplication extends JMenuItem implements ActionListener {
                             + resString + " - " + res.get(1) + " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.moindreCout, resString);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
+                    vdci.getMap().setDistance((float)res.get(1));
+                    vdci.getMap().setTemps((long)res.get(2));
                 }
                 if (super.getText().equals("plusEloignes")) {
                     JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"

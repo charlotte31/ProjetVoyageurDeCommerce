@@ -23,12 +23,12 @@ import javax.swing.JPanel;
  * Permet de définir la méthode rendant le bouton valider fonctionnel. Quand l'utilisateur cliquera dessus, les 
  * informations concernant les arcs du graphe qu'il a créé seront ajoutées dans le tableau
  */
-public class boutonValider extends JButton implements ActionListener{
+public class BoutonValider extends JButton implements ActionListener{
     
     private VoyageurDeCommerceInterface vdci;
     private Object g;
     
-    public boutonValider(String nom, VoyageurDeCommerceInterface vdci){
+    public BoutonValider(String nom, VoyageurDeCommerceInterface vdci){
         super(nom);
         this.vdci=vdci;     
     }

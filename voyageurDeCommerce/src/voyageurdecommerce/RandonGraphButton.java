@@ -27,6 +27,10 @@ public class RandonGraphButton extends JButton implements ActionListener{
         randomCarte=new Carte();
         this.vdci=vdci;
     }
+    
+    public void getRandomGraph(){
+        
+    }
     public void actionPerformed(ActionEvent e) {
         String nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
         nbVilles = Integer.parseInt(nom);
