@@ -61,7 +61,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private AlgorithmeApplication prim;
 
     private ItemComparaison itemComparaison;
-    private JMenuItem itemGeneration;
+    private ItemGeneration itemGeneration;
     private ItemNouvelleFenetre itemNouvellefenetre;
     private MapPanel map;
 
@@ -144,7 +144,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
                 }
                 getCarteVoyageurDeCommerce().getListe_villes().removeAll(getCarteVoyageurDeCommerce().getListe_villes());
                 getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
-                map.bool = true;
+                map.setBool(true);
             }
         });       
         itemQuitter.addActionListener(new ActionListener() {
@@ -165,6 +165,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         
         // 3eme onglet
         itemComparaison.addActionListener(itemComparaison);
+        itemGeneration.addActionListener(itemGeneration);
 
 
         pack();
@@ -208,7 +209,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
         JMenu menuOutil = new JMenu("Outil");
         itemComparaison = new ItemComparaison("Comparaison",this);
-        itemGeneration = new JMenuItem("Generation");
+        itemGeneration = new ItemGeneration("Generation",this);
         menuOutil.add(itemComparaison);
         menuOutil.add(itemGeneration);
         menu.add(menuOutil);
@@ -334,7 +335,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.itemOuvrir = itemOuvrir;
     }
 
-    public JMenuItem getItemEnregistrerSous() {
+    public ItemSauvegarder getItemEnregistrerSous() {
         return itemEnregistrerSous;
     }
 
@@ -358,11 +359,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.itemComparaison = itemComparaison;
     }
 
-    public JMenuItem getItemGeneration() {
+    public ItemGeneration getItemGeneration() {
         return itemGeneration;
     }
 
-    public void setItemGeneration(JMenuItem itemGeneration) {
+    public void setItemGeneration(ItemGeneration itemGeneration) {
         this.itemGeneration = itemGeneration;
     }
 

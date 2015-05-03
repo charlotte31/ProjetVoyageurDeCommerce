@@ -31,14 +31,14 @@ public class RandonGraphButton extends JButton implements ActionListener{
         String nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
         nbVilles = Integer.parseInt(nom);
         while (nbVilles<2 | nom==null){
-            nom = JOptionPane.showInputDialog("Incorrect! entrez au moins 2 villes.", "");
+            nom = JOptionPane.showInputDialog("Saisie incorrecte! entrez au moins 2 villes", "");
             nbVilles = Integer.parseInt(nom);}
         for (int i=0; i<nbVilles;i++){
             Double posX=Math.random()*580+1;
             int pos_X=posX.intValue();
             Double posY=Math.random()*533+1;
             int pos_Y=posY.intValue();
-            vdci.getCarteVoyageurDeCommerce().getListe_villes().add(new Ville(String.valueOf(i),pos_X,pos_Y));
+            vdci.getCarteVoyageurDeCommerce().ajouterNoeud(new Ville(String.valueOf(i),pos_X,pos_Y));
 
         }
         vdci.getCarteVoyageurDeCommerce().creerClique();

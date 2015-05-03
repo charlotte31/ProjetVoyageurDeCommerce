@@ -57,7 +57,7 @@ public class MapPanel extends JPanel {
     private List<VilleSurvoleeListener> ville_survolee_listeners;
     private HashMap<Algorithme, ArrayList<String>> hashChemin;
     private ArrayList<Ville> chemin;
-    boolean bool;
+    private boolean bool;
 
     public MapPanel() {
         hashChemin = new HashMap(new Hashtable<Algorithme, ArrayList<String>>());
@@ -119,7 +119,7 @@ public class MapPanel extends JPanel {
         g1.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
         g1.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
-        if (bool == false) { // Pour rendre fonctionel l'item "Nouvelle Fenetre" : permet de la remettre à blanc
+        if (isBool() == false) { // Pour rendre fonctionel l'item "Nouvelle Fenetre" : permet de la remettre à blanc
             for (Ville ville : getCarte().getListe_villes()) {
                 g1.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
                 g1.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
@@ -149,8 +149,8 @@ public class MapPanel extends JPanel {
             //g2d.drawImage(background, 0,0, this);
             g1.drawImage(background, 0, 0, this);
             repaint();
-            chemin.removeAll(chemin);
-            bool = false;
+            //chemin.removeAll(chemin);
+            setBool(false);
         }
         
     }
@@ -198,6 +198,20 @@ public class MapPanel extends JPanel {
      */
     public void setHashChemin(Algorithme algo, ArrayList<String> chemin) {
         this.hashChemin.put(algo, chemin);;
+    }
+
+    /**
+     * @return the bool
+     */
+    public boolean isBool() {
+        return bool;
+    }
+
+    /**
+     * @param bool the bool to set
+     */
+    public void setBool(boolean bool) {
+        this.bool = bool;
     }
 
 }
