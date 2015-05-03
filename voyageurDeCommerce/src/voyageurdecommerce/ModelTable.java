@@ -27,6 +27,7 @@ public class ModelTable extends AbstractTableModel {
         super();
         donnees = new ArrayList<Arc>();
         entetes = new String[]{"Ville 1", "Ville 2", "Distance"};
+        
 
     }
 

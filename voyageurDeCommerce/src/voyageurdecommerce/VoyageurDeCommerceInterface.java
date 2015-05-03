@@ -5,23 +5,19 @@
  */
 package voyageurdecommerce;
 
-import com.sun.webkit.graphics.WCImage;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Arc2D;
-import java.awt.image.BufferedImage;
-import static java.awt.image.ImageObserver.WIDTH;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.Skin;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -29,14 +25,15 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.Popup;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
+
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
 
 import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
@@ -63,7 +60,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private AlgorithmeApplication kruskal;
     private AlgorithmeApplication prim;
 
-    private JMenuItem itemComparaison;
+    private ItemComparaison itemComparaison;
     private JMenuItem itemGeneration;
     private ItemNouvelleFenetre itemNouvellefenetre;
     private MapPanel map;
@@ -83,6 +80,13 @@ public class VoyageurDeCommerceInterface extends JFrame {
     public VoyageurDeCommerceInterface(boolean b) {
         // Contenu principal
         super("Voyageur de commerce");
+        setLocation(150,50);
+
+        try { 
+            UIManager.setLookAndFeel( new NimbusLookAndFeel());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(VoyageurDeCommerceInterface.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.b = b;
         if (b == true) {
             String s = "                             PROJET JAVA 2015\n   "
@@ -92,11 +96,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
                     + "  Commencez par sélectionner vos villes en cliquant\n sur la carte afin de les enregistrer"
                     + "puis valider\n                         lorsque vous avez terminé. \n"
                     + "      Profitez ensuite des algorithmes à disposition !";
-
-            JOptionPane.showMessageDialog(map, s, "Charlotte Ramé, Mélany Tanchon", 2, new ImageIcon("./resources/Img_accueil.png"));
+            JOptionPane.showMessageDialog(map, s, "Charlotte Ramé, Mélany Tanchon", 2, new ImageIcon("./ressources/Img_accueil.png"));
+            
         }
 
-        this.setPreferredSize(new Dimension(1000, 600));
+        this.setPreferredSize(new Dimension(1060, 600));
         this.setResizable(false);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setVisible(true);
@@ -160,16 +164,19 @@ public class VoyageurDeCommerceInterface extends JFrame {
         prim.addActionListener(prim);
         
         // 3eme onglet
+        itemComparaison.addActionListener(itemComparaison);
 
 
         pack();
     }
     // Fin Constructeur
-    
+
     // Méthodes
     private void addJMenuBar() {
         JMenuBar menu = new JMenuBar();
         JMenu menuFichier = new JMenu("Fichier");
+
+
         itemNouveau = new JMenuItem("Nouveau");
         setItemNouvellefenetre(new ItemNouvelleFenetre("Nouvelle fenêtre"));
         itemOuvrir = new ItemOuvrir("Ouvrir", this);
@@ -200,7 +207,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         menu.add(menuCalculer);
 
         JMenu menuOutil = new JMenu("Outil");
-        itemComparaison = new JMenuItem("Comparaison");
+        itemComparaison = new ItemComparaison("Comparaison",this);
         itemGeneration = new JMenuItem("Generation");
         menuOutil.add(itemComparaison);
         menuOutil.add(itemGeneration);
@@ -212,7 +219,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
     private void addJpanel(Container content) {
         map = new MapPanel();
         map.setSize(600, 400);
-//        ImageIcon icon = new ImageIcon("./resources/France.png");
+//        ImageIcon icon = new ImageIcon("./ressources/France.png");
 //        JLabel img = new JLabel(icon);
 //        map.add(img);
         map.setLayout(new FlowLayout());
@@ -228,42 +235,66 @@ public class VoyageurDeCommerceInterface extends JFrame {
 
     private void addJLabel(Container content) {
         JPanel panelInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelInfo.setBackground(new Color(10,59,89));
         labelX = new JLabel("X");
         labelY = new JLabel("Y");
         labelVille = new JLabel("Ville");
+        labelX.setForeground(Color.white);
+        labelY.setForeground(Color.white);
+        labelVille.setForeground(Color.white);
 
         panelInfo.add(labelVille);
         panelInfo.add(labelX);
         panelInfo.add(labelY);
 
         content.add(panelInfo, BorderLayout.SOUTH);
+
     }
 
     private void addJTable(Container content) {
         // Le tableau des distances        
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new FlowLayout());
+        panelTable.setBackground(new Color(10,59,89));
+        
         this.modelTableau = new ModelTable();
         tableau = new JTable(this.getModelTableau());
+        tableau.setBackground(Color.red);
         miseEnForme(tableau);
         JScrollPane js = new JScrollPane(tableau);
-        js.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        js.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.white));
+        js.setBackground(new Color(10,59,89));
+
+        
         panelTable.add(js, BorderLayout.EAST);
-        panelTable.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        panelTable.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.yellow));
         // Le bouton valider    
         JPanel panelBouton = new JPanel();
         panelBouton.setLayout(new FlowLayout());
         boutonValider = new boutonValider("Valider", this);
-        panelBouton.add(boutonValider, BorderLayout.WEST);
-        panelBouton.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+
+        panelBouton.add(boutonValider, BorderLayout.SOUTH);
+        panelBouton.setBorder(BorderFactory.createMatteBorder(0, 2,2 , 2, Color.yellow));
+        panelBouton.setBackground(new Color(10,59,89));    
+
+
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelTable, panelBouton);
-        sp.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        sp.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
+        sp.setDividerSize(0);
+        sp.setDividerLocation(450);
+
+        sp.setBackground(Color.yellow);
+        
         // Les deux    
         JPanel panelDouble = new JPanel();
         panelDouble.setLayout(new FlowLayout());
-        panelDouble.add(sp, BorderLayout.EAST);
-        panelDouble.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        panelDouble.setBackground(new Color(10,59,89));
+        sp.setPreferredSize(new Dimension(470,515));
+        panelDouble.add(sp);
+        panelDouble.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         content.add(panelDouble, BorderLayout.EAST);
+        
 
     }
 
@@ -319,11 +350,11 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.itemQuitter = itemQuitter;
     }
 
-    public JMenuItem getItemComparaison() {
+    public ItemComparaison getItemComparaison() {
         return itemComparaison;
     }
 
-    public void setItemComparaison(JMenuItem itemComparaison) {
+    public void setItemComparaison(ItemComparaison itemComparaison) {
         this.itemComparaison = itemComparaison;
     }
 

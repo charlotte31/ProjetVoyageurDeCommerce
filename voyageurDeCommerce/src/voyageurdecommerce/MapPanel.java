@@ -64,7 +64,7 @@ public class MapPanel extends JPanel {
         chemin = new ArrayList<Ville>();
         bool = false;
         try {
-            background = ImageIO.read(new File("./resources/france.gif"));
+            background = ImageIO.read(new File("./ressources/france2.png"));
         } 
         catch (IOException ex) {
             Logger.getLogger(MapPanel.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,7 +75,7 @@ public class MapPanel extends JPanel {
         
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                String nom = JOptionPane.showInputDialog("Nom de la ville à ajouter", "votre recherche");
+                String nom = JOptionPane.showInputDialog("Nom de la ville à ajouter", "votre ville");
                 if (nom != null) {
                     Ville ville = new Ville(nom, e.getX(), e.getY());
                     //liste_villes.add(ville);
@@ -95,6 +95,7 @@ public class MapPanel extends JPanel {
                     if (e.getX() > v.getPosition_x() - 4 && e.getX() < v.getPosition_x() + 15
                             && e.getY() > v.getPosition_y() - 4 && e.getY() < v.getPosition_y() + 15) {
                         int posX = v.getPosition_x();
+                        
                         int posY = v.getPosition_y();
                         String nom = v.getNom();
                         fireEventVilleSurvolee(new EventVilleSurvolee(this, nom, posX, posY));
@@ -112,27 +113,29 @@ public class MapPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g.drawImage(background, 0, 0, this);
-        g.setColor(new Color(0, 150, 55));
-        g.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
+        Graphics2D g1 = (Graphics2D) g;
+        g1.drawImage(background, 0, 0, this);
+        g1.setColor(Color.yellow);
+        g1.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+        g1.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
 
         if (bool == false) { // Pour rendre fonctionel l'item "Nouvelle Fenetre" : permet de la remettre à blanc
             for (Ville ville : getCarte().getListe_villes()) {
-                g.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
-                g.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
+                g1.drawString(ville.getNom(), ville.getPosition_x(), ville.getPosition_y());
+                g1.drawOval(ville.getPosition_x(), ville.getPosition_y(), 10, 10);
             }
             for (Arc a : getCarte().getListe_arcs()) {
-                g.setColor(Color.red);
+                g1.setColor(Color.LIGHT_GRAY);
                 int[] xs = {a.getV1().getPosition_x(), a.getV2().getPosition_x()};
                 int[] ys = {a.getV1().getPosition_y(), a.getV2().getPosition_y()};
-                g.drawPolyline(xs, ys, ys.length);
+                g1.drawPolyline(xs, ys, ys.length);
 
             }
             if (chemin.size() != 0) {
 
                 float[] style = {10, 5};
                 g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-                g2d.setColor(Color.BLUE);
+                g2d.setColor(Color.YELLOW);
                 g2d.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
                 for (int i = 0; i < chemin.size() - 1; i++) {
                     g2d.drawString(chemin.get(0).getNom(), chemin.get(0).getPosition_x(), chemin.get(0).getPosition_y());
@@ -143,7 +146,7 @@ public class MapPanel extends JPanel {
         } 
         else {
             //super.paintComponent(g);
-            g.drawImage(background, 0, 0, this);
+            g1.drawImage(background, 0, 0, this);
             repaint();
             bool = false;
         }

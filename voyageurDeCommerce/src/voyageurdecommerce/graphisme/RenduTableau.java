@@ -7,7 +7,9 @@ package voyageurdecommerce.graphisme;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,7 +33,9 @@ public class RenduTableau extends DefaultTableCellRenderer implements TableCellR
         Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         ((JLabel) cell).setHorizontalAlignment(JLabel.CENTER);
         setFont(new Font("Arial",Font.BOLD,13));
-        super.setForeground(new Color(0,56,41));
+        cell.setBackground(new Color(10,59,89));
+        cell.setForeground(Color.white);
+        super.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
  
  return cell;
  }

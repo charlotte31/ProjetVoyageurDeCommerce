@@ -5,10 +5,14 @@
  */
 package voyageurdecommerce;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -24,8 +28,8 @@ public class boutonValider extends JButton implements ActionListener{
     private VoyageurDeCommerceInterface vdci;
     private Object g;
     
-    public boutonValider(String nom_bouton, VoyageurDeCommerceInterface vdci){
-        super(nom_bouton);
+    public boutonValider(String nom, VoyageurDeCommerceInterface vdci){
+        super(nom);
         this.vdci=vdci;     
     }
     
