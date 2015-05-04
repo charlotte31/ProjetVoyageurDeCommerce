@@ -11,5 +11,5 @@ package voyageurdecommerce;
  * lorsque l'utilisateur clique sur un item donné
  */
 public enum Algorithme {
-    None, plusProcheVoisin,plusEloignes, moindreCout, Kruskal, Prim
+    plusProcheVoisin,plusEloignes, moindreCout, Kruskal, Prim
 }
