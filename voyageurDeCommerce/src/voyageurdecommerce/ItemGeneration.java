@@ -36,8 +36,9 @@ public class ItemGeneration extends JMenuItem implements ActionListener {
 
             vdci_courant.getCarteVoyageurDeCommerce().getListe_villes().removeAll(vdci_courant.getCarteVoyageurDeCommerce().getListe_villes());
             vdci_courant.getCarteVoyageurDeCommerce().getListe_arcs().removeAll(vdci_courant.getCarteVoyageurDeCommerce().getListe_arcs());
-        //vdci_courant.getMap().setBool(true);
-            //vdci_courant.getMap().repaint();
+            
+            vdci_courant.getMap().getChemin().removeAll(vdci_courant.getMap().getChemin());
+            vdci_courant.getMap().repaint();
             rep = (String) JOptionPane.showInputDialog(this, "Ordre du graphe souhaité", "Génénateur de graphes aléatoires", 3, null, null, "2");
             nbVilles = Integer.parseInt(rep);
             while (nbVilles < 2 | rep == null) {

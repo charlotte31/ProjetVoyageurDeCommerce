@@ -237,20 +237,26 @@ public class Carte {
 
         // Initialisation pour l'algorithme       
         ArrayList<Ville> villes = this.villesCopie();
+        
         ArrayList<Arc> arcs = this.arcsCopie();
+        
+
         chemin.add(v.getNom());
         ArrayList<Object> resultMin = this.rechercherMinDistance(v, arcs);
+
         distance = distance + (float) resultMin.get(1);
+        Ville vIni=v;
         Ville vTemp = v;
         debut = System.currentTimeMillis();
         // Algorithme des plus proches voisins
         for (int iV = 0; iV < villes.size(); iV++) {
-            for (int iA = 0; iA < arcs.size(); iA++) {
+            System.out.println(villes.get(iV).getNom());
+            for (int iA = 0; iA < arcs.size(); iA++) {               
                 if (v.getNom().equals(arcs.get(iA).getNomV1()) | v.getNom().equals(arcs.get(iA).getNomV2())) {
                     if (v.getNom().equals(arcs.get(iA).getNomV1())
                             && arcs.get(iA).getDistance() == (float) resultMin.get(1)
                             && chemin.contains(arcs.get(iA).getNomV2()) == false) {
-                        chemin.add(arcs.get(iA).getNomV2());
+                        chemin.add(arcs.get(iA).getNomV2()); System.out.println(arcs.get(iA).getNomV2());
                         vTemp = arcs.get(iA).getV2();
                     }
                     if (v.getNom().equals(arcs.get(iA).getNomV2())
@@ -263,16 +269,23 @@ public class Carte {
                     iA = iA - 1;
                 }
             }
-            villes.remove(v);
+            //villes.remove(v);
             resultMin = this.rechercherMinDistance(vTemp, arcs);
             distance = distance + (float) resultMin.get(1);
             v = vTemp;
         }
-        System.out.println(villes.size());
         if (chemin.contains(villes.get(villes.size() - 1).getNom()) == false) {
             chemin.add(villes.get(villes.size() - 1).getNom());
         }
-
+        chemin.add(vIni.getNom());
+        for (int i=0; i<liste_arcs.size();i++){
+            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size()-1))) 
+                |
+               (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size()-1)))){
+                distance=distance+liste_arcs.get(i).getDistance();                            
+            }         
+        }
+        System.out.println(distance);
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
@@ -335,10 +348,12 @@ public class Carte {
                 }
             }
         }
+        chemin.add(v);
 
         for (int i = 0; i < chemin.size() - 1; i++) {
             distance = distance + this.rechercherDistance(chemin.get(i), chemin.get(i + 1));
         }
+
 
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
@@ -413,6 +428,10 @@ public class Carte {
         Arc a4 = new Arc(v2, v3);
         Arc a5 = new Arc(v2, v4);
         Arc a6 = new Arc(v3, v4);
+        Arc a7 = new Arc(v3, v5);
+        Arc a8 = new Arc(v1, v5);
+        Arc a9 = new Arc(v4, v5);
+        Arc a10 = new Arc(v2, v5);
         //System.out.println(a1.getDistance());
         //System.out.println(a2.getDistance());
         //System.out.println(a3.getDistance());
@@ -428,7 +447,7 @@ public class Carte {
 
         //ArrayList<Object> ipe = carteTest.moindreCout(v1);
         //System.out.println(carteTest.toString((ArrayList<Ville>)ipe.get(0)));
-        //ArrayList<Object> ppv = carteTest.plusProcheVoisins(v1);
+        ArrayList<Object> ppv = carteTest.plusProcheVoisins(v1);
         //ArrayList<Object> ipe = carteTest.insertionPlusEloignes(v1);
         //System.out.println(carteTest.liste_arcs.get(0).getDistance());
     }

@@ -29,12 +29,12 @@ public class RenduTableau extends DefaultTableCellRenderer implements TableCellR
     }
     public Component getTableCellRendererComponent(JTable table, Object value,boolean isSelected, boolean hasFocus, int row, int column){
         ModelTable tableau = (ModelTable) table.getModel();
-         
         Component cell = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         ((JLabel) cell).setHorizontalAlignment(JLabel.CENTER);
+        
         setFont(new Font("Arial",Font.BOLD,13));
         cell.setBackground(new Color(10,59,89));
-        cell.setForeground(Color.white);
+        super.setForeground(Color.white);
         super.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.GRAY));
  
  return cell;

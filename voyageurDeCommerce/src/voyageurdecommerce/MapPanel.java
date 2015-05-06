@@ -55,17 +55,14 @@ public class MapPanel extends JPanel {
     private Carte carte;
     //private List<Ville> liste_villes;
     private List<VilleSurvoleeListener> ville_survolee_listeners;
-    private HashMap<Algorithme, ArrayList<String>> hashChemin;
+    private HashMap<Algorithme, ArrayList<Object>> hashChemin;
     private ArrayList<Ville> chemin;
-    private float distance;
-    private long temps;
     private boolean bool;
 
     public MapPanel() {
         hashChemin = new HashMap(new Hashtable<Algorithme, ArrayList<String>>());
         chemin = new ArrayList<Ville>();
-        distance = -1;
-        temps=-1;
+
         bool = false;
         try {
             background = ImageIO.read(new File("./ressources/france2.png"));
@@ -154,7 +151,7 @@ public class MapPanel extends JPanel {
             g1.drawImage(background, 0, 0, this);
             repaint();
             //chemin.removeAll(chemin);
-            setBool(false);
+            bool=false;
         }
         
     }
@@ -193,14 +190,14 @@ public class MapPanel extends JPanel {
     /**
      * @return the hashChemin
      */
-    public HashMap<Algorithme, ArrayList<String>> getHashChemin() {
+    public HashMap<Algorithme, ArrayList<Object>> getHashChemin() {
         return hashChemin;
     }
 
     /**
      * @param hashChemin the hashChemin to set
      */
-    public void setHashChemin(Algorithme algo, ArrayList<String> chemin) {
+    public void setHashChemin(Algorithme algo, ArrayList<Object> chemin) {
         this.hashChemin.put(algo, chemin);;
     }
 
@@ -224,33 +221,4 @@ public class MapPanel extends JPanel {
     public void setCarte(Carte carte) {
         this.carte = carte;
     }
-
-    /**
-     * @return the distance
-     */
-    public float getDistance() {
-        return distance;
-    }
-
-    /**
-     * @param distance the distance to set
-     */
-    public void setDistance(float distance) {
-        this.distance = distance;
-    }
-
-    /**
-     * @return the temps
-     */
-    public long getTemps() {
-        return temps;
-    }
-
-    /**
-     * @param temps the temps to set
-     */
-    public void setTemps(long temps) {
-        this.temps = temps;
-    }
-
 }

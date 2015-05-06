@@ -49,7 +49,7 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
     private JCheckBox cb4;
     private JCheckBox cb5;
     private BufferedImage background;
-    private RandomHisto randomHisto;
+    private HistoGeneration randomHisto;
 
     public ItemComparaison(String nom, VoyageurDeCommerceInterface vdci) {
         super(nom);
@@ -58,11 +58,11 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         JFrame jf = new JFrame("Algorithmes : Comparaisons");
+        jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jf.setLocation(450, 250);
         jf.setPreferredSize(new Dimension(480, 190));
 
         jf.setResizable(false);
-        jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jf.setVisible(true);
         jf.pack();
 

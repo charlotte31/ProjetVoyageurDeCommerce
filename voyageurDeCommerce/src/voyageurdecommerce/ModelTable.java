@@ -27,7 +27,6 @@ public class ModelTable extends AbstractTableModel {
         super();
         donnees = new ArrayList<Arc>();
         entetes = new String[]{"Ville 1", "Ville 2", "Distance"};
-        
 
     }
 
@@ -58,6 +57,7 @@ public class ModelTable extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object[] tab = donnees.toArray();
+       
         Arc p = (Arc) tab[rowIndex];
         switch (columnIndex) {
             case 0:

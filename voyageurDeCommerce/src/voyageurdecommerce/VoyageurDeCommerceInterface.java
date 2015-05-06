@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
@@ -106,6 +107,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         this.setVisible(true);
 
         Container content = this.getContentPane();
+
         content.setLayout(new FlowLayout());
         BorderLayout layout = new BorderLayout();
         content.setLayout(layout);
@@ -257,12 +259,12 @@ public class VoyageurDeCommerceInterface extends JFrame {
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new FlowLayout());
         panelTable.setBackground(new Color(10,59,89));
-        
         this.modelTableau = new ModelTable();
+        
         tableau = new JTable(this.getModelTableau());
-        tableau.setBackground(Color.red);
         miseEnForme(tableau);
         JScrollPane js = new JScrollPane(tableau);
+        js.getViewport().setBackground(new Color(10,59,89));
         js.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.white));
         js.setBackground(new Color(10,59,89));
 

@@ -20,7 +20,7 @@ public class RandonGraphButton extends JButton implements ActionListener {
 
     private int nbVilles;
     private Carte randomCarte;
-    private RandomHisto rh;
+    private HistoGeneration hg;
     private VoyageurDeCommerceInterface vdci;
     private ArrayList<Algorithme> listeAlgo;
 
@@ -35,11 +35,18 @@ public class RandonGraphButton extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println(listeAlgo.size());
         String nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
-        nbVilles = Integer.parseInt(nom);
-        while (nbVilles < 2 | nom == null) {
-            nom = JOptionPane.showInputDialog("Saisie incorrecte! entrez au moins 2 villes", "");
-            nbVilles = Integer.parseInt(nom);
+        if (nom != null){
+         nbVilles = Integer.parseInt(nom);           
         }
+        while (nbVilles < 2 | nom == null) {
+            nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
+        if (nom != null){
+         nbVilles = Integer.parseInt(nom);           
+        }
+        }
+        vdci.getCarteVoyageurDeCommerce().getListe_villes().removeAll(vdci.getCarteVoyageurDeCommerce().getListe_villes());
+        vdci.getCarteVoyageurDeCommerce().getListe_arcs().removeAll(vdci.getCarteVoyageurDeCommerce().getListe_arcs());
+        vdci.getMap().getChemin().removeAll(vdci.getMap().getChemin());
         for (int i = 0; i < nbVilles; i++) {
             Double posX = Math.random() * 580 + 1;
             int pos_X = posX.intValue();
@@ -65,14 +72,16 @@ public class RandonGraphButton extends JButton implements ActionListener {
         }
         if (listeAlgo.contains(Algorithme.moindreCout) == true) {
             vdci.getMoindreCout().actionPerformed(e);
-            System.out.println("ok");
         }
         if (listeAlgo.size() == 0) {
             JOptionPane.showMessageDialog(this, "Sélectionnez au moins 1 algorithme");
             vdci.getItemComparaison().actionPerformed(e);
         }
 
-        rh = new RandomHisto("Graphe aléatoire", "Comparaison : distances et temps d'exécution", vdci);
+        else {
+            hg = new HistoGeneration("Random graph analysis", "Comparaison : distances et temps d'exécution", vdci);
+        }
+    
     }
 
     /**

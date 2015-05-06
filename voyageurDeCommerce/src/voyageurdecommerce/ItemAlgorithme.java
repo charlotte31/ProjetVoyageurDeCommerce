@@ -46,7 +46,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                 }
             }
             if (v == null) {
-                JOptionPane.showMessageDialog(this, "incorrect");
+                //JOptionPane.showMessageDialog(this, "incorrect");
             } else {
                 if (super.getText().equals("plusProcheVoisin")) {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().plusProcheVoisins(v);
@@ -54,10 +54,9 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     JOptionPane.showMessageDialog(this, "[[Chemin] - Distance - Performance (ms)]\n"
                             + resString + " - " + res.get(1) + " - " + res.get(2));
                     //repaint();
-                    vdci.getMap().setHashChemin(Algorithme.plusProcheVoisin, resString);
+                    vdci.getMap().setHashChemin(Algorithme.plusProcheVoisin, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
-                    vdci.getMap().setDistance((float)res.get(1));
-                    vdci.getMap().setTemps((long)res.get(2));
+
                     vdci.getMap().repaint();
                 }
                 if (super.getText().equals("moindreCout")) {
@@ -65,10 +64,9 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
                     JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
                             + resString + " - " + res.get(1) + " - " + res.get(2));
-                    vdci.getMap().setHashChemin(Algorithme.moindreCout, resString);
+                    vdci.getMap().setHashChemin(Algorithme.moindreCout, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
-                    vdci.getMap().setDistance((float)res.get(1));
-                    vdci.getMap().setTemps((long)res.get(2));
+
                 }
                 if (super.getText().equals("plusEloignes")) {
                     JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
