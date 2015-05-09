@@ -14,6 +14,8 @@ import java.awt.FlowLayout;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Skin;
@@ -45,7 +47,7 @@ import voyageurdecommerce.graphisme.RenduTableau;
  *
  * @author Charlotte
  */
-public class VoyageurDeCommerceInterface extends JFrame {
+public class VoyageurDeCommerceInterface extends JFrame implements WindowListener{
 
     // Déclaration
     private Carte carteVoyageurDeCommerce;
@@ -154,6 +156,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 System.exit(EXIT_ON_CLOSE);
             }
+        
         });        
         
         
@@ -169,7 +172,7 @@ public class VoyageurDeCommerceInterface extends JFrame {
         itemComparaison.addActionListener(itemComparaison);
         itemGeneration.addActionListener(itemGeneration);
 
-
+        addWindowListener(this);
         pack();
     }
     // Fin Constructeur
@@ -440,9 +443,19 @@ public class VoyageurDeCommerceInterface extends JFrame {
     public void setItemNouvellefenetre(ItemNouvelleFenetre itemNouvellefenetre) {
         this.itemNouvellefenetre = itemNouvellefenetre;
     }
+   
+
+    public void windowOpened(WindowEvent e) {}
+    public void windowClosing(WindowEvent e) {
+        JOptionPane.showMessageDialog(this, "Merci, à Bientôt :)");
+    }
+    public void windowClosed(WindowEvent e) {}
+    public void windowIconified(WindowEvent e) {}
+    public void windowDeiconified(WindowEvent e) {}
+    public void windowActivated(WindowEvent e) {}
+    public void windowDeactivated(WindowEvent e) {}
     
-    
-    public static void main(String[] args) {
+        public static void main(String[] args) {
         VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);
     }
 }

@@ -225,6 +225,29 @@ public class Carte {
         return (d);
     }
 
+        public ArrayList<Ville> toVille(ArrayList<String> nomVilles) {
+        ArrayList<Ville> villes = new ArrayList<Ville>();
+        for (int i = 0; i < nomVilles.size(); i++) {
+            for (int j = 0; j < this.getListe_villes().size(); j++) {
+                if (nomVilles.get(i).equals(this.getListe_villes().get(j).getNom())) {
+                    villes.add(this.getListe_villes().get(j));
+                }
+            }
+        }
+        return (villes);
+    }
+
+    public ArrayList<String> toString(ArrayList<Ville> villes) {
+     // Les  algos retournent le chemin constitué d'instance de la classe ville,
+        // ici on récupère le même chemin mais avec les noms des villes
+        // Besoin des deux formes : pour redessiner (en bleu) et pour afficher le chemin (pop up)
+        ArrayList<String> nomVilles = new ArrayList<String>();
+        for (int i = 0; i < villes.size(); i++) {
+            nomVilles.add(villes.get(i).getNom());
+        }
+        return (nomVilles);
+    }
+    
     public ArrayList<Object> plusProcheVoisins(Ville v) {
         //(pour tester dans l'interface)
         System.out.println("PlusProcheVoisin");
@@ -250,7 +273,6 @@ public class Carte {
         debut = System.currentTimeMillis();
         // Algorithme des plus proches voisins
         for (int iV = 0; iV < villes.size(); iV++) {
-            System.out.println(villes.get(iV).getNom());
             for (int iA = 0; iA < arcs.size(); iA++) {               
                 if (v.getNom().equals(arcs.get(iA).getNomV1()) | v.getNom().equals(arcs.get(iA).getNomV2())) {
                     if (v.getNom().equals(arcs.get(iA).getNomV1())
@@ -279,10 +301,11 @@ public class Carte {
         }
         chemin.add(vIni.getNom());
         for (int i=0; i<liste_arcs.size();i++){
-            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size()-1))) 
+            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size()-2))) 
                 |
-               (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size()-1)))){
-                distance=distance+liste_arcs.get(i).getDistance();                            
+               (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size()-2)))){
+                distance=distance+liste_arcs.get(i).getDistance();      
+                
             }         
         }
         System.out.println(distance);
@@ -291,7 +314,6 @@ public class Carte {
         }
         duree = System.currentTimeMillis() - debut;
         ArrayList<Ville> cheminRes = toVille(chemin);
-        System.out.println(chemin);
         // Résultats
         result.add(cheminRes);
         result.add(distance);
@@ -366,37 +388,13 @@ public class Carte {
 
         // Pour tester
         System.out.println("Le chemin le plus court est :");
- //       for (int i = 0; i < chemin.size(); i++) {
- //           System.out.println(chemin.get(i).getNom());
- //       }
+        for (int i = 0; i < chemin.size(); i++) {
+            System.out.println(chemin.get(i).getNom());
+        }
+        System.out.println(distance);
     //System.out.println("Distance de ce chemin: "+distance); 
         //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
-    }
-
-    public ArrayList<Ville> toVille(ArrayList<String> nomVilles) {
-        ArrayList<Ville> villes = new ArrayList<Ville>();
-        for (int i = 0; i < nomVilles.size(); i++) {
-            for (int j = 0; j < this.getListe_villes().size(); j++) {
-                if (nomVilles.get(i).equals(this.getListe_villes().get(j).getNom())) {
-                    villes.add(this.getListe_villes().get(j));
-                }
-            }
-        }
-        return (villes);
-    }
-
-    public ArrayList<String> toString(ArrayList<Ville> villes) {
-     // Les  algos retournent le chemin constitué d'instance de la classe ville,
-        // ici on récupère le même chemin mais avec les noms des villes
-        // Besoin des deux formes : pour redessiner (en bleu) et pour afficher le chemin (pop up)
-
-        ArrayList<String> nomVilles = new ArrayList<String>();
-        for (int i = 0; i < villes.size(); i++) {
-            nomVilles.add(villes.get(i).getNom());
-
-        }
-        return (nomVilles);
     }
 
     public ArrayList<Object> insertionPlusEloignes(Ville v) {
@@ -404,7 +402,30 @@ public class Carte {
         System.out.println("insertionPlusEloignes");
         // Initialisation des résultats
         ArrayList<Object> result = new ArrayList<Object>();
+        ArrayList<String> chemin = new ArrayList<String>();
 
+        float distance = 0;
+        long debut =System.currentTimeMillis();;
+        long duree;
+ 
+  
+        
+       
+        for (int i = 0; i < 10000000; i++) {
+            System.currentTimeMillis();
+        }
+        duree = System.currentTimeMillis() - debut;    
+        ArrayList<Ville> cheminRes = toVille(chemin);
+        // Résultats
+        result.add(cheminRes);
+        result.add(distance);
+        result.add(duree);
+        System.out.println("Le chemin le plus court est :");
+        //for (int i = 0; i < chemin.size(); i++) {
+         //   System.out.println(chemin.get(i));
+        //}
+    //System.out.println("Distance de ce chemin: "+distance); 
+        //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
     }
 
@@ -445,10 +466,11 @@ public class Carte {
         //carteTest.ajouterArc(a5);
         //carteTest.ajouterArc(a6);
 
-        //ArrayList<Object> ipe = carteTest.moindreCout(v1);
+        //ArrayList<Object> mc = carteTest.moindreCout(v1);
+        //System.out.println("___________");
         //System.out.println(carteTest.toString((ArrayList<Ville>)ipe.get(0)));
-        ArrayList<Object> ppv = carteTest.plusProcheVoisins(v1);
-        //ArrayList<Object> ipe = carteTest.insertionPlusEloignes(v1);
+        //ArrayList<Object> ppv = carteTest.plusProcheVoisins(v1);
+        ArrayList<Object> ipe = carteTest.insertionPlusEloignes(v1);
         //System.out.println(carteTest.liste_arcs.get(0).getDistance());
     }
 
