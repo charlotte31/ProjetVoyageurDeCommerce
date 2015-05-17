@@ -306,12 +306,14 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 
     private void miseEnForme(JTable jt) {
         // Mettre à jour le rendu des lignes et du hearder (style modifiable dans RenduHeaderTableau et RenduTableau)
-        jt.getColumnModel().getColumn(0).setCellRenderer(new RenduTableau());
-        jt.getColumnModel().getColumn(1).setCellRenderer(new RenduTableau());
-        jt.getColumnModel().getColumn(2).setCellRenderer(new RenduTableau());
-        jt.getColumnModel().getColumn(0).setHeaderRenderer(new RenduHeaderTableau());
-        jt.getColumnModel().getColumn(1).setHeaderRenderer(new RenduHeaderTableau());
-        jt.getColumnModel().getColumn(2).setHeaderRenderer(new RenduHeaderTableau());
+        for (int i=0; i<jt.getColumnCount();i++){
+        jt.getColumnModel().getColumn(i).setCellRenderer(new RenduTableau());
+        //jt.getColumnModel().getColumn(1).setCellRenderer(new RenduTableau());
+        //jt.getColumnModel().getColumn(2).setCellRenderer(new RenduTableau());
+        jt.getColumnModel().getColumn(i).setHeaderRenderer(new RenduHeaderTableau());
+        //jt.getColumnModel().getColumn(1).setHeaderRenderer(new RenduHeaderTableau());
+        //jt.getColumnModel().getColumn(2).setHeaderRenderer(new RenduHeaderTableau());
+        }
     }
 
     

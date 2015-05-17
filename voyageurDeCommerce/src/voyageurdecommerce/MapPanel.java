@@ -62,7 +62,7 @@ public class MapPanel extends JPanel {
     public MapPanel() {
         hashChemin = new HashMap(new Hashtable<Algorithme, ArrayList<String>>());
         chemin = new ArrayList<Ville>();
-
+        setToolTipText("Cliquez pour ajouter une ville");
         bool = false;
         try {
             background = ImageIO.read(new File("./ressources/france2.png"));
