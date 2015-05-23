@@ -35,14 +35,14 @@ public class RandonGraphButton extends JButton implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         System.out.println(listeAlgo.size());
         String nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
-        if (nom != null){
-         nbVilles = Integer.parseInt(nom);           
+        if (nom != null) {
+            nbVilles = Integer.parseInt(nom);
         }
         while (nbVilles < 2 | nom == null) {
             nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
-        if (nom != null){
-         nbVilles = Integer.parseInt(nom);           
-        }
+            if (nom != null) {
+                nbVilles = Integer.parseInt(nom);
+            }
         }
         vdci.getCarteVoyageurDeCommerce().getListe_villes().removeAll(vdci.getCarteVoyageurDeCommerce().getListe_villes());
         vdci.getCarteVoyageurDeCommerce().getListe_arcs().removeAll(vdci.getCarteVoyageurDeCommerce().getListe_arcs());
@@ -57,31 +57,29 @@ public class RandonGraphButton extends JButton implements ActionListener {
         }
         vdci.getCarteVoyageurDeCommerce().creerClique();
         vdci.getMap().repaint();
-        System.out.println(listeAlgo.contains(Algorithme.moindreCout));
-        if (listeAlgo.contains(Algorithme.Kruskal) == true) {
+        System.out.println(listeAlgo.contains(Algorithme.MOINDRE_COUT));
+        if (listeAlgo.contains(Algorithme.TWO_OPT) == true) {
             vdci.getKruskal().actionPerformed(e);
         }
-        if (listeAlgo.contains(Algorithme.Prim) == true) {
+        if (listeAlgo.contains(Algorithme.PRIM) == true) {
             vdci.getPrim().actionPerformed(e);
         }
-        if (listeAlgo.contains(Algorithme.plusEloignes) == true) {
+        if (listeAlgo.contains(Algorithme.PLUS_ELOIGNES) == true) {
             vdci.getPlusEloignes().actionPerformed(e);
         }
-        if (listeAlgo.contains(Algorithme.plusProcheVoisin) == true) {
+        if (listeAlgo.contains(Algorithme.PLUS_PROCHE_VOISIN) == true) {
             vdci.getPlusProcheVoisin().actionPerformed(e);
         }
-        if (listeAlgo.contains(Algorithme.moindreCout) == true) {
+        if (listeAlgo.contains(Algorithme.MOINDRE_COUT) == true) {
             vdci.getMoindreCout().actionPerformed(e);
         }
         if (listeAlgo.size() == 0) {
             JOptionPane.showMessageDialog(this, "Sélectionnez au moins 1 algorithme");
             vdci.getItemComparaison().actionPerformed(e);
-        }
-
-        else {
+        } else {
             hg = new HistoGeneration("Random graph analysis", "Comparaison : distances et temps d'exécution", vdci);
         }
-    
+
     }
 
     /**

@@ -6,7 +6,9 @@
 package voyageurdecommerce;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -65,13 +67,10 @@ public class Carte {
         for (int j = 0; j < copie.size(); j++) { // pour chaque noeud source
             for (int k = 0; k < copie.size(); k++)// pour chaque noeud destination
             {
-                if (!copie.get(j).getNom().equals(copie.get(k).getNom())) {
-                    this.creerArc(copie.get(j), copie.get(k));// creation de l'arc
+                if (k != j) {
+                    this.creerArc(copie.get(j), copie.get(k));
                 }
             }
-            copie.remove(copie.get(j)); // et élimination pour éviter de créer des doubles
-            j = 0;
-
         }
     }
 
@@ -84,7 +83,7 @@ public class Carte {
                 liste_villes.remove(v);
                 if (i - 1 >= 0 && i != liste_villes.size() - 1) {
                     i = i - 1;
-                };
+                }
             }
         }
     }
@@ -92,9 +91,9 @@ public class Carte {
     public Ville getVille(String nomVille, ArrayList<Ville> liste_villes) {
         // Recherche une ville d'une liste donnée
         Ville v_res = null;
-        for (int i = 0; i < liste_villes.size(); i++) {
-            if (nomVille.equals(liste_villes.get(i).getNom())) {
-                v_res = liste_villes.get(i);
+        for (Ville liste_ville : liste_villes) {
+            if (nomVille.equals(liste_ville.getNom())) {
+                v_res = liste_ville;
             }
         }
         return (v_res);
@@ -103,10 +102,12 @@ public class Carte {
     public Arc getArcV(Ville v1, Ville v2, ArrayList<Arc> liste_arc) {
         // Recherche l'arc joignant deux villes données
         Arc a = null;
-        for (int i = 0; i < liste_arc.size(); i++) {
-            if ((liste_arc.get(i).getNomV1() == v1.getNom() && liste_arc.get(i).getNomV2() == v2.getNom())
-                    | (liste_arc.get(i).getNomV2() == v1.getNom() && liste_arc.get(i).getNomV1() == v2.getNom())) {
-                a = liste_arc.get(i);
+        for (Arc liste_arc1 : liste_arc) {
+            if ((liste_arc1.getNomV1().equals(v1.getNom())
+                    && liste_arc1.getNomV2().equals(v2.getNom()))
+                    || (liste_arc1.getNomV2().equals(v1.getNom())
+                    && liste_arc1.getNomV1().equals(v2.getNom()))) {
+                a = liste_arc1;
             }
         }
         return (a);
@@ -116,12 +117,12 @@ public class Carte {
         // supprime un arc joignant deux villes données.
         Arc a = null;
         for (int i = 0; i < liste_arc.size(); i++) {
-            if ((liste_arc.get(i).getNomV1() == v1.getNom() && liste_arc.get(i).getNomV2() == v2.getNom())
-                    | (liste_arc.get(i).getNomV2() == v1.getNom() && liste_arc.get(i).getNomV1() == v2.getNom())) {
+            if ((liste_arc.get(i).getNomV1().equals(v1.getNom()) && liste_arc.get(i).getNomV2().equals(v2.getNom()))
+                    | (liste_arc.get(i).getNomV2().equals(v1.getNom()) && liste_arc.get(i).getNomV1().equals(v2.getNom()))) {
                 liste_arc.remove(liste_arc.get(i));
                 if (i - 1 >= 0 && i != liste_arc.size() - 1) {
                     i = i - 1;
-                };
+                }
             }
         }
     }
@@ -225,7 +226,7 @@ public class Carte {
         return (d);
     }
 
-        public ArrayList<Ville> toVille(ArrayList<String> nomVilles) {
+    public ArrayList<Ville> toVille(ArrayList<String> nomVilles) {
         ArrayList<Ville> villes = new ArrayList<Ville>();
         for (int i = 0; i < nomVilles.size(); i++) {
             for (int j = 0; j < this.getListe_villes().size(); j++) {
@@ -238,7 +239,7 @@ public class Carte {
     }
 
     public ArrayList<String> toString(ArrayList<Ville> villes) {
-     // Les  algos retournent le chemin constitué d'instance de la classe ville,
+        // Les  algos retournent le chemin constitué d'instance de la classe ville,
         // ici on récupère le même chemin mais avec les noms des villes
         // Besoin des deux formes : pour redessiner (en bleu) et pour afficher le chemin (pop up)
         ArrayList<String> nomVilles = new ArrayList<String>();
@@ -247,7 +248,7 @@ public class Carte {
         }
         return (nomVilles);
     }
-    
+
     public ArrayList<Object> plusProcheVoisins(Ville v) {
         //(pour tester dans l'interface)
         System.out.println("PlusProcheVoisin");
@@ -260,25 +261,25 @@ public class Carte {
 
         // Initialisation pour l'algorithme       
         ArrayList<Ville> villes = this.villesCopie();
-        
+
         ArrayList<Arc> arcs = this.arcsCopie();
-        
 
         chemin.add(v.getNom());
         ArrayList<Object> resultMin = this.rechercherMinDistance(v, arcs);
 
         distance = distance + (float) resultMin.get(1);
-        Ville vIni=v;
+        Ville vIni = v;
         Ville vTemp = v;
         debut = System.currentTimeMillis();
         // Algorithme des plus proches voisins
         for (int iV = 0; iV < villes.size(); iV++) {
-            for (int iA = 0; iA < arcs.size(); iA++) {               
+            for (int iA = 0; iA < arcs.size(); iA++) {
                 if (v.getNom().equals(arcs.get(iA).getNomV1()) | v.getNom().equals(arcs.get(iA).getNomV2())) {
                     if (v.getNom().equals(arcs.get(iA).getNomV1())
                             && arcs.get(iA).getDistance() == (float) resultMin.get(1)
                             && chemin.contains(arcs.get(iA).getNomV2()) == false) {
-                        chemin.add(arcs.get(iA).getNomV2()); System.out.println(arcs.get(iA).getNomV2());
+                        chemin.add(arcs.get(iA).getNomV2());
+                        System.out.println(arcs.get(iA).getNomV2());
                         vTemp = arcs.get(iA).getV2();
                     }
                     if (v.getNom().equals(arcs.get(iA).getNomV2())
@@ -300,13 +301,11 @@ public class Carte {
             chemin.add(villes.get(villes.size() - 1).getNom());
         }
         chemin.add(vIni.getNom());
-        for (int i=0; i<liste_arcs.size();i++){
-            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size()-2))) 
-                |
-               (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size()-2)))){
-                distance=distance+liste_arcs.get(i).getDistance();      
-                
-            }         
+        for (int i = 0; i < liste_arcs.size(); i++) {
+            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size() - 2)))
+                    | (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size() - 2)))) {
+                distance = distance + liste_arcs.get(i).getDistance();
+            }
         }
         System.out.println(distance);
         for (int i = 0; i < 10000000; i++) {
@@ -322,7 +321,7 @@ public class Carte {
         for (int i = 0; i < chemin.size(); i++) {
             System.out.println(chemin.get(i));
         }
-    //System.out.println("Distance de ce chemin: "+distance); 
+        //System.out.println("Distance de ce chemin: "+distance); 
         //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
     }
@@ -376,7 +375,6 @@ public class Carte {
             distance = distance + this.rechercherDistance(chemin.get(i), chemin.get(i + 1));
         }
 
-
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
@@ -392,29 +390,96 @@ public class Carte {
             System.out.println(chemin.get(i).getNom());
         }
         System.out.println(distance);
-    //System.out.println("Distance de ce chemin: "+distance); 
+        //System.out.println("Distance de ce chemin: "+distance); 
         //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
+    }
+
+    public ArrayList<Object> prim(Ville v) {
+        ArrayList<Object> res = new ArrayList<>();
+        ArrayList<Ville> villes = new ArrayList<>();
+        ArrayList<Arc> arcs = new ArrayList<>();
+        villes.add(v);
+
+        while (villes.size() != liste_villes.size()) {
+            Arc minArc = null;
+            ArrayList<Ville> intersect = intersection(liste_villes, villes);
+            System.out.println("INTERSECTION");
+            for (int index = 0; index < intersect.size(); index++) {
+                System.out.println(intersect.get(index).getNom());
+            }
+            System.out.println("-----------------------");
+            for (int i = 0; i < liste_arcs.size(); i++) {
+                Arc arc = liste_arcs.get(i);
+                System.out.println("Arc testé : " + arc.getNomV1() + "-- " + arc.getDistance() + " --" + arc.getNomV2());
+                if (villes.contains(arc.getV1()) && intersect.contains(arc.getV2())) {
+                    if (minArc == null) {
+                        minArc = arc;
+                        System.out.println("Min Arc : " + minArc.getNomV1() + "-- " + minArc.getDistance() + " --" + minArc.getNomV2());
+                    } else if (arc.getDistance() < minArc.getDistance()) {
+                        minArc = arc;
+                        System.out.println("Nouveau min Arc : " + minArc.getNomV1() + "-- " + minArc.getDistance() + " --" + minArc.getNomV2());
+                    } else {
+                        System.out.println("Arc rejeté!");
+                    }
+                }
+            }
+            if (minArc == null) {
+                System.out.println("Euh on aurait pas dû être là. Maintenant on va boucler à l'infini.... ");
+            } else {
+                System.out.println("On ajoute à V' : " + minArc.getV2().getNom());
+                villes.add(minArc.getV2());
+                arcs.add(minArc);
+            }
+        }
+        villes.add(v);
+        for (Ville ville : villes) {
+            System.out.println(ville.getNom());
+        }
+        int i = 1;
+
+        for (Arc arc : arcs) {
+            System.out.println("Arc n°" + i + " : " + arc.getNomV1() + "-- " + arc.getDistance() + " --" + arc.getNomV2());
+            i++;
+        }
+        res.add(villes);
+        res.add(arcs);
+        return res;
+    }
+
+    /**
+     *
+     * @param v1 : liste de toutes les villes; la plus grande
+     * @param v2
+     * @return
+     */
+    public ArrayList<Ville> intersection(ArrayList<Ville> v1, ArrayList<Ville> v2) {
+        ArrayList<Ville> res = new ArrayList<>(v1);
+        for (int i = 0; i < v2.size(); i++) {
+            for (int j = 0; j < v1.size(); j++) {
+                if (v2.get(i) == v1.get(j)) {
+                    res.remove(v1.get(j));
+                }
+            }
+        }
+        return res;
     }
 
     public ArrayList<Object> insertionPlusEloignes(Ville v) {
         //(pour tester dans l'interface)
         System.out.println("insertionPlusEloignes");
         // Initialisation des résultats
-        ArrayList<Object> result = new ArrayList<Object>();
-        ArrayList<String> chemin = new ArrayList<String>();
+        ArrayList<Object> result = new ArrayList<>();
+        ArrayList<String> chemin = new ArrayList<>();
 
         float distance = 0;
-        long debut =System.currentTimeMillis();;
+        long debut = System.currentTimeMillis();;
         long duree;
- 
-  
-        
-       
+
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
-        duree = System.currentTimeMillis() - debut;    
+        duree = System.currentTimeMillis() - debut;
         ArrayList<Ville> cheminRes = toVille(chemin);
         // Résultats
         result.add(cheminRes);
@@ -422,11 +487,60 @@ public class Carte {
         result.add(duree);
         System.out.println("Le chemin le plus court est :");
         //for (int i = 0; i < chemin.size(); i++) {
-         //   System.out.println(chemin.get(i));
+        //   System.out.println(chemin.get(i));
         //}
-    //System.out.println("Distance de ce chemin: "+distance); 
+        //System.out.println("Distance de ce chemin: "+distance); 
         //System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
+    }
+
+    public ArrayList<Object> twoOpt(Ville v) {
+        ArrayList<Object> res = new ArrayList<>();
+        ArrayList<Ville> randomPath = generateRandomPath(v);
+        boolean ameliore = true;
+        while (ameliore) {
+            ameliore = false;
+            for (int i = 0; i < randomPath.size() - 1; i++) {
+                for (int j = 0; j < randomPath.size() - 1; j++) {
+                    if (j != i - 1 && j != i + 1 && i != j) {
+                        System.out.println("i : " + i + " j : " + j);
+                        
+                        System.out.println("i : " + randomPath.get(i).getNom() + "  i + 1 :" + randomPath.get(i + 1).getNom());
+                        float distanceI_I1 = getArcV(randomPath.get(i), randomPath.get(i + 1), liste_arcs).getDistance();
+                        
+                        System.out.println("j : " + randomPath.get(j).getNom() + "  j + 1 :" + randomPath.get(j + 1).getNom());
+                        float distanceJ_J1 = getArcV(randomPath.get(j), randomPath.get(j + 1), liste_arcs).getDistance();
+                        
+                        System.out.println("i : " + randomPath.get(i).getNom() + "  j :" + randomPath.get(j).getNom());
+                        float distanceI_J = getArcV(randomPath.get(i), randomPath.get(j), liste_arcs).getDistance();
+                        
+                        System.out.println("i +1 : " + randomPath.get(i + 1).getNom() + "  j + 1 :" + randomPath.get(j + 1).getNom());
+                        float distanceI1_J1 = getArcV(randomPath.get(i + 1), randomPath.get(j + 1), liste_arcs).getDistance();
+
+                        if (distanceI_I1 + distanceJ_J1 > distanceI_J + distanceI1_J1) {
+                            System.out.println("Permutation!!");
+                            Ville xi1 = randomPath.get(i + 1);
+                            Ville xj = randomPath.get(j);
+
+                            System.out.println("xi1 : " + xi1.getNom() + " / xj : " + xj.getNom());
+                            randomPath.set(i + 1, xj);
+                            randomPath.set(j, xi1);
+                            for (Ville ville : randomPath) {
+                                System.out.println(ville.getNom());
+                            }
+                            ameliore = true;
+                        }
+                        System.out.println("");
+                    }
+                }
+            }
+        }
+        randomPath.add(v);
+        for (Ville ville : randomPath) {
+            System.out.println(ville.getNom());
+        }
+        res.add(randomPath);
+        return res;
     }
 
     public static void main(String[] args) {
@@ -442,36 +556,7 @@ public class Carte {
         carteTest.ajouterNoeud(v4);
         carteTest.ajouterNoeud(v5);
         carteTest.creerClique();
-        Arc a1 = new Arc(v1, v2);
-        Arc a2 = new Arc(v1, v3);
-        Arc a3 = new Arc(v1, v4);
-
-        Arc a4 = new Arc(v2, v3);
-        Arc a5 = new Arc(v2, v4);
-        Arc a6 = new Arc(v3, v4);
-        Arc a7 = new Arc(v3, v5);
-        Arc a8 = new Arc(v1, v5);
-        Arc a9 = new Arc(v4, v5);
-        Arc a10 = new Arc(v2, v5);
-        //System.out.println(a1.getDistance());
-        //System.out.println(a2.getDistance());
-        //System.out.println(a3.getDistance());
-        //System.out.println(a4.getDistance());
-        //System.out.println(a5.getDistance());
-        //System.out.println(a6.getDistance());
-        //carteTest.ajouterArc(a1);
-        //carteTest.ajouterArc(a2);
-        //carteTest.ajouterArc(a3);
-        //carteTest.ajouterArc(a4);
-        //carteTest.ajouterArc(a5);
-        //carteTest.ajouterArc(a6);
-
-        //ArrayList<Object> mc = carteTest.moindreCout(v1);
-        //System.out.println("___________");
-        //System.out.println(carteTest.toString((ArrayList<Ville>)ipe.get(0)));
-        //ArrayList<Object> ppv = carteTest.plusProcheVoisins(v1);
-        ArrayList<Object> ipe = carteTest.insertionPlusEloignes(v1);
-        //System.out.println(carteTest.liste_arcs.get(0).getDistance());
+        carteTest.twoOpt(v1);
     }
 
     /**
@@ -488,4 +573,32 @@ public class Carte {
         return liste_arcs;
     }
 
+    private ArrayList<Ville> generateRandomPath(Ville v) {
+        ArrayList<Arc> arcs = new ArrayList<>();
+        ArrayList<Ville> villes = new ArrayList<>();
+        ArrayList<Arc> possibleArcs = new ArrayList<>();
+        Random r = new Random();
+        villes.add(v);
+        int index = 0;
+        while (villes.size() != liste_villes.size()) {
+            Ville currentVille = villes.get(index);
+            possibleArcs.clear();
+            for (int i = 0; i < liste_arcs.size(); i++) {
+                Arc arc = liste_arcs.get(i);
+                if (arc.getV1() == currentVille && intersection(liste_villes, villes).contains(arc.getV2())) {
+                    possibleArcs.add(arc);
+                }
+            }
+
+            int val = r.nextInt(possibleArcs.size());
+            arcs.add(possibleArcs.get(val));
+            villes.add(possibleArcs.get(val).getV2());
+            index++;
+        }
+        //villes.add(v);
+        for (Ville ville : villes) {
+            System.out.println(ville.getNom());
+        }
+        return villes;
+    }
 }

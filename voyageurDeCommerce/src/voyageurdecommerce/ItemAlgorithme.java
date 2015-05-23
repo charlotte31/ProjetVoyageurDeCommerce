@@ -5,34 +5,29 @@
  */
 package voyageurdecommerce;
 
-import com.sun.javafx.scene.traversal.Algorithm;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author Melany
- * Selon l'item choisit par l'utilisateur, la fonction du bon algorithme sera appellée
- * Création d'une classe distincte qui étend du JMenuItem simplement pour rendre plus lisible 
- * le constructure de la classe VoyageurDeCommerceInterface qui est déjà bien remplie. Histoire de s'y retrouver
+ * @author Melany Selon l'item choisit par l'utilisateur, la fonction du bon
+ * algorithme sera appellée Création d'une classe distincte qui étend du
+ * JMenuItem simplement pour rendre plus lisible le constructure de la classe
+ * VoyageurDeCommerceInterface qui est déjà bien remplie. Histoire de s'y
+ * retrouver
  */
-
 public class ItemAlgorithme extends JMenuItem implements ActionListener {
 
     private VoyageurDeCommerceInterface vdci;
-    
-    public ItemAlgorithme(String m, VoyageurDeCommerceInterface vdci){
+
+    public ItemAlgorithme(String m, VoyageurDeCommerceInterface vdci) {
         super(m);
-        this.vdci=vdci;        
+        this.vdci = vdci;
     }
 
-    
     @Override
     public void actionPerformed(ActionEvent e) {
         Ville v = null;
@@ -54,7 +49,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     JOptionPane.showMessageDialog(this, "[[Chemin] - Distance - Performance (ms)]\n"
                             + resString + " - " + res.get(1) + " - " + res.get(2));
                     //repaint();
-                    vdci.getMap().setHashChemin(Algorithme.plusProcheVoisin, res);
+                    vdci.getMap().setHashChemin(Algorithme.PLUS_PROCHE_VOISIN, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
 
                     vdci.getMap().repaint();
@@ -64,7 +59,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
                     JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
                             + resString + " - " + res.get(1) + " - " + res.get(2));
-                    vdci.getMap().setHashChemin(Algorithme.moindreCout, res);
+                    vdci.getMap().setHashChemin(Algorithme.MOINDRE_COUT, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
 
                 }
@@ -72,21 +67,27 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
                             + "Pas encore implémenté");
                 }
-                if (super.getText().equals("Kruskal")) {
-                    JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                            + "Pas encore implémenté");
+                if (super.getText().equals("2-Opt")) {
+                    ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().twoOpt(v);
+                    ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
+                    JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
+                            + resString + " - " + " - ");
+                    vdci.getMap().setHashChemin(Algorithme.TWO_OPT, res);
+                    vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
                 if (super.getText().equals("Prim")) {
-                    JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                            + "Pas encore implémenté");
+                    ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().prim(v);
+                    ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
+                    JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
+                            + resString + " - " + " - ");
+                    vdci.getMap().setHashChemin(Algorithme.PRIM, res);
+                    vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
 
-           // ArrayList<Object> ipe = vdci.getCarteVoyageurDeCommerce().moindreCout(v);
+                // ArrayList<Object> ipe = vdci.getCarteVoyageurDeCommerce().moindreCout(v);
                 //System.out.println(ipe.get(0));
             }
         }
 
     }
 }
- 
-

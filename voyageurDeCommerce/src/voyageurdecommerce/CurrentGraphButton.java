@@ -33,19 +33,19 @@ public class CurrentGraphButton extends JButton implements ActionListener {
             JOptionPane.showMessageDialog(this, "Saisie du graphe incorrecte");
         } else {
             for (int i = 0; i < listeAlgo.size(); i++) {
-                if (listeAlgo.contains(Algorithme.Kruskal)) {
+                if (listeAlgo.contains(Algorithme.TWO_OPT)) {
                     vdci.getKruskal().actionPerformed(e);
                 }
-                if (listeAlgo.contains(Algorithme.Prim)) {
+                if (listeAlgo.contains(Algorithme.PRIM)) {
                     vdci.getPrim().actionPerformed(e);
                 }
-                if (listeAlgo.contains(Algorithme.moindreCout)) {
+                if (listeAlgo.contains(Algorithme.MOINDRE_COUT)) {
                     vdci.getMoindreCout().actionPerformed(e);
                 }
-                if (listeAlgo.contains(Algorithme.plusProcheVoisin)) {
+                if (listeAlgo.contains(Algorithme.PLUS_PROCHE_VOISIN)) {
                     vdci.getPlusProcheVoisin().actionPerformed(e);
                 }
-                if (listeAlgo.contains(Algorithme.plusEloignes)) {
+                if (listeAlgo.contains(Algorithme.PLUS_ELOIGNES)) {
                     vdci.getPlusEloignes().actionPerformed(e);
                 }
                 if (listeAlgo.size() == 0) {

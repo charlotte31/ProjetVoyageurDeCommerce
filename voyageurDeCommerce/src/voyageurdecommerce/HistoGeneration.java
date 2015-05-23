@@ -16,7 +16,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
 
 /**
@@ -48,11 +47,11 @@ public class HistoGeneration extends JFrame {
     }
 
     private CategoryDataset createDataset() {
-        final String ppv = Algorithme.plusProcheVoisin.toString();
-        final String pe = Algorithme.plusEloignes.toString();
-        final String mc = Algorithme.moindreCout.toString();
-        final String prim = Algorithme.Prim.toString();
-        final String kruskal = Algorithme.Kruskal.toString();
+        final String ppv = Algorithme.PLUS_PROCHE_VOISIN.toString();
+        final String pe = Algorithme.PLUS_ELOIGNES.toString();
+        final String mc = Algorithme.MOINDRE_COUT.toString();
+        final String prim = Algorithme.PRIM.toString();
+        final String twoOpt = Algorithme.TWO_OPT.toString();
         final String temps = "Speed";
         final String distance = "Distance";
         final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -69,7 +68,7 @@ public class HistoGeneration extends JFrame {
         //dataset.addValue( 50 , fiat , millage ); 
         //dataset.addValue( 50 , fiat , safety );           
 
-      //dataset.addValue( 5.0 , audi , speed );        
+        //dataset.addValue( 5.0 , audi , speed );        
         //dataset.addValue( 6.0 , audi , userrating );       
         // dataset.addValue( 10.0 , audi , millage );        
         //dataset.addValue( 4.0 , audi , safety );
@@ -100,8 +99,8 @@ public class HistoGeneration extends JFrame {
 
         ArrayList<Object> list1 = vdci.getCarteVoyageurDeCommerce().insertionPlusEloignes(v5);
         ArrayList<Object> list2 = vdci.getCarteVoyageurDeCommerce().moindreCout(v5);
-        vdci.getMap().setHashChemin(Algorithme.plusEloignes, (ArrayList<Object>) list1);
-        vdci.getMap().setHashChemin(Algorithme.moindreCout, (ArrayList<Object>) list2);
+        vdci.getMap().setHashChemin(Algorithme.PLUS_ELOIGNES, (ArrayList<Object>) list1);
+        vdci.getMap().setHashChemin(Algorithme.MOINDRE_COUT, (ArrayList<Object>) list2);
 
         HistoGeneration chart = new HistoGeneration("", "", vdci);
 

@@ -5,20 +5,17 @@
  */
 package voyageurdecommerce;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.scene.control.Skin;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -37,17 +34,15 @@ import javax.swing.border.BevelBorder;
 
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
-
 import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
-import voyageurdecommerce.graphisme.RenduHeaderTableau;
 import voyageurdecommerce.graphisme.RenduTableau;
 
 /**
  *
  * @author Charlotte
  */
-public class VoyageurDeCommerceInterface extends JFrame implements WindowListener{
+public class VoyageurDeCommerceInterface extends JFrame implements WindowListener {
 
     // Déclaration
     private Carte carteVoyageurDeCommerce;
@@ -60,7 +55,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     private ItemAlgorithme plusProcheVoisin;
     private ItemAlgorithme plusEloignes;
     private ItemAlgorithme moindreCout;
-    private ItemAlgorithme kruskal;
+    private ItemAlgorithme twoOpt;
     private ItemAlgorithme prim;
 
     private ItemComparaison itemComparaison;
@@ -78,15 +73,15 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     private JTable tableau;
     private ModelTable modelTableau;
     // Fin Déclaration
-    
+
     //Constructeur
     public VoyageurDeCommerceInterface(boolean b) {
         // Contenu principal
         super("Voyageur de commerce");
-        setLocation(150,50);
+        setLocation(150, 50);
 
-        try { 
-            UIManager.setLookAndFeel( new NimbusLookAndFeel());
+        try {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(VoyageurDeCommerceInterface.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,7 +95,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
                     + "puis valider\n                         lorsque vous avez terminé. \n"
                     + "      Profitez ensuite des algorithmes à disposition !";
             JOptionPane.showMessageDialog(map, s, "Charlotte Ramé, Mélany Tanchon", 2, new ImageIcon("./ressources/Img_accueil.png"));
-            
+
         }
 
         this.setPreferredSize(new Dimension(1060, 600));
@@ -150,24 +145,23 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
                 getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
                 map.setBool(true);
             }
-        });       
+        });
         itemQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(EXIT_ON_CLOSE);
             }
-        
-        });        
-        
-        
+
+        });
+
         // 2eme onglet
         boutonValider.addActionListener(this.boutonValider);
         plusProcheVoisin.addActionListener(plusProcheVoisin);
         plusEloignes.addActionListener(plusEloignes);
         moindreCout.addActionListener(moindreCout);
-        kruskal.addActionListener(kruskal);
+        twoOpt.addActionListener(twoOpt);
         prim.addActionListener(prim);
-        
+
         // 3eme onglet
         itemComparaison.addActionListener(itemComparaison);
         itemGeneration.addActionListener(itemGeneration);
@@ -181,7 +175,6 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     private void addJMenuBar() {
         JMenuBar menu = new JMenuBar();
         JMenu menuFichier = new JMenu("Fichier");
-
 
         itemNouveau = new JMenuItem("Nouveau");
         setItemNouvellefenetre(new ItemNouvelleFenetre("Nouvelle fenêtre"));
@@ -203,18 +196,18 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         plusProcheVoisin = new ItemAlgorithme("plusProcheVoisin", this);
         plusEloignes = new ItemAlgorithme("plusEloignes", this);
         moindreCout = new ItemAlgorithme("moindreCout", this);
-        kruskal = new ItemAlgorithme("Kruskal", this);
+        twoOpt = new ItemAlgorithme("2-Opt", this);
         prim = new ItemAlgorithme("Prim", this);
         menuCalculer.add(plusProcheVoisin);
         menuCalculer.add(plusEloignes);
         menuCalculer.add(moindreCout);
-        menuCalculer.add(kruskal);
+        menuCalculer.add(twoOpt);
         menuCalculer.add(prim);
         menu.add(menuCalculer);
 
         JMenu menuOutil = new JMenu("Outil");
-        itemComparaison = new ItemComparaison("Comparaison",this);
-        itemGeneration = new ItemGeneration("Generation",this);
+        itemComparaison = new ItemComparaison("Comparaison", this);
+        itemGeneration = new ItemGeneration("Generation", this);
         menuOutil.add(itemComparaison);
         menuOutil.add(itemGeneration);
         menu.add(menuOutil);
@@ -241,7 +234,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 
     private void addJLabel(Container content) {
         JPanel panelInfo = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panelInfo.setBackground(new Color(10,59,89));
+        panelInfo.setBackground(new Color(10, 59, 89));
         labelX = new JLabel("X");
         labelY = new JLabel("Y");
         labelVille = new JLabel("Ville");
@@ -261,17 +254,16 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         // Le tableau des distances        
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new FlowLayout());
-        panelTable.setBackground(new Color(10,59,89));
+        panelTable.setBackground(new Color(10, 59, 89));
         this.modelTableau = new ModelTable();
-        
+
         tableau = new JTable(this.getModelTableau());
         miseEnForme(tableau);
         JScrollPane js = new JScrollPane(tableau);
-        js.getViewport().setBackground(new Color(10,59,89));
+        js.getViewport().setBackground(new Color(10, 59, 89));
         js.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, Color.white));
-        js.setBackground(new Color(10,59,89));
+        js.setBackground(new Color(10, 59, 89));
 
-        
         panelTable.add(js, BorderLayout.EAST);
         panelTable.setBorder(BorderFactory.createMatteBorder(2, 2, 0, 2, Color.yellow));
         // Le bouton valider    
@@ -279,44 +271,40 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         panelBouton.setLayout(new FlowLayout());
         boutonValider = new BoutonValider("Valider", this);
 
-
         panelBouton.add(boutonValider, BorderLayout.SOUTH);
-        panelBouton.setBorder(BorderFactory.createMatteBorder(0, 2,2 , 2, Color.yellow));
-        panelBouton.setBackground(new Color(10,59,89));    
-
+        panelBouton.setBorder(BorderFactory.createMatteBorder(0, 2, 2, 2, Color.yellow));
+        panelBouton.setBackground(new Color(10, 59, 89));
 
         JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, panelTable, panelBouton);
-        sp.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
+        sp.setBorder(BorderFactory.createEmptyBorder(0, 2, 0, 2));
         sp.setDividerSize(0);
         sp.setDividerLocation(450);
 
         sp.setBackground(Color.yellow);
-        
+
         // Les deux    
         JPanel panelDouble = new JPanel();
         panelDouble.setLayout(new FlowLayout());
-        panelDouble.setBackground(new Color(10,59,89));
-        sp.setPreferredSize(new Dimension(470,515));
+        panelDouble.setBackground(new Color(10, 59, 89));
+        sp.setPreferredSize(new Dimension(470, 515));
         panelDouble.add(sp);
-        panelDouble.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        panelDouble.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         content.add(panelDouble, BorderLayout.EAST);
-        
 
     }
 
     private void miseEnForme(JTable jt) {
         // Mettre à jour le rendu des lignes et du hearder (style modifiable dans RenduHeaderTableau et RenduTableau)
-        for (int i=0; i<jt.getColumnCount();i++){
-        jt.getColumnModel().getColumn(i).setCellRenderer(new RenduTableau());
-        //jt.getColumnModel().getColumn(1).setCellRenderer(new RenduTableau());
-        //jt.getColumnModel().getColumn(2).setCellRenderer(new RenduTableau());
-        jt.getColumnModel().getColumn(i).setHeaderRenderer(new RenduHeaderTableau());
-        //jt.getColumnModel().getColumn(1).setHeaderRenderer(new RenduHeaderTableau());
-        //jt.getColumnModel().getColumn(2).setHeaderRenderer(new RenduHeaderTableau());
+        for (int i = 0; i < jt.getColumnCount(); i++) {
+            jt.getColumnModel().getColumn(i).setCellRenderer(new RenduTableau());
+            //jt.getColumnModel().getColumn(1).setCellRenderer(new RenduTableau());
+            //jt.getColumnModel().getColumn(2).setCellRenderer(new RenduTableau());
+            //jt.getColumnModel().getColumn(i).setHeaderRenderer(new RenduHeaderTableau());
+            //jt.getColumnModel().getColumn(1).setHeaderRenderer(new RenduHeaderTableau());
+            //jt.getColumnModel().getColumn(2).setHeaderRenderer(new RenduHeaderTableau());
         }
     }
 
-    
     //Getters and Setters
     public Carte getCarteVoyageurDeCommerce() {
         return carteVoyageurDeCommerce;
@@ -427,7 +415,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     }
 
     public ItemAlgorithme getKruskal() {
-        return kruskal;
+        return twoOpt;
     }
 
     public ItemAlgorithme getPrim() {
@@ -445,19 +433,29 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     public void setItemNouvellefenetre(ItemNouvelleFenetre itemNouvellefenetre) {
         this.itemNouvellefenetre = itemNouvellefenetre;
     }
-   
 
-    public void windowOpened(WindowEvent e) {}
-    public void windowClosing(WindowEvent e) {
-        JOptionPane.showMessageDialog(this, "Merci, à Bientôt :)");
+    public void windowOpened(WindowEvent e) {
     }
-    public void windowClosed(WindowEvent e) {}
-    public void windowIconified(WindowEvent e) {}
-    public void windowDeiconified(WindowEvent e) {}
-    public void windowActivated(WindowEvent e) {}
-    public void windowDeactivated(WindowEvent e) {}
-    
-        public static void main(String[] args) {
-        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);
+
+    public void windowClosing(WindowEvent e) {
+    }
+
+    public void windowClosed(WindowEvent e) {
+    }
+
+    public void windowIconified(WindowEvent e) {
+    }
+
+    public void windowDeiconified(WindowEvent e) {
+    }
+
+    public void windowActivated(WindowEvent e) {
+    }
+
+    public void windowDeactivated(WindowEvent e) {
+    }
+
+    public static void main(String[] args) {
+        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(false);
     }
 }

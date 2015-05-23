@@ -11,13 +11,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +26,6 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import static javax.swing.SwingConstants.CENTER;
-import static javax.swing.SwingConstants.TOP;
 import voyageurdecommerce.events.EventVilleSurvolee;
 import voyageurdecommerce.events.VilleSurvoleeListener;
 
@@ -185,6 +179,7 @@ public class MapPanel extends JPanel {
      */
     public void setChemin(ArrayList<Ville> chemin) {
         this.chemin = chemin;
+        repaint();
     }
 
     /**
@@ -198,7 +193,7 @@ public class MapPanel extends JPanel {
      * @param hashChemin the hashChemin to set
      */
     public void setHashChemin(Algorithme algo, ArrayList<Object> chemin) {
-        this.hashChemin.put(algo, chemin);;
+        this.hashChemin.put(algo, chemin);
     }
 
     /**

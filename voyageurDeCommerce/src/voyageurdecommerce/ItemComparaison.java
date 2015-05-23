@@ -74,40 +74,40 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         cb1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb1.isSelected() == true) {
-                    rgb.getListeAlgo().add(Algorithme.Kruskal);
-                    cgb.getListeAlgo().add(Algorithme.Kruskal);
+                    rgb.getListeAlgo().add(Algorithme.TWO_OPT);
+                    cgb.getListeAlgo().add(Algorithme.TWO_OPT);
                 }
             }
         });
         cb2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb2.isSelected() == true) {
-                    rgb.getListeAlgo().add(Algorithme.Prim);
-                    cgb.getListeAlgo().add(Algorithme.Prim);
+                    rgb.getListeAlgo().add(Algorithme.PRIM);
+                    cgb.getListeAlgo().add(Algorithme.PRIM);
                 }
             }
         });
         cb3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb3.isSelected() == true) {
-                    rgb.getListeAlgo().add(Algorithme.plusEloignes);
-                    cgb.getListeAlgo().add(Algorithme.plusEloignes);
+                    rgb.getListeAlgo().add(Algorithme.PLUS_ELOIGNES);
+                    cgb.getListeAlgo().add(Algorithme.PLUS_ELOIGNES);
                 }
             }
         });
         cb4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb4.isSelected() == true) {
-                    rgb.getListeAlgo().add(Algorithme.plusProcheVoisin);
-                    cgb.getListeAlgo().add(Algorithme.plusProcheVoisin);
+                    rgb.getListeAlgo().add(Algorithme.PLUS_PROCHE_VOISIN);
+                    cgb.getListeAlgo().add(Algorithme.PLUS_PROCHE_VOISIN);
                 }
             }
         });
         cb5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb5.isSelected() == true) {
-                    rgb.getListeAlgo().add(Algorithme.moindreCout);
-                    cgb.getListeAlgo().add(Algorithme.moindreCout);
+                    rgb.getListeAlgo().add(Algorithme.MOINDRE_COUT);
+                    cgb.getListeAlgo().add(Algorithme.MOINDRE_COUT);
                 }
             }
         });
@@ -129,11 +129,11 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         JPanel jp1 = new JPanel();
         jp1.setLayout(new GridLayout(2, 2));
         jp1.setBackground(new Color(9, 2, 46));
-        cb1 = new JCheckBox(Algorithme.Kruskal.toString());
-        cb2 = new JCheckBox(Algorithme.Prim.toString());
-        cb3 = new JCheckBox(Algorithme.plusEloignes.toString());
-        cb4 = new JCheckBox(Algorithme.plusProcheVoisin.toString());
-        cb5 = new JCheckBox(Algorithme.moindreCout.toString());
+        cb1 = new JCheckBox(Algorithme.TWO_OPT.toString());
+        cb2 = new JCheckBox(Algorithme.PRIM.toString());
+        cb3 = new JCheckBox(Algorithme.PLUS_ELOIGNES.toString());
+        cb4 = new JCheckBox(Algorithme.PLUS_PROCHE_VOISIN.toString());
+        cb5 = new JCheckBox(Algorithme.MOINDRE_COUT.toString());
         cb1.setForeground(Color.white);
         cb2.setForeground(Color.white);
         cb3.setForeground(Color.white);

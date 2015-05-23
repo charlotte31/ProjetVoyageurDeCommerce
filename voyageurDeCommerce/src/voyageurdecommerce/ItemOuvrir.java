@@ -8,7 +8,6 @@ package voyageurdecommerce;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.FilenameFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
@@ -17,7 +16,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import java.io.*;
 import java.util.regex.*;
 import javax.swing.JOptionPane;
 
