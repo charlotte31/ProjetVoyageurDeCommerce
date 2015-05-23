@@ -399,6 +399,10 @@ public class Carte {
         ArrayList<Object> res = new ArrayList<>();
         ArrayList<Ville> villes = new ArrayList<>();
         ArrayList<Arc> arcs = new ArrayList<>();
+        long duree;
+        long debut = System.currentTimeMillis();
+        float distance = 0;
+        System.out.println(debut);
         villes.add(v);
 
         while (villes.size() != liste_villes.size()) {
@@ -442,8 +446,18 @@ public class Carte {
             System.out.println("Arc n°" + i + " : " + arc.getNomV1() + "-- " + arc.getDistance() + " --" + arc.getNomV2());
             i++;
         }
+        for (int index = 0; index < 10000000; index++) {
+            System.currentTimeMillis();
+        }
+        duree = System.currentTimeMillis() - debut;
+        for (int index = 0; index < villes.size() - 1; index++) {
+            distance = distance + this.rechercherDistance(villes.get(index), villes.get(index + 1));
+        }
         res.add(villes);
-        res.add(arcs);
+       // res.add(arcs);
+        res.add(distance);
+        res.add(duree);
+        System.out.println("Le chemin le plus court est :");
         return res;
     }
 
@@ -498,6 +512,9 @@ public class Carte {
         ArrayList<Object> res = new ArrayList<>();
         ArrayList<Ville> randomPath = generateRandomPath(v);
         boolean ameliore = true;
+        long debut = System.currentTimeMillis();
+        long duree;
+        float distance = 0;
         while (ameliore) {
             ameliore = false;
             for (int i = 0; i < randomPath.size() - 1; i++) {
@@ -539,7 +556,21 @@ public class Carte {
         for (Ville ville : randomPath) {
             System.out.println(ville.getNom());
         }
+        
+        for (int index = 0; index < 10000000; index++) {
+            System.currentTimeMillis();
+        }
+        duree = System.currentTimeMillis() - debut;
+        for (int index = 0; index < randomPath.size() - 1; index++) {
+            distance = distance + this.rechercherDistance(randomPath.get(index), randomPath.get(index + 1));
+        }
+        for (int index = 0; index < 10000000; index++) {
+            System.currentTimeMillis();
+        }
+        duree = System.currentTimeMillis() - debut;
         res.add(randomPath);
+        res.add(distance);
+        res.add(duree);
         return res;
     }
 

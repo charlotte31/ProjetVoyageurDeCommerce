@@ -71,7 +71,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().twoOpt(v);
                     ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
                     JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
-                            + resString + " - " + " - ");
+                            + resString + " - " + res.get(1)+ " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.TWO_OPT, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
@@ -79,7 +79,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().prim(v);
                     ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
                     JOptionPane.showMessageDialog(this, "[[Chemin - Distance - Performance (ms)]\n"
-                            + resString + " - " + " - ");
+                            + resString + " - " + res.get(1)+ " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.PRIM, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
