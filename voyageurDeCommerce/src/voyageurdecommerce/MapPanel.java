@@ -148,8 +148,9 @@ public class MapPanel extends JPanel {
             bool=false;
         }
         
+    
     }
-
+ 
     public void addVilleSurvoleeListener(VilleSurvoleeListener listener) {
         ville_survolee_listeners.add(listener);
     }

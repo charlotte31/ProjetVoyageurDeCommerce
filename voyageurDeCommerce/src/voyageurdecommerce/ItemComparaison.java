@@ -48,6 +48,9 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
     private JCheckBox cb3;
     private JCheckBox cb4;
     private JCheckBox cb5;
+    
+    private JCheckBox cb6;
+    private JCheckBox cb7;
     private BufferedImage background;
     private HistoGeneration randomHisto;
 
@@ -60,7 +63,7 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         JFrame jf = new JFrame("Algorithmes : Comparaisons");
         jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jf.setLocation(450, 250);
-        jf.setPreferredSize(new Dimension(480, 190));
+        jf.setPreferredSize(new Dimension(480, 250));
 
         jf.setResizable(false);
         jf.setVisible(true);
@@ -70,7 +73,9 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         c.setLayout(new FlowLayout());
         c.setBackground(new Color(9, 2, 46));
         addAlgorithmChoice(c);
+        //addAnalysisChoice(c);
         addRunChoice(c);
+        
         cb1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (cb1.isSelected() == true) {
@@ -169,5 +174,25 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         c.add(jl);
         c.add(jp);
     }
+    //public void addAnalysisChoice(Container c) {
+    //    JLabel jl = new JLabel("Que voulez-vous analyser?",null,CENTER);
+    //    jl.setForeground(Color.white);
+    //    jl.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
+    //    jl.setBackground(new Color(9, 2, 46));
+     //   JPanel jp = new JPanel(new GridLayout(3,1));
+    //    jp.setBackground(new Color(9, 2, 46));
+    //    cb6 = new JCheckBox("Comp. relatives. distance + time");
+    //    cb7 = new JCheckBox("Comp. (distance + time) ~ nb(Villes)");
+    //    cb6.setBackground(new Color(9, 2, 46));
+    //    cb7.setBackground(new Color(9, 2, 46));
+    //    cb6.setForeground(Color.white);
+    //    cb7.setForeground(Color.white);
+    //    jp.add(jl);
+    //    jp.add(cb6);
+    //    jp.add(cb7);
+        
+        //c.add(jl, BorderLayout.NORTH);
+    //    c.add(jp);
+   // }
 
 }

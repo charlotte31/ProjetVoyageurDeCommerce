@@ -52,12 +52,12 @@ public class CurrentGraphButton extends JButton implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Sélectionnez au moins 1 algorithme");
                     vdci.getItemComparaison().actionPerformed(e);
                 }
-
+            }
                 ch = new HistoGeneration("Current graph analysis", "Comparaison : distances et temps d'exécution", vdci);
 
             }
         }
-    }
+    
 
     /**
      * @return the listeAlgo

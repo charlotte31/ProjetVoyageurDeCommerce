@@ -42,20 +42,26 @@ public class BoutonValider extends JButton implements ActionListener{
 
     public void actionPerformed(ActionEvent e) {
         if (getVdci().getModelTableau().getRowCount() != getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size()) {
-            // On vide le tableau s'il avait déjà été remplie
+            // On vide le tableau s'il avait déjà été rempli
             for (int i = 0; i < getVdci().getModelTableau().getRowCount(); i++) {
                 getVdci().getModelTableau().removeData(i);
             }
-
+            ArrayList <Ville> dejaVu = new  ArrayList<Ville>();
             if (getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size() != 0) {
                 for (int i = 0; i < getVdci().getCarteVoyageurDeCommerce().getListe_arcs().size(); i++) {
                     // Puis le réinitialise
+                   if (! dejaVu.contains(getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2())){
                     getVdci().getModelTableau().addData(getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i));
+                    dejaVu.add(getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1());
                     // Et on ajoute les nouveaux arcs à la liste de la carte
                     int v1_x = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_x();
                     int v2_x = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_x();
                     int v1_y = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV1().getPosition_y();
                     int v2_y = getVdci().getCarteVoyageurDeCommerce().getListe_arcs().get(i).getV2().getPosition_y();
+                   }
+                   System.out.println("(BoutonValider)Test: nb ville = " + getVdci().getCarteVoyageurDeCommerce().getListe_villes().size());
+                   
+                   
 
                 }
 
