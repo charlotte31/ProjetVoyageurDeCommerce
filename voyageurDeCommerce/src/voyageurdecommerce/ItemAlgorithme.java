@@ -64,8 +64,12 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
 
                 }
                 if (super.getText().equals("plusEloignes")) {
+                    ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().insertionPlusEloignes(v);
+                    ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>) res.get(0));
                     JOptionPane.showMessageDialog(this, "[[Chemin], Distance, Performance (ms)]\n"
-                            + "Pas encore implémenté");
+                            + resString + " - " + res.get(1) + " - " + res.get(2));
+                    vdci.getMap().setHashChemin(Algorithme.PLUS_ELOIGNES, res);
+                    vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
                 if (super.getText().equals("2-Opt")) {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().twoOpt(v);
