@@ -25,13 +25,15 @@ import org.jfree.ui.RefineryUtilities;
 public class HistoDistanceFonctionVilles extends JFrame{
     private int nbIterations;
     private ArrayList<Algorithme> listAlgo;
+    private VoyageurDeCommerceInterface vdci;
     private Carte carte;
-    public HistoDistanceFonctionVilles(String applicationTitle, String chartTitle, int nbIterations, ArrayList<Algorithme> listAlgo) {
+    public HistoDistanceFonctionVilles(String applicationTitle, String chartTitle, VoyageurDeCommerceInterface vdci, int nbIterations, ArrayList<Algorithme> listAlgo) {
         super(applicationTitle);
         carte=new Carte();
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.nbIterations=nbIterations;
         this.listAlgo=listAlgo;
+        this.vdci=vdci;
         JFreeChart lineChart = ChartFactory.createLineChart(
                 chartTitle,
                 "Paramètres",
@@ -60,7 +62,7 @@ public class HistoDistanceFonctionVilles extends JFrame{
         carte.ajouterNoeud(new Ville(String.valueOf(0), pos_X, pos_Y));
         
 
-        for (int nb=1;nb<nbIterations;nb++){
+        for (int nb=1;nb<nbIterations+1;nb++){
             posX = Math.random() * 580 + 1;
             pos_X = posX.intValue();
             posY = Math.random() * 533 + 1;

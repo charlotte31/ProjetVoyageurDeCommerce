@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -27,6 +30,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -52,7 +56,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     private ItemSauvegarder itemEnregistrerSous;
     private ItemSauvegarder itemEnregistrer;
     private JMenuItem itemQuitter;
-
+    private JTabbedPane jt;
     private ItemAlgorithme plusProcheVoisin;
     private ItemAlgorithme plusEloignes;
     private ItemAlgorithme moindreCout;
@@ -73,6 +77,21 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     private boolean b;
     private JTable tableau;
     private ModelTable modelTableau;
+    
+    // onglet 2 
+    private JPanel principal;
+    private JLabel algo1;
+    private JPanel pAlgo1;
+    private JLabel algo2;
+    private JPanel pAlgo2;       
+    private JLabel algo3 ;
+    private JPanel pAlgo3;
+    private JLabel algo4 ;
+    private JPanel pAlgo4 ;
+    private JLabel algo5 ;
+    private JPanel pAlgo5 ;
+    private JButton raffraichir;
+    
     // Fin Déclaration
 
     //Constructeur
@@ -92,9 +111,10 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
                     + "                                          ~*~\n"
                     + " \n                                      Bienvenue!  \n \n  "
                     + "Ceci est une application JAVA destinée à résoudre\n     les problèmes des voyageurs de commerce.\n"
-                    + "  Commencez par sélectionner vos villes en cliquant\n sur la carte afin de les enregistrer"
+                    + "  Commencez par sélectionner vos villes en cliquant\n sur la carte afin de les enregistrer "
                     + "puis valider\n                         lorsque vous avez terminé. \n"
-                    + "      Profitez ensuite des algorithmes à disposition !";
+                    + "      Profitez ensuite des algorithmes à disposition \n"
+                    + "                   ainsi que des outils d'analyses!";
             JOptionPane.showMessageDialog(map, s, "Charlotte Ramé, Mélany Tanchon", 2, new ImageIcon("./ressources/Img_accueil.png"));
 
         }
@@ -114,7 +134,10 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         carteVoyageurDeCommerce = map.getCarte();
         addJLabel(content);
         addJTable(content);
-
+        jt = new JTabbedPane(JTabbedPane.SCROLL_TAB_LAYOUT );
+        jt.add("Map",map);
+        content.add(jt);
+        addOnglet("Résultat", jt);
         map.addVilleSurvoleeListener(new VilleSurvoleeListener() {
             @Override
             public void onVilleSurvolee(EventVilleSurvolee evt) {
@@ -173,6 +196,66 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     // Fin Constructeur
 
     // Méthodes
+    private void addOnglet(String name, JTabbedPane jt){
+        principal = new JPanel(new GridLayout(11,1));
+        algo1 = new JLabel("Plus Proches Voisins",0);       
+        pAlgo1 = new JPanel(new GridLayout(3,1));
+        getpAlgo1().setBackground(new Color(10, 59, 89));
+        algo1.setFont(new Font("calibri", Font.CENTER_BASELINE, 20));
+        getpAlgo1().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.yellow));
+        algo1.setForeground(Color.WHITE);
+        
+        algo2 = new JLabel("Insertion du plus éloigné",0);
+        pAlgo2 = new JPanel(new GridLayout(3,1));       
+        getpAlgo2().setBackground(new Color(10, 59, 89));
+        algo2.setFont(new Font("calibri", Font.CENTER_BASELINE, 20));
+        getpAlgo2().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.yellow));
+        algo2.setForeground(Color.WHITE);
+        
+        algo3 = new JLabel("Insertion au moindre coût",0);
+        pAlgo3 = new JPanel(new GridLayout(3,1));
+        getpAlgo3().setBackground(new Color(10, 59, 89));
+        algo3.setFont(new Font("calibri", Font.CENTER_BASELINE, 20));
+        getpAlgo3().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.yellow));
+        algo3.setForeground(Color.WHITE);
+        
+        algo4 = new JLabel("Prim",0);
+        pAlgo4 = new JPanel(new GridLayout(3,1));
+        getpAlgo4().setBackground(new Color(10, 59, 89));
+        algo4.setFont(new Font("calibri", Font.CENTER_BASELINE, 20));
+        getpAlgo4().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.yellow));
+        algo4.setForeground(Color.WHITE);
+        
+        algo5 = new JLabel("2-Opt",0);
+        pAlgo5 = new JPanel(new GridLayout(3,1));
+        getpAlgo5().setBackground(new Color(10, 59, 89));
+        getpAlgo5().setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
+        algo5.setFont(new Font("calibri", Font.CENTER_BASELINE, 20));
+        
+        algo5.setForeground(Color.WHITE);
+        JPanel panelButton = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        raffraichir = new JButton("Reset");
+        panelButton.add(raffraichir);
+
+        
+        panelButton.setBackground(new Color(10, 59, 89));
+        principal.add(algo1);
+        principal.add(getpAlgo1());
+        principal.add(algo2);
+        principal.add(getpAlgo2());
+        principal.add(algo3);
+        principal.add(getpAlgo3());
+        principal.add(algo4);
+        principal.add(getpAlgo4());
+        principal.add(algo5);
+        principal.add(getpAlgo5());
+        principal.add(panelButton);
+        principal.setBackground(new Color(10, 59, 89));
+        
+       principal.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
+       
+        jt.add(name, principal);
+    }
     private void addJMenuBar() {
         JMenuBar menu = new JMenuBar();
         JMenu menuFichier = new JMenu("Fichier");
@@ -206,7 +289,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         menuCalculer.add(twoOpt);
         menuCalculer.add(prim);
         menu.add(menuCalculer);
-
+        
         JMenu menuOutil = new JMenu("Outil");
         itemComparaison = new ItemComparaison("Comparaison", this);
         itemComparaison.setToolTipText("Analyses comparatives de diverses heuristiques");
@@ -442,9 +525,11 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     }
 
     public void windowClosing(WindowEvent e) {
+        JOptionPane.showMessageDialog(this, "Merci, à bientôt!","Fermer",0);
     }
 
     public void windowClosed(WindowEvent e) {
+        
     }
 
     public void windowIconified(WindowEvent e) {
@@ -458,8 +543,30 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 
     public void windowDeactivated(WindowEvent e) {
     }
+    public JButton getRaffraichir(){
+        return raffraichir;
+    }
+    public JPanel getpAlgo1() {
+        return pAlgo1;
+    }
 
+    public JPanel getpAlgo2() {
+        return pAlgo2;
+    }
+
+    public JPanel getpAlgo3() {
+        return pAlgo3;
+    }
+
+
+    public JPanel getpAlgo4() {
+        return pAlgo4;
+    }
+
+    public JPanel getpAlgo5() {
+        return pAlgo5;
+    }
     public static void main(String[] args) {
-        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(false);
+        VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);
     }
 }

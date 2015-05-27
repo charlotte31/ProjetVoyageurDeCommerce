@@ -5,9 +5,14 @@
  */
 package voyageurdecommerce;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
@@ -22,15 +27,32 @@ import javax.swing.JOptionPane;
 public class ItemAlgorithme extends JMenuItem implements ActionListener {
 
     private VoyageurDeCommerceInterface vdci;
+    private JLabel l1;
+    private JLabel l2;
+    private JLabel l3;
 
     public ItemAlgorithme(String m, VoyageurDeCommerceInterface vdci) {
         super(m);
         this.vdci = vdci;
+        l1 = new JLabel("",0);
+        l2 = new JLabel("",0);
+        l3 = new JLabel("",0);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         Ville v = null;
+            vdci.getRaffraichir().addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                l1.setText("");
+                l2.setText("");
+                l3.setText("");
+                
+                
+   
+                
+            }
+        });
         if (vdci.getCarteVoyageurDeCommerce().getListe_villes().size() == 0) {
             JOptionPane.showMessageDialog(this, "Sélectionnez au moins 2 villes puis validez.");
         } else {
@@ -51,7 +73,18 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     //repaint();
                     vdci.getMap().setHashChemin(Algorithme.PLUS_PROCHE_VOISIN, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
-
+                    l1.setText("Chemin: "+resString);
+                    l1.setForeground(Color.white);
+                    l1.setFont(new Font("Arial", Font.BOLD, 12));
+                    l2.setText("Distance: "+res.get(1));
+                    l2.setForeground(Color.white);
+                    l2.setFont(new Font("Arial", Font.BOLD, 12));
+                    l3.setText("Temps d'exéc.: "+res.get(2));
+                    l3.setForeground(Color.white);
+                    l3.setFont(new Font("Arial", Font.BOLD, 12));                    
+                    vdci.getpAlgo1().add(l1);
+                    vdci.getpAlgo1().add(l2);
+                    vdci.getpAlgo1().add(l3);
                     vdci.getMap().repaint();
                 }
                 if (super.getText().equals("moindreCout")) {
@@ -61,7 +94,19 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                             + resString + " - " + res.get(1) + " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.MOINDRE_COUT, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
-
+                    l1.setText("Chemin: "+resString);
+                    l1.setForeground(Color.white);
+                    l1.setFont(new Font("Arial", Font.BOLD, 12));
+                    l2.setText("Distance: "+res.get(1));
+                    l2.setForeground(Color.white);
+                    l2.setFont(new Font("Arial", Font.BOLD, 12));
+                    l3.setText("Temps d'exéc.: "+res.get(2));
+                    l3.setForeground(Color.white);
+                    l3.setFont(new Font("Arial", Font.BOLD, 12));                      
+                    vdci.getpAlgo3().add(l1);
+                    vdci.getpAlgo3().add(l2);
+                    vdci.getpAlgo3().add(l3);
+                    vdci.getMap().repaint();
                 }
                 if (super.getText().equals("plusEloignes")) {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().insertionPlusEloignes(v);
@@ -70,6 +115,19 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                             + resString + " - " + res.get(1) + " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.PLUS_ELOIGNES, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
+                    l1.setText("Chemin: "+resString);
+                    l1.setForeground(Color.white);
+                    l1.setFont(new Font("Arial", Font.BOLD, 12));
+                    l2.setText("Distance: "+res.get(1));
+                    l2.setForeground(Color.white);
+                    l2.setFont(new Font("Arial", Font.BOLD, 12));
+                    l3.setText("Temps d'exéc.: "+res.get(2));
+                    l3.setForeground(Color.white);
+                    l3.setFont(new Font("Arial", Font.BOLD, 12));                    
+                    vdci.getpAlgo2().add(l1);
+                    vdci.getpAlgo2().add(l2);
+                    vdci.getpAlgo2().add(l3);
+                    vdci.getMap().repaint();                    
                 }
                 if (super.getText().equals("2-Opt")) {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().twoOpt(v);
@@ -78,6 +136,19 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                             + resString + " - " + res.get(1)+ " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.TWO_OPT, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
+                    l1.setText("Chemin: "+resString);
+                    l1.setForeground(Color.white);
+                    l1.setFont(new Font("Arial", Font.BOLD, 12));
+                    l2.setText("Distance: "+res.get(1));
+                    l2.setForeground(Color.white);
+                    l2.setFont(new Font("Arial", Font.BOLD, 12));
+                    l3.setText("Temps d'exéc.: "+res.get(2));
+                    l3.setForeground(Color.white);
+                    l3.setFont(new Font("Arial", Font.BOLD, 12));                 
+                    vdci.getpAlgo5().add(l1);
+                    vdci.getpAlgo5().add(l2);
+                    vdci.getpAlgo5().add(l3);
+                    vdci.getMap().repaint();                   
                 }
                 if (super.getText().equals("Prim")) {
                     ArrayList<Object> res = vdci.getCarteVoyageurDeCommerce().prim(v);
@@ -86,6 +157,19 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                             + resString + " - " + res.get(1)+ " - " + res.get(2));
                     vdci.getMap().setHashChemin(Algorithme.PRIM, res);
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
+                    l1.setText("Chemin: "+resString);
+                    l1.setForeground(Color.white);
+                    l1.setFont(new Font("Arial", Font.BOLD, 12));
+                    l2.setText("Distance: "+res.get(1));
+                    l2.setForeground(Color.white);
+                    l2.setFont(new Font("Arial", Font.BOLD, 12));
+                    l3.setText("Temps d'exéc.: "+res.get(2));
+                    l3.setForeground(Color.white);
+                    l3.setFont(new Font("Arial", Font.BOLD, 12));              
+                    vdci.getpAlgo4().add(l1);
+                    vdci.getpAlgo4().add(l2);
+                    vdci.getpAlgo4().add(l3);
+                    vdci.getMap().repaint();                  
                 }
 
                

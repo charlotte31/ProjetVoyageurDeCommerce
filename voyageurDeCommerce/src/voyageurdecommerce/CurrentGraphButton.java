@@ -62,8 +62,8 @@ public class CurrentGraphButton extends JButton implements ActionListener {
                 else{
                 JOptionPane.showMessageDialog(vdci, "C'est partie pour l'analyse!");
                 hdt = new HistoDistanceTemps("Current graph analysis", "Comparaison : distances et temps d'exécution", vdci);
-                hdfv= new HistoDistanceFonctionVilles("Current graph analysis","Distance en fonction du temps", getNbIterations(),listeAlgo);
-                htfv= new HistoTempsFonctionVilles("Current graph analysis","Temps d'exécution en fonction du temps", getNbIterations(),listeAlgo);
+                hdfv= new HistoDistanceFonctionVilles("Current graph analysis","Distance en fonction du temps",vdci, getNbIterations(),listeAlgo);
+                htfv= new HistoTempsFonctionVilles("Current graph analysis","Temps d'exécution en fonction du temps",vdci, getNbIterations(),listeAlgo);
                 
                 }
         }

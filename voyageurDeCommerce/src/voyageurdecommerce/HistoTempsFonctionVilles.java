@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import javax.swing.JFrame;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import org.jfree.chart.ChartFactory;
@@ -28,13 +29,15 @@ public class HistoTempsFonctionVilles extends JFrame{
     private int nbIterations;
     private ArrayList<Algorithme> listeAlgo;
     private Carte carte;
+    private VoyageurDeCommerceInterface vdci;
     
-    public HistoTempsFonctionVilles(String applicationTitle, String chartTitle, int nbIterations, ArrayList<Algorithme> listeAlgo) {
+    public HistoTempsFonctionVilles(String applicationTitle, String chartTitle,VoyageurDeCommerceInterface vdci, int nbIterations, ArrayList<Algorithme> listeAlgo) {
         super(applicationTitle);
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         carte = new Carte();
         this.nbIterations=nbIterations;
         this.listeAlgo=listeAlgo;
+        this.vdci=vdci;
         JFreeChart lineChart = ChartFactory.createLineChart(
                 chartTitle,
                 "Paramètres",
@@ -46,7 +49,7 @@ public class HistoTempsFonctionVilles extends JFrame{
         chartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         chartPanel.setLocation(600,50);
         setBackground(new Color(10, 59, 89));
-       
+       ChartPanel.setDefaultLocale(Locale.US);
         setContentPane(chartPanel);
         pack();
         RefineryUtilities.centerFrameOnScreen(this);
@@ -63,7 +66,7 @@ public class HistoTempsFonctionVilles extends JFrame{
         carte.ajouterNoeud(new Ville(String.valueOf(0), pos_X, pos_Y));
         
 
-        for (int nb=1;nb<nbIterations;nb++){
+        for (int nb=1;nb<nbIterations+1;nb++){
             posX = Math.random() * 580 + 1;
             pos_X = posX.intValue();
             posY = Math.random() * 533 + 1;
