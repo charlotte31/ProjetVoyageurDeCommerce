@@ -80,7 +80,7 @@ public class HistoDistanceFonctionVilles extends JFrame{
         carte.ajouterNoeud(new Ville(String.valueOf(0), pos_X, pos_Y));
         
 
-        for (int nb=1;nb<nbIterations+1;nb++){
+        for (int nb=0;nb<nbIterations+1;nb++){
             posX = Math.random() * 580 + 1;
             pos_X = posX.intValue();
             posY = Math.random() * 533 + 1;
