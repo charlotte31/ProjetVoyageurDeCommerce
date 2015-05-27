@@ -5,6 +5,7 @@
  */
 package voyageurdecommerce;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,23 +18,27 @@ import org.jfree.chart.ChartFrame;
  * @author Melany
  */
 public class RandonGraphButton extends JButton implements ActionListener {
-
+    private int nbIterations;
     private int nbVilles;
     private Carte randomCarte;
-    private HistoGeneration hg;
+    private HistoDistanceTemps hg;
     private VoyageurDeCommerceInterface vdci;
     private ArrayList<Algorithme> listeAlgo;
+    private HistoDistanceFonctionVilles hdfv;
+    private HistoTempsFonctionVilles htfv;
 
-    public RandonGraphButton(String name, VoyageurDeCommerceInterface vdci) {
+    public RandonGraphButton(String name, VoyageurDeCommerceInterface vdci, int nbIterations) {
         super(name);
+        super.setForeground(new Color(10, 59, 89));
+        this.nbIterations=nbIterations;
+        this.vdci=vdci;
         nbVilles = 0;
         randomCarte = new Carte();
-        this.vdci = vdci;
         listeAlgo = new ArrayList<Algorithme>();
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println(listeAlgo.size());
+        System.out.println(getNbIterations());
         String nom = JOptionPane.showInputDialog("Nombre de villes à générer:", "2");
         if (nom != null) {
             nbVilles = Integer.parseInt(nom);
@@ -55,9 +60,10 @@ public class RandonGraphButton extends JButton implements ActionListener {
             vdci.getCarteVoyageurDeCommerce().ajouterNoeud(new Ville(String.valueOf(i), pos_X, pos_Y));
 
         }
+        
         vdci.getCarteVoyageurDeCommerce().creerClique();
         vdci.getMap().repaint();
-        System.out.println(listeAlgo.contains(Algorithme.MOINDRE_COUT));
+       
         if (listeAlgo.contains(Algorithme.TWO_OPT) == true) {
             vdci.getKruskal().actionPerformed(e);
         }
@@ -74,10 +80,15 @@ public class RandonGraphButton extends JButton implements ActionListener {
             vdci.getMoindreCout().actionPerformed(e);
         }
         if (listeAlgo.size() == 0) {
-            JOptionPane.showMessageDialog(this, "Sélectionnez au moins 1 algorithme");
-            vdci.getItemComparaison().actionPerformed(e);
+            JOptionPane.showMessageDialog(vdci, "Sélectionnez au moins 1 algorithme");
+            
         } else {
-            hg = new HistoGeneration("Random graph analysis", "Comparaison : distances et temps d'exécution", vdci);
+            JOptionPane.showMessageDialog(vdci, "C'est partie pour l'analyse!");
+            hg = new HistoDistanceTemps("Random graph analysis", "Comparaison : distances et temps d'exécution", vdci);
+            hdfv= new HistoDistanceFonctionVilles("Random graph analysis","Distance en fonction du temps", getNbIterations(),listeAlgo);
+            htfv= new HistoTempsFonctionVilles("Random graph analysis","Temps d'exécution en fonction du temps", getNbIterations(),listeAlgo);
+                
+        
         }
 
     }
@@ -94,6 +105,20 @@ public class RandonGraphButton extends JButton implements ActionListener {
      */
     public void setListeAlgo(ArrayList<Algorithme> listeAlgo) {
         this.listeAlgo = listeAlgo;
+    }
+
+    /**
+     * @return the nbIterations
+     */
+    public int getNbIterations() {
+        return nbIterations;
+    }
+
+    /**
+     * @param nbIterations the nbIterations to set
+     */
+    public void setNbIterations(int nbIterations) {
+        this.nbIterations = nbIterations;
     }
 
 }

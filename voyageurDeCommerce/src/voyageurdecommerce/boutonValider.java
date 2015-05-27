@@ -30,7 +30,8 @@ public class BoutonValider extends JButton implements ActionListener{
     
     public BoutonValider(String nom, VoyageurDeCommerceInterface vdci){
         super(nom);
-        this.vdci=vdci;     
+        this.vdci=vdci;  
+        setToolTipText("Cliquez ici pour visualiser les distances intervilles");
     }
     
     public void painComponent(Graphics g){

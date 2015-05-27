@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import javafx.scene.control.CheckBox;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -48,22 +49,25 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
     private JCheckBox cb3;
     private JCheckBox cb4;
     private JCheckBox cb5;
-    
+  
     private JCheckBox cb6;
     private JCheckBox cb7;
+    private JLabel label;
     private BufferedImage background;
-    private HistoGeneration randomHisto;
+    private HistoDistanceTemps randomHisto;
 
+    private int val;
     public ItemComparaison(String nom, VoyageurDeCommerceInterface vdci) {
         super(nom);
         this.vdci = vdci;
+        val=2;
     }
 
     public void actionPerformed(ActionEvent e) {
         JFrame jf = new JFrame("Algorithmes : Comparaisons");
         jf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         jf.setLocation(450, 250);
-        jf.setPreferredSize(new Dimension(480, 250));
+        jf.setPreferredSize(new Dimension(480, 280));
 
         jf.setResizable(false);
         jf.setVisible(true);
@@ -71,10 +75,12 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
 
         Container c = jf.getContentPane();
         c.setLayout(new FlowLayout());
-        c.setBackground(new Color(9, 2, 46));
+        c.setBackground(new Color(10, 59, 89));
         addAlgorithmChoice(c);
         //addAnalysisChoice(c);
+        addCompteur(c);
         addRunChoice(c);
+     
         
         cb1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -116,24 +122,26 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
                 }
             }
         });
-        rgb.addActionListener(rgb);
-        cgb.addActionListener(cgb);
+        
+       rgb.addActionListener(rgb);
+       cgb.addActionListener(cgb);
        
     }
 
     public void addAlgorithmChoice(Container c) {
+       
         JPanel jp = new JPanel();
         JLabel jl = new JLabel("Sélectionnez les algorithmes à comparer");
-        jl.setForeground(Color.white);
+        jl.setForeground(new Color(9, 2, 46));
         jl.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
-        jl.setBackground(new Color(9, 2, 46));
+        jl.setBackground(new Color(10, 59, 89));
         jp.add(jl, BorderLayout.CENTER);
-        jp.setBackground(new Color(9, 2, 46));
+        jp.setBackground(new Color(10, 59, 89));
         c.add(jp);
 
         JPanel jp1 = new JPanel();
         jp1.setLayout(new GridLayout(2, 2));
-        jp1.setBackground(new Color(9, 2, 46));
+        jp1.setBackground(new Color(10, 59, 89));
         cb1 = new JCheckBox(Algorithme.TWO_OPT.toString());
         cb2 = new JCheckBox(Algorithme.PRIM.toString());
         cb3 = new JCheckBox(Algorithme.PLUS_ELOIGNES.toString());
@@ -144,49 +152,108 @@ public class ItemComparaison extends JMenuItem implements ActionListener {
         cb3.setForeground(Color.white);
         cb4.setForeground(Color.white);
         cb5.setForeground(Color.white);
-        cb1.setBackground(new Color(9, 2, 46));
-        cb2.setBackground(new Color(9, 2, 46));
-        cb3.setBackground(new Color(9, 2, 46));
-        cb4.setBackground(new Color(9, 2, 46));
-        cb5.setBackground(new Color(9, 2, 46));
+        cb1.setBackground(new Color(10, 59, 89));
+        cb2.setBackground(new Color(10, 59, 89));
+        cb3.setBackground(new Color(10, 59, 89));
+        cb4.setBackground(new Color(10, 59, 89));
+        cb5.setBackground(new Color(10, 59, 89));
         jp1.add(cb1);
         jp1.add(cb2);
         jp1.add(cb3);
         jp1.add(cb4);
         c.add(jp1);
         JPanel jp2 = new JPanel();
-        jp2.setBackground(new Color(9, 2, 46));
+        jp2.setBackground(new Color(10, 59, 89));
         jp2.add(cb5, BorderLayout.CENTER);
         c.add(jp2);
     }
-
-    public void addRunChoice(Container c) {
-        JLabel jl = new JLabel("Sur quel graphe la comparaison doit-être faite ?");
-        jl.setForeground(Color.white);
+    public void addCompteur (Container c){       
+        //Composants
+        JPanel panel = new JPanel(new GridLayout(2,1));
+        JPanel pTrans = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel jl = new JLabel("Nombre de villes (ie. itérations)");
+        jl.setForeground(new Color(9, 2, 46));
         jl.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
-        jl.setBackground(new Color(9, 2, 46));
-        JPanel jp = new JPanel(new GridLayout(1, 2));
-        jp.setBackground(new Color(9, 2, 46));
-        cgb = new CurrentGraphButton("Graphe courant",vdci);
-        rgb = new RandonGraphButton("Graphe aléatoire", vdci);
-        jp.add(cgb);
-        jp.add(rgb);
-        c.add(jl);
-        c.add(jp);
+        JButton moins = new JButton("<");       
+        JButton plus = new JButton(">");
+        label = new JLabel("2");
+        //Evenements
+        moins.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                int n = Integer.parseInt(label.getText());
+                if (n>2 && n-1>=2){
+                    n=n-1;
+                    label.setText(String.valueOf(n));
+                    val = n;
+                   
+                }  
+            }
+        });
+        plus.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                label.setText(String.valueOf(Integer.parseInt(label.getText())+1));
+                val=Integer.parseInt(label.getText());
+                rgb.setNbIterations(val);
+                cgb.setNbIterations(val);
+          
+            }
+        });       
+        //Mise en forme
+        moins.setForeground(new Color(10, 59, 89));
+        label.setForeground(Color.white);
+        plus.setForeground(new Color(10, 59, 89));
+        panel.setBackground(new Color(10, 59, 89));
+        pTrans.setBackground(new Color(10, 59, 89));
+        //Legos
+        panel.add(jl, BorderLayout.CENTER);
+        pTrans.add(moins);
+        pTrans.add(label);
+        pTrans.add(plus);
+        panel.add(pTrans);
+        c.add(panel);
+       
     }
+       
+    public void addRunChoice(Container c) {
+        JPanel panel = new JPanel(new GridLayout(2,1));
+        JPanel panel2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        
+        JLabel jl = new JLabel("Sur quel graphe la comparaison doit-être faite ?");
+        jl.setForeground(new Color(9, 2, 46));
+        jl.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
+        jl.setBackground(new Color(10, 59, 89));
+        
+        panel.setBackground(new Color(10, 59, 89));
+        panel2.setBackground(new Color(10, 59, 89));
+      
+        cgb = new CurrentGraphButton("Graphe courant",vdci, val);
+        rgb = new RandonGraphButton("Graphe aléatoire", vdci,val);
+        
+        
+        panel.add(jl);
+        panel2.add(cgb);
+        panel2.add(rgb);
+        panel.add(panel2);
+        c.add(panel);
+        
+    }
+    
+    
+  
     //public void addAnalysisChoice(Container c) {
     //    JLabel jl = new JLabel("Que voulez-vous analyser?",null,CENTER);
-    //    jl.setForeground(Color.white);
+    //    jl.setForeground(new Color(9, 2, 46));
     //    jl.setFont(new Font(Font.DIALOG, Font.BOLD, 16));
-    //    jl.setBackground(new Color(9, 2, 46));
+    //    jl.setBackground(new Color(10, 59, 89));
      //   JPanel jp = new JPanel(new GridLayout(3,1));
-    //    jp.setBackground(new Color(9, 2, 46));
+    //    jp.setBackground(new Color(10, 59, 89));
     //    cb6 = new JCheckBox("Comp. relatives. distance + time");
     //    cb7 = new JCheckBox("Comp. (distance + time) ~ nb(Villes)");
-    //    cb6.setBackground(new Color(9, 2, 46));
-    //    cb7.setBackground(new Color(9, 2, 46));
-    //    cb6.setForeground(Color.white);
-    //    cb7.setForeground(Color.white);
+    //    cb6.setBackground(new Color(10, 59, 89));
+    //    cb7.setBackground(new Color(10, 59, 89));
+    //    cb6.setForeground(new Color(9, 2, 46));
+    //    cb7.setForeground(new Color(9, 2, 46));
     //    jp.add(jl);
     //    jp.add(cb6);
     //    jp.add(cb7);

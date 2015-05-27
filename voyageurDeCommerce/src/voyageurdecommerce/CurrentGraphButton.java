@@ -5,6 +5,7 @@
  */
 package voyageurdecommerce;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,23 +17,29 @@ import javax.swing.JOptionPane;
  * @author Melany
  */
 public class CurrentGraphButton extends JButton implements ActionListener {
-
+    private int nbIterations;
     private VoyageurDeCommerceInterface vdci;
     private ArrayList<Algorithme> listeAlgo;
-    private HistoGeneration ch;
+    private HistoDistanceTemps hdt;
+    private HistoDistanceFonctionVilles hdfv;
+    private HistoTempsFonctionVilles htfv;
 
-    public CurrentGraphButton(String name, VoyageurDeCommerceInterface vdci) {
+    public CurrentGraphButton(String name, VoyageurDeCommerceInterface vdci, int nbIterations) {
         super(name);
+        super.setForeground(new Color(10, 59, 89));
+        this.nbIterations=nbIterations;
         this.vdci = vdci;
         listeAlgo = new ArrayList<Algorithme>();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        
         if (vdci.getCarteVoyageurDeCommerce().getListe_villes().size() < 2) {
             JOptionPane.showMessageDialog(this, "Saisie du graphe incorrecte");
         } else {
-            for (int i = 0; i < listeAlgo.size(); i++) {
+            
+           
                 if (listeAlgo.contains(Algorithme.TWO_OPT)) {
                     vdci.getKruskal().actionPerformed(e);
                 }
@@ -49,13 +56,17 @@ public class CurrentGraphButton extends JButton implements ActionListener {
                     vdci.getPlusEloignes().actionPerformed(e);
                 }
                 if (listeAlgo.size() == 0) {
-                    JOptionPane.showMessageDialog(this, "Sélectionnez au moins 1 algorithme");
-                    vdci.getItemComparaison().actionPerformed(e);
+                    JOptionPane.showMessageDialog(vdci, "Sélectionnez au moins 1 algorithme");
+                  
                 }
-            }
-                ch = new HistoGeneration("Current graph analysis", "Comparaison : distances et temps d'exécution", vdci);
-
-            }
+                else{
+                JOptionPane.showMessageDialog(vdci, "C'est partie pour l'analyse!");
+                hdt = new HistoDistanceTemps("Current graph analysis", "Comparaison : distances et temps d'exécution", vdci);
+                hdfv= new HistoDistanceFonctionVilles("Current graph analysis","Distance en fonction du temps", getNbIterations(),listeAlgo);
+                htfv= new HistoTempsFonctionVilles("Current graph analysis","Temps d'exécution en fonction du temps", getNbIterations(),listeAlgo);
+                
+                }
+        }
         }
     
 
@@ -71,6 +82,20 @@ public class CurrentGraphButton extends JButton implements ActionListener {
      */
     public void setListeAlgo(ArrayList<Algorithme> listeAlgo) {
         this.listeAlgo = listeAlgo;
+    }
+
+    /**
+     * @return the nbIterations
+     */
+    public int getNbIterations() {
+        return nbIterations;
+    }
+
+    /**
+     * @param nbIterations the nbIterations to set
+     */
+    public void setNbIterations(int nbIterations) {
+        this.nbIterations = nbIterations;
     }
 
 }

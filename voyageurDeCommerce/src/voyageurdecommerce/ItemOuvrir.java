@@ -47,7 +47,7 @@ public class ItemOuvrir extends JMenuItem implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         // Parser : ouverture d'un file (extension .vdc), et chargement du graphe dans une nouvelle fenêtre
         JFileChooser fileChooser = new JFileChooser(".");
-        FileFilter filter1 = new ExtensionFileFilter("txt", new String[]{"vdc"}); // Création de l'extension permise pour les fichiers d'ouvertures
+        FileFilter filter1 = new ExtensionFileFilter("vdc", new String[]{"vdc"}); // Création de l'extension permise pour les fichiers d'ouvertures
         for (int i = 0; i < fileChooser.getChoosableFileFilters().length; i++) {  // Suppression de toutes les extensions permises par défaut (càd toutes)
             fileChooser.removeChoosableFileFilter(fileChooser.getChoosableFileFilters()[i]);
         }

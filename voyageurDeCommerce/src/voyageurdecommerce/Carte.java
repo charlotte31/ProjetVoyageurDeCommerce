@@ -261,13 +261,10 @@ public class Carte {
 
         // Initialisation pour l'algorithme       
         ArrayList<Ville> villes = this.villesCopie();
-
         ArrayList<Arc> arcs = this.arcsCopie();
-
         chemin.add(v.getNom());
         ArrayList<Object> resultMin = this.rechercherMinDistance(v, arcs);
 
-        distance = distance + (float) resultMin.get(1);
         Ville vIni = v;
         Ville vTemp = v;
         debut = System.currentTimeMillis();
@@ -279,7 +276,7 @@ public class Carte {
                             && arcs.get(iA).getDistance() == (float) resultMin.get(1)
                             && chemin.contains(arcs.get(iA).getNomV2()) == false) {
                         chemin.add(arcs.get(iA).getNomV2());
-                        System.out.println(arcs.get(iA).getNomV2());
+                        
                         vTemp = arcs.get(iA).getV2();
                     }
                     if (v.getNom().equals(arcs.get(iA).getNomV2())
@@ -293,36 +290,34 @@ public class Carte {
                 }
             }
             //villes.remove(v);
-            resultMin = this.rechercherMinDistance(vTemp, arcs);
-            distance = distance + (float) resultMin.get(1);
+            resultMin = this.rechercherMinDistance(vTemp, arcs);           
             v = vTemp;
         }
         if (chemin.contains(villes.get(villes.size() - 1).getNom()) == false) {
             chemin.add(villes.get(villes.size() - 1).getNom());
         }
         chemin.add(vIni.getNom());
-        for (int i = 0; i < liste_arcs.size(); i++) {
-            if ((liste_arcs.get(i).getNomV1().equals(vIni.getNom()) && liste_arcs.get(i).getNomV2().equals(chemin.get(chemin.size() - 2)))
-                    | (liste_arcs.get(i).getNomV2().equals(vIni.getNom()) && liste_arcs.get(i).getNomV1().equals(chemin.get(chemin.size() - 2)))) {
-                distance = distance + liste_arcs.get(i).getDistance();
-            }
-        }
-        System.out.println(distance);
+      
+       
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
         duree = System.currentTimeMillis() - debut;
         ArrayList<Ville> cheminRes = toVille(chemin);
         // Résultats
+        distance=0;
         result.add(cheminRes);
+           for (int i = 0; i < cheminRes.size() - 1; i++) {
+            distance = distance + this.rechercherDistance(cheminRes.get(i), cheminRes.get(i + 1));
+        }
         result.add(distance);
         result.add(duree);
         System.out.println("Le chemin le plus court est :");
         for (int i = 0; i < chemin.size(); i++) {
             System.out.println(chemin.get(i));
         }
-        //System.out.println("Distance de ce chemin: "+distance); 
-        //System.out.println("Performance algorithmique (ms): "+duree);
+        System.out.println("Distance de ce chemin: "+distance); 
+        System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
     }
 
@@ -389,20 +384,20 @@ public class Carte {
         for (int i = 0; i < chemin.size(); i++) {
             System.out.println(chemin.get(i).getNom());
         }
-        System.out.println(distance);
-        //System.out.println("Distance de ce chemin: "+distance); 
-        //System.out.println("Performance algorithmique (ms): "+duree);
+       
+        System.out.println("Distance de ce chemin: "+distance); 
+        System.out.println("Performance algorithmique (ms): "+duree);
         return (result);
     }
 
     public ArrayList<Object> prim(Ville v) {
+        System.out.println("Prim");
         ArrayList<Object> res = new ArrayList<>();
         ArrayList<Ville> villes = new ArrayList<>();
         ArrayList<Arc> arcs = new ArrayList<>();
         long duree;
         long debut = System.currentTimeMillis();
         float distance = 0;
-        System.out.println(debut);
         villes.add(v);
 
         while (villes.size() != liste_villes.size()) {
@@ -457,7 +452,13 @@ public class Carte {
        // res.add(arcs);
         res.add(distance);
         res.add(duree);
+        System.out.println("\n\nRésultats:");
         System.out.println("Le chemin le plus court est :");
+        for (int nb = 0; nb < villes.size(); nb++) {
+            System.out.println(villes.get(nb).getNom());
+        }    
+        System.out.println("Distance de ce chemin: "+distance); 
+        System.out.println("Performance algorithmique (ms): "+duree);
         return res;
     }
 
@@ -498,46 +499,52 @@ public class Carte {
         ArrayList<Ville> aVisiter = villesCopie();
         ArrayList<Ville> dejaVu = new ArrayList<Ville>();
         aVisiter.remove(v);
+        
         dejaVu.add(v);
         chemin.add(v.getNom());
+        chemin.add(((Ville)rechercherMinDistance(v, liste_arcs).get(0)).getNom());
+        dejaVu.add((Ville)rechercherMinDistance(v, liste_arcs).get(0));
+        aVisiter.remove((Ville)rechercherMinDistance(v, liste_arcs).get(0));
+       
         while (chemin.size()!= liste_villes.size()){
             ArrayList<Float> listeDist = new ArrayList<Float>();
             ArrayList<Ville> listSucc = new ArrayList<Ville>();
             ArrayList<Ville> listPred = new ArrayList<Ville>(); 
-            Ville vMAX = null;
-            Ville vMAXpred=null;
+
             float distMAX = 0;
             for (int i=0; i<aVisiter.size();i++){
                 distance = 0;
-                vMAX = null;
-                vMAXpred=null;
+
                 for (int j=0;j<dejaVu.size();j++){
                     float d = rechercherDistance(aVisiter.get(i), dejaVu.get(j));
                     if ( d <= distance | distance ==0){
                         distance = d;
                         vSucc=dejaVu.get(j);
                         vPred=aVisiter.get(i);
-                        System.out.println(vSucc.getNom());
+                        
                     }
+                listSucc.add(vSucc);
+                listPred.add(vPred);
+                System.out.println("ICI¨"+vPred.getNom());
+                listeDist.add(distance);
+                }         
+            for(int j=0; j<listeDist.size();j++){
+                if(listeDist.get(j)>distMAX){
+                    distance=distMAX;
+                    vSucc=listSucc.get(j);
+                    vPred=listPred.get(j);
+                    
                 }
             
-            if(distance>=distMAX){
-                distance=distMAX;
-                vMAX=vPred;
-                vMAXpred=vSucc;
-            }
-           
-            }
-            
-           
-            chemin.add(result.indexOf(vMAXpred)+2, vMAX.getNom());
-            
+            }         
+            chemin.add(result.indexOf(vSucc)+2, vPred.getNom());
+            System.out.println("TEST"+chemin.get(0));
+            System.out.println("ICI2222¨"+vSucc.getNom());
             dejaVu.add(vPred);
             aVisiter.remove(vPred);
-            
+            }
         }
         chemin.add(v.getNom()); 
-
         for (int i = 0; i < 10000000; i++) {
             System.currentTimeMillis();
         }
@@ -560,6 +567,7 @@ public class Carte {
     }
 
     public ArrayList<Object> twoOpt(Ville v) {
+        System.out.println("2-Opt");
         ArrayList<Object> res = new ArrayList<>();
         ArrayList<Ville> randomPath = generateRandomPath(v);
         boolean ameliore = true;
@@ -608,10 +616,6 @@ public class Carte {
             System.out.println(ville.getNom());
         }
         
-        for (int index = 0; index < 10000000; index++) {
-            System.currentTimeMillis();
-        }
-        duree = System.currentTimeMillis() - debut;
         for (int index = 0; index < randomPath.size() - 1; index++) {
             distance = distance + this.rechercherDistance(randomPath.get(index), randomPath.get(index + 1));
         }
@@ -622,6 +626,13 @@ public class Carte {
         res.add(randomPath);
         res.add(distance);
         res.add(duree);
+        System.out.println("Le chemin le plus court est :");
+        for (int i = 0; i < randomPath.size(); i++) {
+            System.out.println(randomPath.get(i).getNom());
+        }
+       
+        System.out.println("Distance de ce chemin: "+distance); 
+        System.out.println("Performance algorithmique (ms): "+duree);
         return res;
     }
 
@@ -643,7 +654,7 @@ public class Carte {
         System.out.println(carteTest.liste_arcs.get(i).getNomV1()+" "+carteTest.liste_arcs.get(i).getNomV2()+" "+carteTest.liste_arcs.get(i).getDistance());
     }
         //carteTest.twoOpt(v1);
-        carteTest.insertionPlusEloignes(v1);
+        carteTest.moindreCout(v1);
     }
 
     /**

@@ -193,7 +193,8 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
         menuFichier.add(itemQuitter);
         menu.add(menuFichier);
 
-        JMenu menuCalculer = new JMenu("Calculer");
+        JMenu menuCalculer = new JMenu("Voy. de Comm.");
+        menuCalculer.setToolTipText("Choisissez une heuristique");
         plusProcheVoisin = new ItemAlgorithme("plusProcheVoisin", this);
         plusEloignes = new ItemAlgorithme("plusEloignes", this);
         moindreCout = new ItemAlgorithme("moindreCout", this);
@@ -208,7 +209,9 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 
         JMenu menuOutil = new JMenu("Outil");
         itemComparaison = new ItemComparaison("Comparaison", this);
-        itemGeneration = new ItemGeneration("Generation", this);
+        itemComparaison.setToolTipText("Analyses comparatives de diverses heuristiques");
+        itemGeneration = new ItemGeneration("Génération", this);
+        itemGeneration.setToolTipText("Génère un graphe aléatoire d'ordre souhaité");
         menuOutil.add(itemComparaison);
         menuOutil.add(itemGeneration);
         menu.add(menuOutil);
@@ -223,7 +226,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 //        JLabel img = new JLabel(icon);
 //        map.add(img);
         map.setLayout(new FlowLayout());
-        map.setBorder(new BevelBorder(BevelBorder.RAISED, Color.lightGray,
+        map.setBorder(new BevelBorder(BevelBorder.RAISED, Color.white,
                 Color.yellow));
         //JLabel city = new JLabel("Toulouse");
 

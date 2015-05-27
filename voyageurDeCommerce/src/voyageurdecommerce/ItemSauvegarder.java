@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,17 +54,25 @@ public class ItemSauvegarder extends JMenuItem implements ActionListener {
                                 + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_villes().get(i).getPosition_y() + "\n");
                     }
                     savedFile.write("\n[ARCS ET DISTANCES]\n");
+                    ArrayList<String> dejaEcrit = new ArrayList<String>();
                     for (int i = 0; i < vdci.getCarteVoyageurDeCommerce().getListe_arcs().size(); i++) {
+                        if(! dejaEcrit.contains(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV2())){
                         savedFile.write(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV1()
                                 + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV2()
                                 + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getDistance() + "\n");
+                    }
+                        dejaEcrit.add(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV1());
                     }
                     if (vdci.getMap().getHashChemin().size() != 0) {
                         savedFile.write("\n[VOYAGEUR DE COMMERCE: RESULTATS]\n");
                         Iterator<Algorithme> keySetIterator = vdci.getMap().getHashChemin().keySet().iterator();
                         while (keySetIterator.hasNext()) {
                             Algorithme key = keySetIterator.next();
-                            savedFile.write(key + "\t" + vdci.getMap().getHashChemin().get(key) + "\n");
+                            savedFile.write(key.toString());
+                            ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>)vdci.getMap().getHashChemin().get(key).get(0));
+                            savedFile.write("\n\t" + resString + "\n"
+                                            +"\tDistance: "+vdci.getMap().getHashChemin().get(key).get(1)+"\n"
+                                            +"\tTemps d'exécution: "+vdci.getMap().getHashChemin().get(key).get(2)+"\n");
                         }
                     }
                     savedFile.close();
@@ -83,18 +92,26 @@ public class ItemSauvegarder extends JMenuItem implements ActionListener {
                             + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_villes().get(i).getPosition_y() + "\n");
                 }
                 savedFile.write("\n[ARCS ET DISTANCES]\n");
-                for (int i = 0; i < vdci.getCarteVoyageurDeCommerce().getListe_arcs().size(); i++) {
-                    savedFile.write(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV1()
-                            + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV2()
-                            + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getDistance() + "\n");
-                }
-                if (vdci.getMap().getHashChemin().size() != 0) {
-                    savedFile.write("\n[VOYAGEUR DE COMMERCE: RESULTATS]\n");
-                    Iterator<Algorithme> keySetIterator = vdci.getMap().getHashChemin().keySet().iterator();
-                    while (keySetIterator.hasNext()) {
-                        Algorithme key = keySetIterator.next();
-                        savedFile.write(key + "\t" + vdci.getMap().getHashChemin().get(key) + "\n");
+                 ArrayList<String> dejaEcrit = new ArrayList<String>();
+                    for (int i = 0; i < vdci.getCarteVoyageurDeCommerce().getListe_arcs().size(); i++) {
+                        if(! dejaEcrit.contains(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV2())){
+                        savedFile.write(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV1()
+                                + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV2()
+                                + "\t" + vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getDistance() + "\n");
                     }
+                        dejaEcrit.add(vdci.getCarteVoyageurDeCommerce().getListe_arcs().get(i).getNomV1());
+                    }
+                if (vdci.getMap().getHashChemin().size() != 0) {
+                     savedFile.write("\n[VOYAGEUR DE COMMERCE: RESULTATS]\n");
+                        Iterator<Algorithme> keySetIterator = vdci.getMap().getHashChemin().keySet().iterator();
+                        while (keySetIterator.hasNext()) {
+                            Algorithme key = keySetIterator.next();
+                            savedFile.write(key.toString());
+                            ArrayList<String> resString = vdci.getCarteVoyageurDeCommerce().toString((ArrayList<Ville>)vdci.getMap().getHashChemin().get(key).get(0));
+                            savedFile.write("\n\t" + resString + "\n"
+                                            +"\tDistance: "+vdci.getMap().getHashChemin().get(key).get(1)+"\n"
+                                            +"\tTemps d'exécution: "+vdci.getMap().getHashChemin().get(key).get(2)+"\n");
+                        }
                 }
                 savedFile.close();
             } catch (IOException ex) {

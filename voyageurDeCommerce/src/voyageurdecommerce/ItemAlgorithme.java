@@ -88,8 +88,7 @@ public class ItemAlgorithme extends JMenuItem implements ActionListener {
                     vdci.getMap().setChemin((ArrayList<Ville>) res.get(0));
                 }
 
-                // ArrayList<Object> ipe = vdci.getCarteVoyageurDeCommerce().moindreCout(v);
-                //System.out.println(ipe.get(0));
+               
             }
         }
 

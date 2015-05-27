@@ -22,11 +22,11 @@ import org.jfree.ui.RefineryUtilities;
  *
  * @author Melany
  */
-public class HistoGeneration extends JFrame {
+public class HistoDistanceTemps extends JFrame {
 
     private VoyageurDeCommerceInterface vdci;
 
-    public HistoGeneration(String applicationTitle, String chartTitle, VoyageurDeCommerceInterface vdci) {
+    public HistoDistanceTemps(String applicationTitle, String chartTitle, VoyageurDeCommerceInterface vdci) {
         super(applicationTitle);
         super.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.vdci = vdci;
@@ -39,6 +39,7 @@ public class HistoGeneration extends JFrame {
                 true, true, false);
         ChartPanel chartPanel = new ChartPanel(barChart);
         chartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
+       
         setBackground(new Color(10, 59, 89));
         setContentPane(chartPanel);
         pack();

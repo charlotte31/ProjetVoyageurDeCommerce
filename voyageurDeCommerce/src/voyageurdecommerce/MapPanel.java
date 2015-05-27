@@ -130,10 +130,16 @@ public class MapPanel extends JPanel {
 
                 float[] style = {10, 5};
                 g2d.setStroke(new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+                g2d.setColor(Color.WHITE);
+                g2d.drawOval(chemin.get(0).getPosition_x()-10, chemin.get(0).getPosition_y()-15, 35, 35);
+                 g2d.drawString(chemin.get(0).getNom(), chemin.get(0).getPosition_x(), chemin.get(0).getPosition_y());
+                   
+                g2d.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
                 g2d.setColor(Color.YELLOW);
-                g2d.setFont(new Font(Font.DIALOG, Font.BOLD, 30));
                 for (int i = 0; i < chemin.size() - 1; i++) {
-                    g2d.drawString(chemin.get(0).getNom(), chemin.get(0).getPosition_x(), chemin.get(0).getPosition_y());
+                    if(i!=0){
+                    g2d.drawString(chemin.get(i).getNom(), chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y());
+                    }
                     g2d.drawLine(chemin.get(i).getPosition_x(), chemin.get(i).getPosition_y(), chemin.get(i + 1).getPosition_x(), chemin.get(i + 1).getPosition_y());
 
                 }
