@@ -146,11 +146,13 @@ public class MapPanel extends JPanel {
             }
         } 
         else {
-            //super.paintComponent(g1);
-            //g2d.drawImage(background, 0,0, this);
+            super.paintComponent(g1);
+            super.paintComponent(g2d);
+           
+            g2d.drawImage(background, 0,0, this);
             g1.drawImage(background, 0, 0, this);
             repaint();
-            //chemin.removeAll(chemin);
+            chemin.removeAll(chemin);
             bool=false;
         }
         

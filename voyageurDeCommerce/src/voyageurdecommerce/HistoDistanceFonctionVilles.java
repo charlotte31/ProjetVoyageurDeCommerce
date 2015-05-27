@@ -7,9 +7,12 @@ package voyageurdecommerce;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -27,6 +30,7 @@ public class HistoDistanceFonctionVilles extends JFrame{
     private ArrayList<Algorithme> listAlgo;
     private VoyageurDeCommerceInterface vdci;
     private Carte carte;
+    private ChartPanel chartPanel;
     public HistoDistanceFonctionVilles(String applicationTitle, String chartTitle, VoyageurDeCommerceInterface vdci, int nbIterations, ArrayList<Algorithme> listAlgo) {
         super(applicationTitle);
         carte=new Carte();
@@ -34,6 +38,7 @@ public class HistoDistanceFonctionVilles extends JFrame{
         this.nbIterations=nbIterations;
         this.listAlgo=listAlgo;
         this.vdci=vdci;
+        
         JFreeChart lineChart = ChartFactory.createLineChart(
                 chartTitle,
                 "Paramètres",
@@ -41,15 +46,28 @@ public class HistoDistanceFonctionVilles extends JFrame{
                 createDataset(),
                 PlotOrientation.VERTICAL,
                 true, true, false);
-        ChartPanel chartPanel = new ChartPanel(lineChart);
-        chartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
+        chartPanel = new ChartPanel(lineChart);
+        ChartPanel cPanel = new ChartPanel(lineChart);
+        cPanel.setPreferredSize(new java.awt.Dimension(580, 350));
         
        
         setBackground(new Color(10, 59, 89));
-        setContentPane(chartPanel);
+        setContentPane(cPanel);
         pack();
-        RefineryUtilities.centerFrameOnScreen(this);
+        RefineryUtilities.positionFrameOnScreen(this,0.5,0.5);
         setVisible(true);
+    }
+    public void ajouterOnglet(ChartPanel cp){
+        JPanel p = new JPanel(new GridLayout(1,1));
+        cp.setPreferredSize(new java.awt.Dimension(550, 380));
+        p.add(cp);
+        p.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.yellow));
+        p.setBackground(new Color(10, 59, 89));
+        vdci.getJt().add("Analyse 2", p);      
+    }
+      
+    public ChartPanel getChartPanel(){
+        return chartPanel;
     }
 
     private CategoryDataset createDataset() {

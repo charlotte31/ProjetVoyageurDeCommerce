@@ -168,6 +168,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
                 getCarteVoyageurDeCommerce().getListe_villes().removeAll(getCarteVoyageurDeCommerce().getListe_villes());
                 getCarteVoyageurDeCommerce().getListe_arcs().removeAll(getCarteVoyageurDeCommerce().getListe_arcs());
                 map.setBool(true);
+                map.repaint();
             }
         });
         itemQuitter.addActionListener(new ActionListener() {
@@ -196,6 +197,7 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
     // Fin Constructeur
 
     // Méthodes
+   
     private void addOnglet(String name, JTabbedPane jt){
         principal = new JPanel(new GridLayout(11,1));
         algo1 = new JLabel("Plus Proches Voisins",0);       
@@ -565,6 +567,9 @@ public class VoyageurDeCommerceInterface extends JFrame implements WindowListene
 
     public JPanel getpAlgo5() {
         return pAlgo5;
+    }
+    public JTabbedPane getJt(){
+        return jt;
     }
     public static void main(String[] args) {
         VoyageurDeCommerceInterface i = new VoyageurDeCommerceInterface(true);

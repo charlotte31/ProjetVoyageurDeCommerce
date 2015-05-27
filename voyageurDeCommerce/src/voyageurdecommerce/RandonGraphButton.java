@@ -85,9 +85,14 @@ public class RandonGraphButton extends JButton implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(vdci, "C'est partie pour l'analyse!");
             hg = new HistoDistanceTemps("Random graph analysis", "Comparaison : distances et temps d'exécution", vdci);
+          
+            hg.ajouterOnglet(hg.getChartPanel());
             hdfv= new HistoDistanceFonctionVilles("Random graph analysis","Distance en fonction du temps",vdci, getNbIterations(),listeAlgo);
+            hdfv.ajouterOnglet(hdfv.getChartPanel());
+
             htfv= new HistoTempsFonctionVilles("Random graph analysis","Temps d'exécution en fonction du temps",vdci, getNbIterations(),listeAlgo);
-                
+            htfv.ajouterOnglet(htfv.getChartPanel());
+               
         
         }
 
